@@ -1,0 +1,68 @@
+!/Lib/
+
+# Ignore build marker
+/.ok/
+
+# Ignore new VS2015 user settings folder
+/.vs/
+
+# Ignore NuGet packages folder
+/packages/
+/.settings/
+
+# Ignore .orig files (original revisions written by Git on merge conflicts)
+*.orig
+
+# Ignore specific folders
+/Build/logs/
+/Build/DeploymentStatus/packages
+/Build/DeploymentStatus/App_Data
+/Web/Logs/*.log
+/Web/Logs/*.log.*
+/Web/Logs/*.xml
+/Web/App_Data/Blobs/
+/Web/App_Data/Files/
+/Web/App_Data/cleanupLocker.txt
+/Web/App_Data/ReplicatedDictionaryCache/
+/Mobile/bld/
+ImageCache/
+/Etl/Etl.Build
+/Etl/Etl.Api/App_Data
+/Mobile/platforms
+/Mobile/plugins/android.json
+/Mobile/plugins/remote_ios.json
+/Mobile/changeList.json
+
+# Ignore thumbnails created by Windows
+Thumbs.db
+
+# Ignore files built by Visual Studio
+[Bb]in/
+obj/
+csx/
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.cache
+*.ilk
+*.log
+*.sbr
+
+# Tools
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+.sass-cache/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# Mac-related stuff
+.DS_Store
