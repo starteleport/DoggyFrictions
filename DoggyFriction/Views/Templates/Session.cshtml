@@ -9,9 +9,9 @@
             </tr>
             </tbody>
         </table>
-        <a class="btn btn-raised btn-info" data-bind="attr: {href: '#/Session/' + Id + '/AddOperation'}">Внести постанову</a>
-        <a class="btn btn-raised btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
-        <a class="btn btn-raised btn-danger" data-bind="click: Delete">Удалить тёрку</a>
+        <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Id + '/AddOperation'}">Внести постанову</a>
+        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
+        <a class="btn btn-danger" data-bind="click: Delete">Удалить тёрку</a>
 
         <h3>Постановы:</h3>
         <div data-bind="if: Actions.IsLoading()">Загрузка ...</div>
@@ -93,10 +93,10 @@
                             </table>
                         </div>
                         <div class="acton-details-block">
-                            <a class="btn btn-raised btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
+                            <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
                         </div>
                         <div class="acton-details-block">
-                            <a class="btn btn-raised btn-danger" data-bind="click: Delete">Удалить</a>
+                            <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
                         </div>
                     </td>
                 </tr>

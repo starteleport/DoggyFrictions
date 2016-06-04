@@ -28,6 +28,10 @@ function InitSammy(app) {
                 format: 'DD/MM/YYYY HH:mm'
             });
         });
+        _.forEach($view.find('.btn'), function (button) {
+            $(button).ripples();
+        });
+
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
         $view.show();
