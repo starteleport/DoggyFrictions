@@ -59,7 +59,7 @@
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
             <button type="submit" class="btn btn-success btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-save-file"></span> Сохранить тёрку</button>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Sessions/'}">Отмена</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Sessions'}">Отмена</a>
             <!-- /ko -->
             
 
@@ -101,7 +101,7 @@
                 </div>
                 <!-- /ko -->
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
-                <table class="table">
+                <table class="table" data-bind="if: Rows().length">
                     <thead>
                     <tr>
                         <th>Дата</th>
