@@ -45,7 +45,7 @@ table>thead>tr>th.delete-row-cell {
     width: 30px;
 }
 
-table>tbody>tr>td .form-group {
+div.jumbotron .form-group {
     margin: 0;
 }
 table>tbody>tr>td .checkbox {
@@ -55,8 +55,13 @@ table>tbody>tr>td .checkbox {
 table.table td {
     border: 1px solid #ddd;
 }
-table.table td.no-border, table.table th.no-border {
+table.table td.actions-cell, table.table th.actions-cell {
     border: none;
+    text-align: left;
+    padding: 0;
+}
+table.table td.actions-cell .btn, table.table th.actions-cell .btn {
+    padding: 8px 8px;
 }
 table.table td input.form-control {
     width: 70px;
@@ -67,5 +72,6 @@ div.jumbotron {
     width: 1170px;
 }
 div.jumbotron>div {
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: visible;
 }

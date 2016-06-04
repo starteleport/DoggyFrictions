@@ -50,10 +50,19 @@ function InitSammy(app) {
         });
     });
 
-    $app.get('#/Session/:sessionId/EditAction/:id', function (context) {
+    $app.get('#/Session/:sessionId/CreateAction', function (context) {
+        $.when($.get('Api/Sessions/' + context.params.sessionId))
+            .then(function(sessionData) {
+                var sessionModel = new SessionModel(sessionData);
+                var actionModel = new ActionModel({}, sessionModel);
+                show('action-edit', actionModel);
+            });
+    });
+
+    $app.get('#/Session/:sessionId/EditAction/:id', function(context) {
         $.when($.get('Api/Sessions/' + context.params.sessionId),
                 $.get('Api/Actions/' + context.params.sessionId + '/' + context.params.id))
-            .then(function (sessionData, actionData) {
+            .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new ActionModel(actionData[0], sessionModel);
                 show('action-edit', actionModel);
@@ -151,7 +160,7 @@ function ActionModel(actionData, sessionModel) {
         _this.Consumptions.remove(consumptionModel);
     }
     this.AddPayer = function () {
-        _this.Payers.push(new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id }));
+        _this.Payers.push(new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id, Amount: 0 }));
     }
     this.DeletePayer = function (payerModel) {
         _this.Payers.remove(payerModel);
