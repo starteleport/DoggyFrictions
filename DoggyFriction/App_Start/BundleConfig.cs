@@ -29,7 +29,9 @@ namespace DoggyFriction
                 "~/Scripts/knockout-3.4.0.js",
                 "~/Scripts/sammy-0.7.5.min.js",
                 "~/Scripts/underscore.min.js",
-                "~/Scripts/site.js"));
+                "~/Scripts/PagedGridModel.js",
+                "~/Scripts/Models.js",
+                "~/Scripts/Start.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.min.css",
