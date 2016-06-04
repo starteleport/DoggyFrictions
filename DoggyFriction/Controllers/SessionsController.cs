@@ -15,14 +15,17 @@ namespace DoggyFriction.Controllers
             Name = "Назад в будущее",
             Participants = new[] {
                 new ParticipantModel {
+                    Id = 0,
                     Name = "Эмметт Браун",
                     Balance = 42m
                 },
                 new ParticipantModel {
+                    Id = 1,
                     Name = "Марти",
                     Balance = 1.34m
                 },
                 new ParticipantModel {
+                    Id = 2,
                     Name = "Бифф",
                     Balance = -43.34m
                 },

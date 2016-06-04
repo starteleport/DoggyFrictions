@@ -31,3 +31,8 @@ footer {
 table>tbody>tr>td.row-details {
     padding: 10px 25px;
 }
+
+div.acton-details-block {
+    display: inline-block;
+    margin-right: 20px;
+}

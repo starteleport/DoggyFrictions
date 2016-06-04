@@ -11,21 +11,20 @@ namespace DoggyFriction.Controllers
     {
         private ActionModel actionModel = new ActionModel {
             Id = 1,
-            SessionId = 1,
             Date = DateTime.Now,
             Description = "В магаз набижали",
             Amount = 500m,
             Payers = new PayerModel[] {
                 new PayerModel {
                     Participant = new ParticipantModel {
-                        Id = 1,
+                        Id = 0,
                         Name = "Эмметт Браун"
                     },
                     Amount = 400m
                 },
                 new PayerModel {
                     Participant = new ParticipantModel {
-                        Id = 2,
+                        Id = 1,
                         Name = "Марти"
                     },
                     Amount = 100m
@@ -34,7 +33,7 @@ namespace DoggyFriction.Controllers
             Consumers = new ConsumerModel[] {
                 new ConsumerModel {
                     Participant = new ParticipantModel {
-                        Id = 3,
+                        Id = 2,
                         Name = "Бифф"
                     },
                     Amount = 500m,

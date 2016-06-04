@@ -1,16 +1,17 @@
 ﻿<script type="text/html" id="session-template">
     <div class="session">
         <h2 data-bind="text: Name"></h2>
-        <table class="">
+        <table class="table table-condensed">
             <tbody data-bind="foreach: Participants">
             <tr>
                 <td data-bind="text: Name"></td>
-                <td data-bind="text: Balance"></td>
+                <td data-bind="text: Balance() + '₽'"></td>
             </tr>
             </tbody>
         </table>
         <a class="btn btn-raised btn-info" data-bind="attr: {href: '#/Session/' + Id + '/AddOperation'}">Внести постанову</a>
         <a class="btn btn-raised btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
+        <a class="btn btn-raised btn-danger" data-bind="click: Delete">Удалить тёрку</a>
 
         <h3>Постановы:</h3>
         <div data-bind="if: Actions.IsLoading()">Загрузка ...</div>
@@ -60,33 +61,43 @@
                 </thead>
                 <tbody data-bind="foreach: Rows">
                 <tr data-bind="click: ToggleDetails">
-                    <td data-bind="text: $.format.date(moment(Date).toDate(), 'dd-MM-yyyy HH:mm')"></td>
-                    <td data-bind="text: Description"></td>
-                    <td data-bind="text: _.reduceRight(Payers, function(current, $new) { return (current.length ? (current + ', ') : '') + $new.Participant.Name; }, '')"></td>
-                    <td data-bind="text: Amount + '₽'"></td>
+                    <td data-bind="text: Date()"></td>
+                    <td data-bind="text: Description()"></td>
+                    <td data-bind="text: PayerNames()"></td>
+                    <td data-bind="text: Amount() + '₽'"></td>
                 </tr>
                 <!-- ko if: DatailsExpanded() -->
                 <tr>
                     <td colspan="4" class="row-details">
-                        <h4>Заплатили:</h4>
-                        <table class="table-striped table-bordered table-condensed">
-                            <tbody data-bind="foreach: Payers">
-                            <tr>
-                                <td data-bind="text: Participant.Name"></td>
-                                <td data-bind="text: Amount + '₽'"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <h4>Использовали:</h4>
-                        <table class="table-striped table-bordered table-condensed">
-                            <tbody data-bind="foreach: Consumers">
+                        <div class="acton-details-block">
+                            <h4>Использовали:</h4>
+                            <table class="table-striped table-bordered table-condensed">
+                                <tbody data-bind="foreach: Consumers">
+                                    <tr>
+                                        <td data-bind="text: $parent.Session.GetParticipantName(Participant.Id)"></td>
+                                        <td data-bind="text: Description"></td>
+                                        <td data-bind="text: Amount + '₽'"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="acton-details-block">
+                            <h4>Заплатили:</h4>
+                            <table class="table-striped table-bordered table-condensed">
+                                <tbody data-bind="foreach: Payers">
                                 <tr>
-                                    <td data-bind="text: Participant.Name"></td>
-                                    <td data-bind="text: Amount + '₽'"></td>
-                                    <td data-bind="text: Description"></td>
+                                    <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></td>
+                                    <td data-bind="text: Amount() + '₽'"></td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="acton-details-block">
+                            <a class="btn btn-raised btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
+                        </div>
+                        <div class="acton-details-block">
+                            <a class="btn btn-raised btn-danger" data-bind="click: Delete">Удалить</a>
+                        </div>
                     </td>
                 </tr>
                 <!-- /ko -->

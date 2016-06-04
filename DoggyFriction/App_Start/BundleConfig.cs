@@ -21,10 +21,11 @@ namespace DoggyFriction
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/Material/material.min.js",
-                "~/Scripts/Material/ripples.min.js"));
+                "~/Scripts/Material/ripples.min.js",
+                "~/Scripts/moment.min.js",
+                "~/Scripts/bootstrap-datetimepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
-                "~/Scripts/moment.min.js",
                 "~/Scripts/knockout-3.4.0.js",
                 "~/Scripts/sammy-0.7.5.min.js",
                 "~/Scripts/underscore.min.js",
@@ -34,7 +35,8 @@ namespace DoggyFriction
                 "~/Content/bootstrap.min.css",
                 "~/Content/site.css",
                 "~/Content/Material/bootstrap-material-design.min.css",
-                "~/Content/Material/ripples.min.css"));
+                "~/Content/Material/ripples.min.css",
+                "~/Content/bootstrap-datetimepicker.min.css"));
         }
     }
 }
