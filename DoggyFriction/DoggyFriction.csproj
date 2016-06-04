@@ -195,6 +195,7 @@
     </Compile>
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\ConsumerModel.cs" />
+    <Compile Include="Models\ConsumptionModel.cs" />
     <Compile Include="Models\PagedCollection.cs" />
     <Compile Include="Models\ParticipantModel.cs" />
     <Compile Include="Models\PayerModel.cs" />

@@ -1,109 +1,110 @@
 ﻿<script type="text/html" id="session-template">
-    <div class="session">
-        <h2 data-bind="text: Name"></h2>
-        <table class="table table-condensed">
-            <tbody data-bind="foreach: Participants">
-            <tr>
-                <td data-bind="text: Name"></td>
-                <td data-bind="text: Balance() + '₽'"></td>
-            </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Id + '/AddOperation'}">Внести постанову</a>
-        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
-        <a class="btn btn-danger" data-bind="click: Delete">Удалить тёрку</a>
-
-        <h3>Постановы:</h3>
-        <div data-bind="if: Actions.IsLoading()">Загрузка ...</div>
-        <!-- ko if: !Actions.IsLoading() -->
-        <div class="tab-content row" data-bind="with: Actions">
-            <!-- ko if: TotalPages() > 1 -->
-            <div style="text-align: right; margin-bottom: 10px;">
-                Страница:
-                <!-- ko if: Page() >= 3 -->
-                <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>
-                <span data-bind="if: Page() != 3"> . . . </span>
-                <!-- /ko -->
-                <!-- ko if: Page() - 10 > 2 -->
-                <a data-bind="text: Page() - 10, click: function() { LoadPage(Page() - 10); }, clickBubble: false"></a>
-                <span> . . . </span>
-                <!-- /ko -->
-                <!-- ko if: Page() - 100 > 2 -->
-                <a data-bind="text: Page() - 100, click: function() { LoadPage(Page() - 100); }, clickBubble: false"></a>
-                <span> . . . </span>
-                <!-- /ko -->
-                <a data-bind="text: Page() - 1, visible: Page() > 1, click: function() { LoadPage(Page() - 1); }, clickBubble: false"></a>
-                <span data-bind="text: Page()"></span>
-                <a data-bind="text: Page() + 1, visible: Page() < TotalPages(), click: function() { LoadPage(Page() + 1); }, clickBubble: false"></a>
-                <!-- ko if: Page() + 10 < TotalPages() - 1 -->
-                <span> . . . </span>
-                <a data-bind="text: Page() + 10, click: function() { LoadPage(Page() + 10); }, clickBubble: false"></a>
-                <!-- /ko -->
-                <!-- ko if: Page() + 100 < TotalPages() - 1 -->
-                <span> . . . </span>
-                <a data-bind="text: Page() + 100, click: function() { LoadPage(Page() + 100); }, clickBubble: false"></a>
-                <!-- /ko -->
-                <!-- ko if: Page() <= TotalPages() - 2 -->
-                <span data-bind="if: Page() != TotalPages() - 2"> . . . </span>
-                <a data-bind="text: TotalPages(), click: function() { LoadPage(TotalPages()); }, clickBubble: false"></a>
-                <!-- /ko -->
-            </div>
-            <!-- /ko -->
-            <span data-bind="if: !Rows().length">Пока всё тихо</span>
-            <table class="table table-striped table-bordered table-condensed">
-                <thead>
-                <tr>
-                    <th>Дата</th>
-                    <th>Суть</th>
-                    <th>Спонсор(ы)</th>
-                    <th>Сумма</th>
-                </tr>
-                </thead>
-                <tbody data-bind="foreach: Rows">
-                <tr data-bind="click: ToggleDetails">
-                    <td data-bind="text: Date()"></td>
-                    <td data-bind="text: Description()"></td>
-                    <td data-bind="text: PayerNames()"></td>
-                    <td data-bind="text: Amount() + '₽'"></td>
-                </tr>
-                <!-- ko if: DatailsExpanded() -->
-                <tr>
-                    <td colspan="4" class="row-details">
-                        <div class="acton-details-block">
-                            <h4>Использовали:</h4>
-                            <table class="table-striped table-bordered table-condensed">
-                                <tbody data-bind="foreach: Consumers">
-                                    <tr>
-                                        <td data-bind="text: $parent.Session.GetParticipantName(Participant.Id)"></td>
-                                        <td data-bind="text: Description"></td>
-                                        <td data-bind="text: Amount + '₽'"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="acton-details-block">
-                            <h4>Заплатили:</h4>
-                            <table class="table-striped table-bordered table-condensed">
-                                <tbody data-bind="foreach: Payers">
-                                <tr>
-                                    <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></td>
-                                    <td data-bind="text: Amount() + '₽'"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="acton-details-block">
-                            <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
-                        </div>
-                        <div class="acton-details-block">
-                            <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- /ko -->
+    <div class="session jumbotron">
+        <div>
+            <h2 data-bind="text: Name"></h2>
+            <table class="table table-condensed">
+                <tbody data-bind="foreach: Participants">
+                    <tr>
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="text: Balance() + '₽'"></td>
+                    </tr>
                 </tbody>
             </table>
+            <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Id + '/AddOperation'}">Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
+            <a class="btn btn-danger" data-bind="click: Delete">Удалить тёрку</a>
+
+            <h3>Постановы:</h3>
+            <div data-bind="if: Actions.IsLoading()">Загрузка ...</div>
+            <!-- ko if: !Actions.IsLoading() -->
+            <div class="tab-content row" data-bind="with: Actions">
+                <!-- ko if: TotalPages() > 1 -->
+                <div style="text-align: right; margin-bottom: 10px;">
+                    Страница:
+                    <!-- ko if: Page() >= 3 -->
+                    <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>
+                    <span data-bind="if: Page() != 3"> . . . </span>
+                    <!-- /ko -->
+                    <!-- ko if: Page() - 10 > 2 -->
+                    <a data-bind="text: Page() - 10, click: function() { LoadPage(Page() - 10); }, clickBubble: false"></a>
+                    <span> . . . </span>
+                    <!-- /ko -->
+                    <!-- ko if: Page() - 100 > 2 -->
+                    <a data-bind="text: Page() - 100, click: function() { LoadPage(Page() - 100); }, clickBubble: false"></a>
+                    <span> . . . </span>
+                    <!-- /ko -->
+                    <a data-bind="text: Page() - 1, visible: Page() > 1, click: function() { LoadPage(Page() - 1); }, clickBubble: false"></a>
+                    <span data-bind="text: Page()"></span>
+                    <a data-bind="text: Page() + 1, visible: Page() < TotalPages(), click: function() { LoadPage(Page() + 1); }, clickBubble: false"></a>
+                    <!-- ko if: Page() + 10 < TotalPages() - 1 -->
+                    <span> . . . </span>
+                    <a data-bind="text: Page() + 10, click: function() { LoadPage(Page() + 10); }, clickBubble: false"></a>
+                    <!-- /ko -->
+                    <!-- ko if: Page() + 100 < TotalPages() - 1 -->
+                    <span> . . . </span>
+                    <a data-bind="text: Page() + 100, click: function() { LoadPage(Page() + 100); }, clickBubble: false"></a>
+                    <!-- /ko -->
+                    <!-- ko if: Page() <= TotalPages() - 2 -->
+                    <span data-bind="if: Page() != TotalPages() - 2"> . . . </span>
+                    <a data-bind="text: TotalPages(), click: function() { LoadPage(TotalPages()); }, clickBubble: false"></a>
+                    <!-- /ko -->
+                </div>
+                <!-- /ko -->
+                <span data-bind="if: !Rows().length">Пока всё тихо</span>
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Суть</th>
+                            <th>Спонсор(ы)</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: Rows">
+                        <tr data-bind="click: ToggleDetails">
+                            <td data-bind="text: Date()"></td>
+                            <td data-bind="text: Description()"></td>
+                            <td data-bind="text: PayerNames()"></td>
+                            <td data-bind="text: Amount() + '₽'"></td>
+                        </tr>
+                        <!-- ko if: DatailsExpanded() -->
+                        <tr>
+                            <td colspan="4" class="row-details">
+                                <div class="inline-block">
+                                    <h4>Заплатили:</h4>
+                                    <table class="table-striped table-bordered table-condensed">
+                                        <tbody data-bind="foreach: Payers">
+                                            <tr>
+                                                <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></td>
+                                                <td data-bind="text: Amount() + '₽'"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="inline-block">
+                                    <h4>Использовали:</h4>
+                                    <table class="table-striped table-bordered table-condensed">
+                                        <tbody data-bind="foreach: ConsumerTotals">
+                                            <tr>
+                                                <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId)"></td>
+                                                <td data-bind="text: Amount() + '₽'"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="inline-block">
+                                    <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
+                                </div>
+                                <div class="inline-block">
+                                    <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- /ko -->
         </div>
-        <!-- /ko -->
     </div>
 </script>

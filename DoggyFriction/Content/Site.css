@@ -32,7 +32,40 @@ table>tbody>tr>td.row-details {
     padding: 10px 25px;
 }
 
-div.acton-details-block {
+div.inline-block {
     display: inline-block;
     margin-right: 20px;
+}
+
+table>thead>tr>th.big-textarea-cell {
+    width: 230px;
+}
+
+table>thead>tr>th.delete-row-cell {
+    width: 30px;
+}
+
+table>tbody>tr>td .form-group {
+    margin: 0;
+}
+table>tbody>tr>td .checkbox {
+    padding-top: 0;
+}
+
+table.table td {
+    border: 1px solid #ddd;
+}
+table.table td.no-border, table.table th.no-border {
+    border: none;
+}
+table.table td input.form-control {
+    width: 70px;
+}
+
+div.jumbotron {
+    padding: 10px 25px;
+    width: 1170px;
+}
+div.jumbotron>div {
+    overflow-y: auto;
 }

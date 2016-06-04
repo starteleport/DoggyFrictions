@@ -1,45 +1,122 @@
 ﻿<script type="text/html" id="action-edit-template">
     <div class="action-edit">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend data-bind="text: Amount() + '₽' + ' - ' + Description()"></legend>
-                <div class="form-group is-empty">
-                    <label for="inputDescription" class="col-md-2 control-label">Суть</label>
-                    <div>
-                        <input type="text" class="form-control" id="inputDescription" data-bind="value: Description" placeholder="опиши суть">
-                    </div>
-                </div>
-                <div class="form-group is-empty">
-                    <label for="inputDate" class="col-md-2 control-label">Дата</label>
-                    <div>
-                        <input type="datetime" class="form-control" id="inputDate" data-bind="value: Date" placeholder="укажи дату">
-                    </div>
-                </div>
-
-                <h3>Заплатили:</h3>
-                <!-- ko foreach: Payers -->
-                <div class="form-group is-empty">
-                    <div>
-                        <select class="form-control" data-bind="options: $parent.Session.Participants, 
-                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId"></select>
-                    </div>
-                </div>
-                <div class="form-group is-empty">
-                    <div>
-                        <input type="number" class="form-control" data-bind="value: Amount" placeholder="сколько заплатил?">
-                    </div>
-                </div>
-                <!-- /ko -->
-
+        <form class="">
+            <div class="jumbotron container">
                 <div>
-                    <div class="acton-details-block">
-                        <a class="btn btn-info" data-bind="click: Save">Сохранить</a>
+                    <div class="inline-block col-lg-6">
+                        <h3 data-bind="text: Amount() + '₽' + ' - ' + Description()"></h3>
+                        <div class="form-group">
+                            <label class="control-label" for="inputDescription">Суть постановы</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+                                <div>
+                                    <input type="text" class="form-control" id="inputDescription" data-bind="value: Description" placeholder="Поясни вкратце">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDate" class="control-label">Когда дело было</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div>
+                                    <input type="datetime" class="form-control" id="inputDate" data-bind="value: Date" placeholder="Укажи дату">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-info btn-raised" data-bind="click: Save">Сохранить постанову</button>
+                            <button type="button" class="btn btn-danger btn-raised" data-bind="click: Delete">Удалить постанову</button>
+                        </div>
                     </div>
-                    <div class="acton-details-block">
-                        <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
+                    <div class="inline-block col-lg-5">
+                        <h3>Заплатили:</h3>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Кто платил</th>
+                                <th>Сумма</th>
+                                <th class="no-border"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ko foreach: Payers -->
+                            <tr>
+                                <td>
+                                    <div>
+                                        <select class="form-control" data-bind="options: $parent.Session.Participants,
+                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId"></select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сколько заплатил?">
+                                </td>
+                                <td class="no-border"><button type="button" class="btn btn-danger" data-bind="click: $parent.DeletePayer">Удалить</button></td>
+                            </tr>
+                            <!-- /ko -->
+                            <tr>
+                                <td class="no-border"><button type="button" class="btn btn-success" data-bind="click: AddPayer">Добавить</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </fieldset>
+            </div>
+            
+            <div class="jumbotron">
+                <div>
+                    <h3>Использовали:</h3>
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="big-textarea-cell">Позиция</th>
+                                <th>Сумма</th>
+                                <!-- ko foreach: Session.Participants -->
+                                <th data-bind="text: Name()"></th>
+                                <!-- /ko -->
+                                <th class="delete-row-cell no-border"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ko foreach: Consumptions -->
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <textarea type="text" class="form-control" rows="4" data-bind="value: Description" placeholder="Что делим?"></textarea>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сумма">
+                                    </div>
+                                </td>
+                                <!-- ko foreach: Consumers -->
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                    <span class="checkbox">
+                                        <label><input type="checkbox" data-bind="checked: IsActive" /></label>
+                                    </span>
+                                </span>
+                                            <div>
+                                                <input type="text" class="form-control" data-bind="value: Amount, enabled: IsActive()" placeholder="сумма потребления">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- /ko -->
+                                <td class="no-border"><button type="button" class="btn btn-danger" data-bind="click: $parent.DeleteConsumption">Удалить</button></td>
+                            </tr>
+                            <!-- /ko -->
+                            <tr>
+                                <td class="no-border"><button type="button" class="btn btn-success" data-bind="click: AddConsumption">Добавить</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </script>

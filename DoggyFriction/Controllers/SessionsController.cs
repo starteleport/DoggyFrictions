@@ -21,13 +21,23 @@ namespace DoggyFriction.Controllers
                 },
                 new ParticipantModel {
                     Id = 1,
-                    Name = "Марти",
+                    Name = "Марти Макфлай",
                     Balance = 1.34m
                 },
                 new ParticipantModel {
                     Id = 2,
                     Name = "Бифф",
                     Balance = -43.34m
+                },
+                new ParticipantModel {
+                    Id = 3,
+                    Name = "Дженнифер",
+                    Balance = 0m
+                },
+                new ParticipantModel {
+                    Id = 4,
+                    Name = "Олух Батя",
+                    Balance = 0m
                 },
             }
         };

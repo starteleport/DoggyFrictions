@@ -14,30 +14,40 @@ namespace DoggyFriction.Controllers
             Date = DateTime.Now,
             Description = "В магаз набижали",
             Amount = 500m,
-            Payers = new PayerModel[] {
+            Payers = new[] {
                 new PayerModel {
-                    Participant = new ParticipantModel {
-                        Id = 0,
-                        Name = "Эмметт Браун"
-                    },
+                    ParticipantId = 0,
                     Amount = 400m
                 },
                 new PayerModel {
-                    Participant = new ParticipantModel {
-                        Id = 1,
-                        Name = "Марти"
-                    },
+                    ParticipantId = 1,
                     Amount = 100m
                 }
             },
-            Consumers = new ConsumerModel[] {
-                new ConsumerModel {
-                    Participant = new ParticipantModel {
-                        Id = 2,
-                        Name = "Бифф"
+            Consumptions = new ConsumptionModel[] {
+                new ConsumptionModel {
+                    Consumers = new[] {
+                        new ConsumerModel {
+                            ParticipantId = 2,
+                            Amount = 400m
+                        },
+                        new ConsumerModel {
+                            ParticipantId = 1,
+                            Amount = 50m
+                        }
                     },
-                    Amount = 500m,
-                    Description = "Платит за всю хуйню"
+                    Description = "Платим за всю хуйню"
+
+                },
+                new ConsumptionModel {
+                    Consumers = new[] {
+                        new ConsumerModel {
+                            ParticipantId = 0,
+                            Amount = 50m
+                        }
+                    },
+                    Description = "Жувачка!"
+
                 }
             }
         };

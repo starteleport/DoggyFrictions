@@ -10,6 +10,6 @@ namespace DoggyFriction.Models
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public IEnumerable<PayerModel> Payers { get; set; }
-        public IEnumerable<ConsumerModel> Consumers { get; set; }
+        public IEnumerable<ConsumptionModel> Consumptions { get; set; }
     }
 }

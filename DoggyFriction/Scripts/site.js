@@ -1,4 +1,4 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
     $.material.init();
     window.App = {};
 
@@ -28,9 +28,7 @@ function InitSammy(app) {
                 format: 'DD/MM/YYYY HH:mm'
             });
         });
-        _.forEach($view.find('.btn'), function (button) {
-            $(button).ripples();
-        });
+        $.material.init();
 
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
@@ -69,20 +67,20 @@ function SessionModel(data) {
     var _this = this;
     this.Id = data.Id || 0;
     this.Name = data.Name || 'unnamed';
-    this.Participants = ko.observableArray(_.map(data.Participants || [], function(participantData) {
+    this.Participants = ko.observableArray(_.map(data.Participants || [], function (participantData) {
         return new ParticipantModel(participantData);
     }));
     this.Actions = new PagedGridModel('Api/Actions/' + data.Id, function (actionData) {
         return new ActionModel(actionData, _this);
     });
 
-    this.GetParticipantName = function(participantId) {
-        return _.find(_this.Participants(), function(participant) {
+    this.GetParticipantName = function (participantId) {
+        return _.find(_this.Participants(), function (participant) {
             return participant.Id == participantId;
         }).Name();
     }
 
-    this.Delete = function() {
+    this.Delete = function () {
         alert("Удаление тёрки.");
         window.location.href = '#/Sessions';
     }
@@ -90,26 +88,43 @@ function SessionModel(data) {
 
 function ActionModel(actionData, sessionModel) {
     var _this = this;
-    _.extend(_this, actionData);
-    _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), 'dd/MM/yyyy HH:mm'));
+    _this.Id = actionData.Id;
     _this.Session = sessionModel;
-    _this.Payers = ko.observableArray(_.map(actionData.Payers, function(payerData) {
+    _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), 'dd/MM/yyyy HH:mm'));
+    _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
+    }));
+    _this.Consumptions = ko.observableArray(_.map(actionData.Consumptions || [], function (consumptionData) {
+        return new ConsumptionModel(consumptionData, _this.Session);
     }));
     _this.Description = ko.observable(actionData.Description);
 
     _this.DatailsExpanded = ko.observable(false);
-    
+
     _this.Amount = ko.computed(function () {
         return _.reduce(_this.Payers(), function (current, $new) {
             return current + Number($new.Amount());
         }, 0);
     });
-    _this.PayerNames = ko.computed(function() {
-        return _.reduceRight(_this.Payers(), function(current, $new) {
+    _this.PayerNames = ko.computed(function () {
+        return _.reduceRight(_this.Payers(), function (current, $new) {
             var participantName = _this.Session.GetParticipantName($new.ParticipantId());
             return (current.length ? (current + ', ') : '') + participantName;
         }, '');
+    });
+    _this.ConsumerTotals = ko.computed(function () {
+        var consumerTotals = _.map(_this.Session.Participants(), function (participant) {
+            return new ConsumerModel({ ParticipantId: participant.Id, Amount: 0 });
+        });
+        _.forEach(_this.Consumptions(), function (consumption) {
+            _.forEach(consumption.Consumers(), function (consumer) {
+                var ct = _.find(consumerTotals, function (consumerTotal) {
+                    return consumerTotal.ParticipantId == consumer.ParticipantId;
+                });
+                ct.Amount(ct.Amount() + consumer.Amount());
+            });
+        });
+        return consumerTotals;
     });
 
     this.ToggleDetails = function () {
@@ -121,16 +136,79 @@ function ActionModel(actionData, sessionModel) {
         window.location.href = '#/Session/' + _this.Session.Id;
     }
 
-    this.Save = function()
-    {
+    this.AddConsumption = function () {
+        var consumptionModel = new ConsumptionModel({}, _this.Session);
+        _.forEach(consumptionModel.Consumers(), function(consumer) {
+            consumer.IsActive(true);
+        });
+        _this.Consumptions.push(consumptionModel);
+    }
+    this.DeleteConsumption = function (consumptionModel) {
+        _this.Consumptions.remove(consumptionModel);
+    }
+    this.AddPayer = function () {
+        _this.Payers.push(new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id }));
+    }
+    this.DeletePayer = function (payerModel) {
+        _this.Payers.remove(payerModel);
+    }
+
+    this.Save = function () {
         alert('Сохранение постановы.');
         window.location.href = '#/Session/' + _this.Session.Id;
     }
 }
 
+function ConsumptionModel(consumptionData, sessionModel) {
+    var _this = this;
+    _this.Session = sessionModel;
+    this.Description = ko.observable(consumptionData.Description);
+    this.Consumers = ko.observableArray(_.map(_this.Session.Participants(), function (participant) {
+        var cd = _.find(consumptionData.Consumers || [], function (consumerData) {
+            return consumerData.ParticipantId == participant.Id;
+        });
+        return new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 });
+    }));
+
+    var amount = _.reduce(_this.Consumers(), function (current, $new) {
+        return current + Number($new.Amount());
+    }, 0);
+    this.Amount = ko.observable(amount);
+    _this.Amount.subscribe(function (newValue) {
+        newValue = Number(newValue);
+        var activeConsumers = _.filter(_this.Consumers(), function (consumerModel) {
+            return consumerModel.IsActive();
+        });
+        var portion = Math.round((newValue / activeConsumers.length) * 100) / 100;
+        var rest = newValue;
+        _.forEach(activeConsumers, function (consumer, index) {
+            if (index < activeConsumers.length - 1) {
+                rest -= portion;
+                consumer.Amount(portion);
+            } else {
+                rest = Math.round(rest * 100) / 100;
+                consumer.Amount(rest);
+            }
+        });
+    });
+}
+
+function ConsumerModel(consumerData) {
+    var _this = this;
+    this.ParticipantId = consumerData.ParticipantId;
+    this.Amount = ko.observable(consumerData.Amount);
+    this.IsActive = ko.observable(consumerData.Amount > 0);
+
+    _this.IsActive.subscribe(function (newValue) {
+        if (!newValue) {
+            _this.Amount(0);
+        }
+    });
+}
+
 function PayerModel(payerData) {
     var _this = this;
-    this.ParticipantId = ko.observable(payerData.Participant.Id);
+    this.ParticipantId = ko.observable(payerData.ParticipantId);
     this.Amount = ko.observable(payerData.Amount);
 }
 
@@ -142,7 +220,7 @@ function ParticipantModel(participantData) {
 }
 
 function SessionsModel(data) {
-    this.Sessions = _.map(data || [], function(sessionData) {
+    this.Sessions = _.map(data || [], function (sessionData) {
         return new SessionModel(sessionData);
     });
 }
