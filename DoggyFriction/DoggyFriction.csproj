@@ -303,7 +303,7 @@
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Templates\Templates.cshtml" />
     <Content Include="Views\Templates\Sessions.cshtml" />
-    <Content Include="Views\Templates\EditAction.cshtml" />
+    <Content Include="Views\Templates\Action.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

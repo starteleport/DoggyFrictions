@@ -60,9 +60,9 @@ namespace DoggyFriction.Controllers
             var page = filter?.Page ?? 1;
             var pageSize = 10;
             return new PagedCollection<ActionModel> {
-                TotalPages = actions.Count() / pageSize,
+                TotalPages = (int)(actions.Count() / pageSize) + 1,
                 Page = page,
-                Rows = actions.Skip(page * pageSize).Take(pageSize)
+                Rows = actions.Skip((page - 1) * pageSize).Take(pageSize)
             };
         }
 
@@ -75,22 +75,22 @@ namespace DoggyFriction.Controllers
 
         // POST: api/Actions/5
         [Route("api/Actions/{sessionId:int:min(1)}")]
-        public void Post(int sessionId, [FromBody]ActionModel actionModel)
+        public ActionModel Post(int sessionId, [FromBody]ActionModel actionModel)
         {
             if (actionModel.Id != 0) {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            Hub.Repository.UpdateAction(sessionId, actionModel);
+            return Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
         // PUT: api/Actions/5/5
         [Route("api/Actions/{sessionId:int:min(1)}/{id:int:min(1)}")]
-        public void Put(int sessionId, int id, [FromBody]ActionModel actionModel)
+        public ActionModel Put(int sessionId, int id, [FromBody]ActionModel actionModel)
         {
             if (actionModel.Id <= 0) {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            Hub.Repository.UpdateAction(sessionId, actionModel);
+            return Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
         // DELETE: api/Actions/5

@@ -60,9 +60,9 @@ function SessionModel(data, isEdit) {
     }
 }
 
-function ActionModel(actionData, sessionModel) {
+function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
-    _this.Id = actionData.Id;
+    _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
     _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), 'dd/MM/yyyy HH:mm'));
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
@@ -74,6 +74,7 @@ function ActionModel(actionData, sessionModel) {
     _this.Description = ko.observable(actionData.Description);
 
     _this.DatailsExpanded = ko.observable(false);
+    _this.IsEdit = ko.observable(isEdit || false);
 
     _this.Amount = ko.computed(function () {
         return _.reduce(_this.Payers(), function (current, $new) {
@@ -131,15 +132,48 @@ function ActionModel(actionData, sessionModel) {
         _this.Payers.remove(payerModel);
     }
 
-    this.Save = function () {
-        alert('Сохранение постановы.');
-        window.location.href = '#/Session/' + _this.Session.Id;
+    this.Save = function() {
+        var serialized = {
+            Id: _this.Id,
+            Description: _this.Description(),
+            Date: moment(_this.Date()).toDate(),
+            Payers: _.map(_this.Payers(), function (payerModel) {
+                return {
+                    Id: payerModel.Id,
+                    ParticipantId: payerModel.ParticipantId(),
+                    Amount: payerModel.Amount()
+                }
+            }),
+            Consumptions: _.map(_this.Consumptions(), function (consumptonModel) {
+                return {
+                    Id: consumptonModel.Id,
+                    Description: consumptonModel.Description(),
+                    Consumers: _.map(_.filter(consumptonModel.Consumers(), function (consumerModel) {
+                        return consumerModel.IsActive();
+                    }), function(consumerModel) {
+                        return {
+                            Id: consumerModel.Id,
+                            ParticipantId: consumerModel.ParticipantId,
+                            Amount: consumerModel.Amount()
+                        };
+                    })
+                }
+            })
+        };
+        var operation = _this.Id == 0
+            ? $.post('Api/Actions/' + _this.Session.Id, serialized)
+            : $.put('Api/Actions/' + _this.Session.Id + '/' + _this.Id, serialized);
+        $.when(operation)
+            .done(function(actionData) {
+                window.location.href = '#/Session/' + _this.Session.Id + '/Action/' + actionData.Id;
+            });
     }
 }
 
 function ConsumptionModel(consumptionData, sessionModel) {
     var _this = this;
     _this.Session = sessionModel;
+    this.Id = consumptionData.Id || 0;
     this.Description = ko.observable(consumptionData.Description);
     this.Consumers = ko.observableArray(_.map(_this.Session.Participants(), function (participant) {
         var cd = _.find(consumptionData.Consumers || [], function (consumerData) {
@@ -178,6 +212,7 @@ function ConsumptionModel(consumptionData, sessionModel) {
 
 function ConsumerModel(consumerData) {
     var _this = this;
+    this.Id = consumerData.Id || 0;
     this.ParticipantId = consumerData.ParticipantId;
     this.Amount = ko.observable(consumerData.Amount);
     this.IsActive = ko.observable(consumerData.Amount > 0);
@@ -191,6 +226,7 @@ function ConsumerModel(consumerData) {
 
 function PayerModel(payerData) {
     var _this = this;
+    this.Id = payerData.Id || 0;
     this.ParticipantId = ko.observable(payerData.ParticipantId);
     this.Amount = ko.observable(payerData.Amount);
 }

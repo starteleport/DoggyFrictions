@@ -79,22 +79,30 @@ function InitSammy(app) {
         });
     });
 
-    $app.get('#/Session/:sessionId/CreateAction', function (context) {
+    $app.get('#/Session/:sessionId/Action/Create', function (context) {
         $.when($.get('Api/Sessions/' + context.params.sessionId))
             .then(function(sessionData) {
                 var sessionModel = new SessionModel(sessionData);
-                var actionModel = new ActionModel({}, sessionModel);
-                show('action-edit', actionModel);
+                var actionModel = new ActionModel({}, sessionModel, true);
+                show('action', actionModel);
             });
     });
-
-    $app.get('#/Session/:sessionId/EditAction/:id', function(context) {
+    $app.get('#/Session/:sessionId/Action/Edit/:id', function(context) {
         $.when($.get('Api/Sessions/' + context.params.sessionId),
                 $.get('Api/Actions/' + context.params.sessionId + '/' + context.params.id))
             .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
-                var actionModel = new ActionModel(actionData[0], sessionModel);
-                show('action-edit', actionModel);
+                var actionModel = new ActionModel(actionData[0], sessionModel, true);
+                show('action', actionModel);
+            });
+    });
+    $app.get('#/Session/:sessionId/Action/:id', function (context) {
+        $.when($.get('Api/Sessions/' + context.params.sessionId),
+                $.get('Api/Actions/' + context.params.sessionId + '/' + context.params.id))
+            .then(function (sessionData, actionData) {
+                var sessionModel = new SessionModel(sessionData[0]);
+                var actionModel = new ActionModel(actionData[0], sessionModel, false);
+                show('action', actionModel);
             });
     });
 

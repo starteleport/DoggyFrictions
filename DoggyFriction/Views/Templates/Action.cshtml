@@ -1,5 +1,5 @@
-﻿<script type="text/html" id="action-edit-template">
-    <div class="action-edit">
+﻿<script type="text/html" id="action-template">
+    <div class="action">
         <form class="">
             <div class="jumbotron container">
                 <div>
@@ -18,27 +18,42 @@
                             <!-- ko foreach: Payers -->
                             <tr>
                                 <td>
+                                    <!-- ko if: $root.IsEdit() -->
                                     <div>
                                         <select class="form-control" data-bind="options: $parent.Session.Participants,
                                 optionsText: 'Name', optionsValue: 'Id', value: ParticipantId"></select>
                                     </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></span>
+                                    <!-- /ko -->
                                 </td>
                                 <td>
+                                    <!-- ko if: $root.IsEdit() -->
                                     <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сколько заплатил?">
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: Amount() + '₽'"></span>
+                                    <!-- /ko -->
                                 </td>
+                                <!-- ko if: $root.IsEdit() -->
                                 <td class="actions-cell"><button type="button" class="btn btn-danger btn" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-remove"></span></button></td>
+                                <!-- /ko -->
                             </tr>
                             <!-- /ko -->
+                            <!-- ko if: $root.IsEdit() -->
                             <tr>
                                 <td class="actions-cell"><button type="button" class="btn btn-success" data-bind="click: AddPayer">
-                                    <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                                </button>
+                                        <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                    </button>
                                 </td>
                             </tr>
+                            <!-- /ko -->
                             </tbody>
                         </table>
                     </div>
                     <div class="inline-block col-lg-6">
+                        <!-- ko if: $root.IsEdit() -->
                         <div class="form-group">
                             <label class="control-label" for="inputDescription">Суть постановы</label>
                             <div class="input-group">
@@ -59,8 +74,15 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-info btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-save-file"></span> Сохранить постанову</button>
+                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + $root.Session.Id}">Отмена</a>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: !$root.IsEdit() -->
+                        <div>
+                            <a class="btn btn-warning btn-raised" data-bind="attr: {href: '#/Session/' + $root.Session.Id + '/Action/Edit/' + $root.Id}"><span class="glyphicon glyphicon-edit"></span> Править постанову</a>
                             <button type="button" class="btn btn-danger btn-raised" data-bind="click: Delete">Удалить постанову</button>
                         </div>
+                        <!-- /ko -->
                     </div>
 
                     <div class="col-lg-12">
@@ -81,19 +103,30 @@
                                 <!-- ko foreach: Consumptions -->
                                 <tr>
                                     <td>
+                                        <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
                                             <textarea type="text" class="form-control" rows="3" data-bind="value: Description" placeholder="Что делим?"></textarea>
                                         </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
+                                        <span data-bind="text: Description()"></span>
+                                        <!-- /ko -->
                                     </td>
                                     <td>
+                                        <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
                                             <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сумма">
                                             <a class="small" data-bind="click: SplitAmount.bind($data, Amount())">Расписать</a>
                                             <a class="small" data-bind="click: RecalculateAmount">Пересчитать</a>
                                         </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
+                                        <span data-bind="text: Amount()  + '₽'"></span>
+                                        <!-- /ko -->
                                     </td>
                                     <!-- ko foreach: Consumers -->
                                     <td>
+                                        <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -106,11 +139,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() && IsActive() -->
+                                        <span data-bind="text: Amount()  + '₽'"></span>
+                                        <!-- /ko -->
                                     </td>
                                     <!-- /ko -->
+                                    <!-- ko if: $root.IsEdit() -->
                                     <td class="actions-cell"><button type="button" class="btn btn-danger" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-remove"></span></button></td>
+                                    <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
+                                <!-- ko if: $root.IsEdit() -->
                                 <tr>
                                     <td class="actions-cell">
                                         <button type="button" class="btn btn-success" data-bind="click: AddConsumption">
@@ -118,6 +158,7 @@
                                         </button>
                                     </td>
                                 </tr>
+                                <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>

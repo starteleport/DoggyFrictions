@@ -52,7 +52,7 @@
                 </tbody>
             </table>
             <!-- ko if: !$root.IsEdit() -->
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/CreateAction'}">Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}">Внести постанову</a>
             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
             <a class="btn btn-warning" data-bind="attr: {href: '#/Session/Edit/' + Id}">Править тёрку</a>
             <a class="btn btn-danger" data-bind="click: Delete">Удалить тёрку</a>
@@ -143,7 +143,7 @@
                                 </table>
                             </div>
                             <div class="inline-block">
-                                <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/EditAction/' + Id}">Править</a>
+                                <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}">Править</a>
                             </div>
                             <div class="inline-block">
                                 <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
