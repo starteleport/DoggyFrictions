@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using DoggyFriction.Models;
+using DoggyFriction.Services;
 
 namespace DoggyFriction.Controllers
 {
@@ -13,7 +14,6 @@ namespace DoggyFriction.Controllers
             Id = 1,
             Date = DateTime.Now,
             Description = "В магаз набижали",
-            Amount = 500m,
             Payers = new[] {
                 new PayerModel {
                     ParticipantId = 0,
@@ -56,13 +56,13 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId:int:min(1)}")]
         public PagedCollection<ActionModel> Get(int sessionId, [FromUri] ActionsFilter filter = null)
         {
+            var actions = Hub.Repository.GetActions(sessionId);
+            var page = filter?.Page ?? 1;
+            var pageSize = 10;
             return new PagedCollection<ActionModel> {
-                TotalPages = 25,
-                Page = filter?.Page ?? 1,
-                Rows = new[] {
-                    actionModel,
-                    actionModel
-                }
+                TotalPages = actions.Count() / pageSize,
+                Page = page,
+                Rows = actions.Skip(page * pageSize).Take(pageSize)
             };
         }
 
@@ -70,22 +70,33 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId:int:min(1)}/{id:int:min(1)}")]
         public ActionModel Get(int sessionId, int id)
         {
-            return actionModel;
+            return Hub.Repository.GetAction(sessionId, id);
         }
 
-        // POST: api/Actions
-        public void Post([FromBody]string value)
+        // POST: api/Actions/5
+        [Route("api/Actions/{sessionId:int:min(1)}")]
+        public void Post(int sessionId, [FromBody]ActionModel actionModel)
         {
+            if (actionModel.Id != 0) {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
+            }
+            Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
-        // PUT: api/Actions/5
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/Actions/5/5
+        [Route("api/Actions/{sessionId:int:min(1)}/{id:int:min(1)}")]
+        public void Put(int sessionId, int id, [FromBody]ActionModel actionModel)
         {
+            if (actionModel.Id <= 0) {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
+            }
+            Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
         // DELETE: api/Actions/5
-        public void Delete(int id)
+        public void Delete(int sessionId, int id)
         {
+            Hub.Repository.DeleteAction(sessionId, id);
         }
     }
 

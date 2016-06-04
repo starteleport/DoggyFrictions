@@ -8,8 +8,8 @@ namespace DoggyFriction.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public decimal Amount { get; set; }
         public IEnumerable<PayerModel> Payers { get; set; }
         public IEnumerable<ConsumptionModel> Consumptions { get; set; }
+        public int SessionId { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using DoggyFriction.Models;
+using DoggyFriction.Services;
 
 namespace DoggyFriction.Controllers
 {
@@ -45,26 +46,31 @@ namespace DoggyFriction.Controllers
         // GET: api/Sessions
         public IEnumerable<SessionModel> Get()
         {
-            return new[] {
-                sessionModel,
-                sessionModel
-            };
+            return Hub.Repository.GetSessions();
         }
 
         // GET: api/Sessions/5
         public SessionModel Get(int id)
         {
-            return sessionModel;
+            return Hub.Repository.GetSession(id);
         }
 
         // POST: api/Sessions
-        public void Post([FromBody]string value)
+        public SessionModel Post([FromBody]SessionModel sessionModel)
         {
+            if (sessionModel.Id != 0) {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
+            }
+            return Hub.Repository.UpdateSession(sessionModel);
         }
 
         // PUT: api/Sessions/5
-        public void Put(int id, [FromBody]string value)
+        public SessionModel Put(int id, [FromBody]SessionModel sessionModel)
         {
+            if (sessionModel.Id <= 0) {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
+            }
+            return Hub.Repository.UpdateSession(sessionModel);
         }
 
         // DELETE: api/Sessions/5

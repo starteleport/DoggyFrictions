@@ -10,6 +10,25 @@
             Sammy("#main", InitSammy);
         });
     }
+
+    //Register put/delete operations
+    jQuery.each(["put", "delete"], function (i, method) {
+        jQuery[method] = function (url, data, callback, type) {
+            if (jQuery.isFunction(data)) {
+                type = type || callback;
+                callback = data;
+                data = undefined;
+            }
+
+            return jQuery.ajax({
+                url: url,
+                type: method,
+                dataType: type,
+                data: data,
+                success: callback
+            });
+        };
+    });
 });
 
 function InitSammy(app) {
@@ -42,10 +61,20 @@ function InitSammy(app) {
         });
     });
 
+    $app.get('#/Session/Create', function () {
+        var model = new SessionModel({ Id: 0 }, true);
+        show('session', model);
+    });
     $app.get('#/Session/:id', function (context) {
         $.when($.get('Api/Sessions/' + context.params.id)).then(function (data) {
-            var model = new SessionModel(data);
+            var model = new SessionModel(data, false);
             model.Actions.LoadPage();
+            show('session', model);
+        });
+    });
+    $app.get('#/Session/Edit/:id', function (context) {
+        $.when($.get('Api/Sessions/' + context.params.id)).then(function (data) {
+            var model = new SessionModel(data, true);
             show('session', model);
         });
     });

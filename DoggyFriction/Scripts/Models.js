@@ -1,7 +1,13 @@
-﻿function SessionModel(data) {
+﻿function SessionsModel(data) {
+    this.Sessions = _.map(data || [], function (sessionData) {
+        return new SessionModel(sessionData);
+    });
+}
+
+function SessionModel(data, isEdit) {
     var _this = this;
     this.Id = data.Id || 0;
-    this.Name = data.Name || 'unnamed';
+    this.Name = ko.observable(data.Name || '');
     this.Participants = ko.observableArray(_.map(data.Participants || [], function (participantData) {
         return new ParticipantModel(participantData);
     }));
@@ -9,10 +15,43 @@
         return new ActionModel(actionData, _this);
     });
 
+    this.IsEdit = ko.observable(isEdit | false);
+
     this.GetParticipantName = function (participantId) {
         return _.find(_this.Participants(), function (participant) {
             return participant.Id == participantId;
         }).Name();
+    }
+
+    this.AddParticipant = function() {
+        this.Participants.push(new ParticipantModel({Id: 0}));
+    };
+    this.DeleteParticipant = function (participantModel) {
+        if (participantModel.Id != 0) {
+            alert('Невозможно удалить собаку, которая уже есть в системе.');
+        } else {
+            _this.Participants.remove(participantModel);
+        }
+    };
+
+    this.Save = function () {
+        var serialized = {
+            Id: _this.Id,
+            Name: _this.Name(),
+            Participants: _.map(_this.Participants(), function(participantModel) {
+                return {
+                    Id: participantModel.Id,
+                    Name: participantModel.Name()
+                }
+            })
+        };
+        var operation = _this.Id == 0
+            ? $.post('Api/Sessions', serialized)
+            : $.put('Api/Sessions/' + _this.Id, serialized);
+        $.when(operation)
+            .done(function (sessionData) {
+            window.location.href = '#/Session/' + sessionData.Id;
+        });
     }
 
     this.Delete = function () {
@@ -161,10 +200,4 @@ function ParticipantModel(participantData) {
     this.Id = participantData.Id;
     this.Name = ko.observable(participantData.Name);
     this.Balance = ko.observable(participantData.Balance);
-}
-
-function SessionsModel(data) {
-    this.Sessions = _.map(data || [], function (sessionData) {
-        return new SessionModel(sessionData);
-    });
 }

@@ -5,12 +5,12 @@
                 <tbody data-bind="foreach: Sessions">
                 <tr>
                     <td data-bind="text: Name"></td>
-                    <td><a class="btn btn-success" data-bind="attr: {href: '#/Session/' + Id}">Просмотр</a></td>
+                    <td><a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id}">Просмотр</a></td>
                     <td><a class="btn btn-danger" data-bind="click: Delete">Удалить</a></td>
                 </tr>
                 </tbody>
             </table>
-            <a class="btn btn-raised btn-info" data-bind="attr: {href: '#/Session/'}">Начать тёрку</a>
+            <a class="btn btn-raised btn-success" data-bind="attr: {href: '#/Session/Create'}">Начать тёрку</a>
         </div>
     </div>
 </script>
