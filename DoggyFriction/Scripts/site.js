@@ -141,6 +141,10 @@ function ActionModel(actionData, sessionModel) {
         _.forEach(consumptionModel.Consumers(), function(consumer) {
             consumer.IsActive(true);
         });
+        var usedAmount = _.reduce(_this.Consumptions(), function(current, next) {
+            return current + Number(next.Amount());
+        }, 0);
+        consumptionModel.Amount(Math.max(_this.Amount() - usedAmount, 0));
         _this.Consumptions.push(consumptionModel);
     }
     this.DeleteConsumption = function (consumptionModel) {
@@ -169,18 +173,15 @@ function ConsumptionModel(consumptionData, sessionModel) {
         });
         return new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 });
     }));
+    this.Amount = ko.observable(0);
 
-    var amount = _.reduce(_this.Consumers(), function (current, $new) {
-        return current + Number($new.Amount());
-    }, 0);
-    this.Amount = ko.observable(amount);
-    _this.Amount.subscribe(function (newValue) {
-        newValue = Number(newValue);
+    this.SplitAmount = function(amount) {
+        amount = Number(amount);
         var activeConsumers = _.filter(_this.Consumers(), function (consumerModel) {
             return consumerModel.IsActive();
         });
-        var portion = Math.round((newValue / activeConsumers.length) * 100) / 100;
-        var rest = newValue;
+        var portion = Math.round((amount / activeConsumers.length) * 100) / 100;
+        var rest = amount;
         _.forEach(activeConsumers, function (consumer, index) {
             if (index < activeConsumers.length - 1) {
                 rest -= portion;
@@ -190,7 +191,15 @@ function ConsumptionModel(consumptionData, sessionModel) {
                 consumer.Amount(rest);
             }
         });
-    });
+    }
+    
+    this.RecalculateAmount = function() {
+        var initialAmount = _.reduce(_this.Consumers(), function (current, $new) {
+            return current + Number($new.Amount());
+        }, 0);
+        _this.Amount(initialAmount);
+    }
+    _this.RecalculateAmount();
 }
 
 function ConsumerModel(consumerData) {

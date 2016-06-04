@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="jumbotron">
                 <div>
                     <h3>Использовали:</h3>
@@ -82,12 +82,14 @@
                             <tr>
                                 <td>
                                     <div class="form-group">
-                                        <textarea type="text" class="form-control" rows="4" data-bind="value: Description" placeholder="Что делим?"></textarea>
+                                        <textarea type="text" class="form-control" rows="3" data-bind="value: Description" placeholder="Что делим?"></textarea>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сумма">
+                                        <a class="small" data-bind="click: SplitAmount.bind($data, Amount())">Расписать</a>
+                                        <a class="small" data-bind="click: RecalculateAmount">Пересчитать</a>
                                     </div>
                                 </td>
                                 <!-- ko foreach: Consumers -->
