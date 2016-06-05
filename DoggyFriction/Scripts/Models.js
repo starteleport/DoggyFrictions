@@ -70,7 +70,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
-    _this.Date = ko.observable(actionData.Date);
+    _this.Date = ko.observable(actionData.Date.formatDate());
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
     }));
@@ -137,7 +137,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         var serialized = {
             Id: _this.Id,
             Description: _this.Description(),
-            Date: _this.Date(),
+            Date: _this.Date().extractDate(),
             Payers: _.map(_this.Payers(), function (payerModel) {
                 return {
                     Id: payerModel.Id,

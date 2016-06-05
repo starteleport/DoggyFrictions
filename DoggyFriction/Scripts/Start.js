@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
     window.App = {
         Format: {
-            DateTime: 'DD/MM/YYYY HH:mm'
+            DateTime: 'DD/MM/YYYY',
+            DateTimeSave: 'YYYY/MM/DD'
         },
         Functions: {
             Move: function(link) {
@@ -11,6 +12,12 @@
             },
             ApplyMaterialDesign: function () {
                 $.material.init();
+            }
+        },
+        GlobalId: {
+            Id: 1,
+            Next: function() {
+                return this.Id = this.Id + 1;
             }
         }
     };
@@ -57,9 +64,9 @@ function InitSammy(app) {
         $view.hide();
         $view.appendTo('body');
 
-        _.forEach($view.find('input.date-time-input'), function (input) {
-            $(input).datetimepicker({
-                format: 'DD/MM/YYYY HH:mm'
+        _.forEach($view.find('input.date-input'), function (input) {
+            $(input).datepicker({
+                format: window.App.Format.DateTime.toLowerCase()
             });
         });
 

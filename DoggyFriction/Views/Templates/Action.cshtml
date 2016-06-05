@@ -28,7 +28,7 @@
                                         <!-- ko if: $root.IsEdit() -->
                                         <div>
                                             <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId"></select>
+                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next()}"></select>
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
@@ -37,7 +37,7 @@
                                     </td>
                                     <td>
                                         <!-- ko if: $root.IsEdit() -->
-                                        <input type="text" class="form-control" data-bind="money: Amount" placeholder="Сколько заплатил?">
+                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Сколько заплатил?">
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
                                         <span data-bind="text: Amount().formatMoney()"></span>
@@ -62,12 +62,12 @@
                     </div>
                     <div class="inline-block col-lg-6">
                         <div class="form-group">
-                            <label class="control-label" for="inputDescription">Суть постановы</label>
+                            <label class="control-label">Суть постановы</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" id="inputDescription" data-bind="value: Description" placeholder="Поясни вкратце">
+                                    <input type="text" class="form-control" tabindex="-1" data-bind="value: Description" placeholder="Поясни вкратце">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Description"></span>
@@ -81,7 +81,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control date-time-input" data-bind="date: Date" placeholder="Укажи дату">
+                                    <input type="text" class="form-control date-input" tabindex="-1" data-bind="date: Date" placeholder="Укажи дату">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Date().formatDate()"></span>
@@ -118,7 +118,7 @@
                                         <td>
                                             <!-- ko if: $root.IsEdit() -->
                                             <div class="form-group">
-                                                <textarea type="text" class="form-control" rows="3" data-bind="value: Description" placeholder="Что делим?"></textarea>
+                                                <textarea type="text" class="form-control" rows="3" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Что делим?"></textarea>
                                             </div>
                                             <!-- /ko -->
                                             <!-- ko if: !$root.IsEdit() -->
@@ -128,7 +128,7 @@
                                         <td>
                                             <!-- ko if: $root.IsEdit() -->
                                             <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="money: Amount" placeholder="Сумма">
+                                                <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Сумма">
                                                 <a class="small" data-bind="click: SplitAmount.bind($data, Amount())">Расписать</a>
                                                 <a class="small" data-bind="click: RecalculateAmount">Пересчитать</a>
                                             </div>
@@ -144,11 +144,11 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <span class="checkbox">
-                                                            <label><input type="checkbox" data-bind="checked: IsActive" /></label>
+                                                            <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1"/></label>
                                                         </span>
                                                     </span>
                                                     <div>
-                                                        <input type="text" class="form-control" data-bind="money: Amount, enabled: IsActive()" placeholder="сумма потребления">
+                                                        <input type="text" class="form-control" data-bind="money: Amount, enabled: IsActive()" tabindex="-1" placeholder="сумма потребления">
                                                     </div>
                                                 </div>
                                             </div>
