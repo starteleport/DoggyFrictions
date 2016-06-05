@@ -2,12 +2,12 @@
     <div class="action">
         <form class="">
             <div class="jumbotron container">
-                <a class="btn btn-default btn-sm navigation-back" data-bind="attr: {href: '#/Session/' + $root.Session.Id}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: '#/Session/' + $root.Session.Id}"><span class="glyphicon glyphicon-arrow-left"></span></a>
                 <div>
                     <h2 class="text-center">
                         <span  data-bind="text: Amount().formatMoney() + ' - ' + (Description() || '') + ', ' + Date().formatDate()"></span>
                         <!-- ko if: !$root.IsEdit() -->
-                        <a class="btn" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         <!-- /ko -->
                     </h2>
                     <div class="inline-block col-lg-5">
@@ -44,7 +44,7 @@
                                         <!-- /ko -->
                                     </td>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <td class="actions-cell"><button type="button" class="btn" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
@@ -159,7 +159,7 @@
                                         </td>
                                         <!-- /ko -->
                                         <!-- ko if: $root.IsEdit() -->
-                                        <td class="actions-cell"><button type="button" class="btn" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button></td>
                                         <!-- /ko -->
                                     </tr>
                                     <!-- /ko -->

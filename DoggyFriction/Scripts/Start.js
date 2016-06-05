@@ -74,6 +74,12 @@ function InitSammy(app) {
         $app.swap($view);
 
         window.App.Functions.ApplyMaterialDesign();
+        _.each($('.table-clickable .actions-cell'), function(cell) {
+            $(cell).click(function(e) {
+                e.preventDefault();
+                return true;
+            });
+        });
         $view.show();
     };
 
