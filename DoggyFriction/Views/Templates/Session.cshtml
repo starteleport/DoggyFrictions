@@ -1,70 +1,82 @@
 ﻿<script type="text/html" id="session-template">
     <div class="session jumbotron container">
+        <a class="btn btn-default btn-sm navigation-back" data-bind="attr: {href: '#/Sessions'}"><span class="glyphicon glyphicon-arrow-left"></span></a>
         <div>
-            <h2 data-bind="text: Name()"></h2>
+            <h2 class="text-center">
+                <span data-bind="text: Name()"></span>
+                <!-- ko if: !$root.IsEdit() -->
+                <a class="btn" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                <!-- /ko -->
+            </h2>
             <!-- ko if: $root.IsEdit() -->
-            <td>
-                <div class="form-group">
-                    <label class="control-label">Название тёрки</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-                        <div>
-                            <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсужаем?">
-                        </div>
+            <div class="form-group">
+                <label class="control-label">Название тёрки</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+                    <div>
+                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсужаем?">
                     </div>
                 </div>
-            </td>
+            </div>
             <!-- /ko -->
             <h4>Собаки:</h4>
-            <table class="table table-condensed">
-                <tbody>
-                <!-- ko foreach: Participants-->
+            <span data-bind="if: !Participants().length">Собак нет</span>
+            <table class="table">
+                <thead data-bind="if: Participants().length">
                 <tr>
-                    <!-- ko if: $root.IsEdit() -->
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label">Имя собаки</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <div>
-                                    <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                    <th>Имя</th>
+                    <!-- ko if: !$root.IsEdit() -->
+                    <th>Баланс</th>
+                    <!-- /ko -->
+                    <th class="actions-cell"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <!-- ko foreach: Participants-->
+                    <tr>
+                        <!-- ko if: $root.IsEdit() -->
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label">Имя собаки</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                    <div>
+                                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="actions-cell"><button type="button" class="btn btn-danger btn" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-remove"></span></button></td>
+                        </td>
+                        <td class="actions-cell"><button type="button" class="btn" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
+                        <!-- /ko -->
+                        <!-- ko if: !$root.IsEdit() -->
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="text: Balance() + '₽'"></td>
+                        <!-- /ko -->
+                    </tr>
                     <!-- /ko -->
-                    <!-- ko if: !$root.IsEdit() -->
-                    <td data-bind="text: Name"></td>
-                    <td data-bind="text: Balance() + '₽'"></td>
+                    <!-- ko if: $root.IsEdit() -->
+                    <tr>
+                        <td class="actions-cell">
+                            <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                                <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                            </button>
+                        </td>
+                    </tr>
                     <!-- /ko -->
-                </tr>
-                <!-- /ko -->
-                <!-- ko if: $root.IsEdit() -->
-                <tr>
-                    <td class="actions-cell">
-                        <button type="button" class="btn btn-success" data-bind="click: AddParticipant">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- /ko -->
                 </tbody>
             </table>
             <!-- ko if: !$root.IsEdit() -->
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}">Внести постанову</a>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">Пояснить за долги</a>
-            <a class="btn btn-warning" data-bind="attr: {href: '#/Session/Edit/' + Id}">Править тёрку</a>
-            <a class="btn btn-danger" data-bind="click: Delete">Удалить тёрку</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-random"></span>  Пояснить за долги</a>
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
-            <button type="submit" class="btn btn-success btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-save-file"></span> Сохранить тёрку</button>
+            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
             <a class="btn btn-primary" data-bind="attr: {href: '#/Sessions'}">Отмена</a>
             <!-- /ko -->
-            
+
 
             <!-- ko if: !$root.IsEdit() -->
-            <h3>Постановы:</h3>
+            <h4>Постановы:</h4>
             <div data-bind="if: Actions.IsLoading()">Загрузка . . .</div>
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">
@@ -101,56 +113,26 @@
                 </div>
                 <!-- /ko -->
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
-                <table class="table" data-bind="if: Rows().length">
+                <table class="table table-clickable" data-bind="if: Rows().length">
                     <thead>
                     <tr>
                         <th>Дата</th>
                         <th>Суть</th>
                         <th>Спонсор(ы)</th>
                         <th>Сумма</th>
+                        <th class="actions-cell"></th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach: Rows">
-                    <tr data-bind="click: ToggleDetails">
+                    <tr data-bind="click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)">
                         <td data-bind="text: Date()"></td>
                         <td data-bind="text: Description()"></td>
                         <td data-bind="text: PayerNames()"></td>
                         <td data-bind="text: Amount() + '₽'"></td>
-                    </tr>
-                    <!-- ko if: DatailsExpanded() -->
-                    <tr>
-                        <td colspan="4" class="row-details">
-                            <div class="inline-block">
-                                <h4>Заплатили:</h4>
-                                <table class="table-striped table-bordered table-condensed">
-                                    <tbody data-bind="foreach: Payers">
-                                    <tr>
-                                        <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></td>
-                                        <td data-bind="text: Amount() + '₽'"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="inline-block">
-                                <h4>Использовали:</h4>
-                                <table class="table-striped table-bordered table-condensed">
-                                    <tbody data-bind="foreach: ConsumerTotals">
-                                    <tr>
-                                        <td data-bind="text: $parent.Session.GetParticipantName(ParticipantId)"></td>
-                                        <td data-bind="text: Amount() + '₽'"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="inline-block">
-                                <a class="btn btn-info" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}">Править</a>
-                            </div>
-                            <div class="inline-block">
-                                <a class="btn btn-danger" data-bind="click: Delete">Удалить</a>
-                            </div>
+                        <td class="actions-cell">
+                            <a class="btn" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
-                    <!-- /ko -->
                     </tbody>
                 </table>
             </div>

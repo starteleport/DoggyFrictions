@@ -55,18 +55,27 @@ table>tbody>tr>td .checkbox {
 table.table td {
     border: 1px solid #ddd;
 }
+table.table tr:hover td {
+    background-color: #f5f5f5;
+}
+
 table.table td.actions-cell, table.table th.actions-cell {
     border: none;
     text-align: left;
     padding: 0;
+    background: initial !important;
+    cursor: inherit;
 }
-table.table td.actions-cell .btn, table.table th.actions-cell .btn {
-    padding: 8px 8px;
+table.table td.actions-cell .btn, table.table th.actions-cell .btn, h2 .btn {
+    padding: 8px;
 }
 table.table td input.form-control {
     width: 70px;
 }
 
+table.table.table-clickable {
+    cursor: pointer;
+}
 div.jumbotron {
     padding: 10px 25px;
     width: 1170px;
@@ -74,4 +83,8 @@ div.jumbotron {
 div.jumbotron>div {
     overflow-x: auto;
     overflow-y: visible;
+}
+
+.navigation-back {
+    position: absolute !important;
 }

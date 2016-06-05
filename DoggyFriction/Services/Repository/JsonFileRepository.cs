@@ -115,7 +115,9 @@ namespace DoggyFriction.Services.Repository
 
         public IEnumerable<ActionModel> GetActions(int sessionId)
         {
-            var actionModels = LoadEntities<ActionModel>(ActionsFileName).ToList();
+            var actionModels = LoadEntities<ActionModel>(ActionsFileName)
+                .Where(a => a.SessionId == sessionId)
+                .ToList();
             var payers = LoadEntities<PayerModel>(PayersFileName)
                 .Where(p => p.SessionId == sessionId)
                 .ToLookup(p => p.ActionId);

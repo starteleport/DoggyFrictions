@@ -1,6 +1,19 @@
 ﻿$(document).ready(function () {
-    $.material.init();
-    window.App = {};
+    window.App = {
+        Format: {
+            DateTime: 'dd/MM/yyyy HH:mm'
+        },
+        Functions: {
+            Move: function(link) {
+                return function() {
+                    window.location.href = link;
+                }
+            },
+            ApplyMaterialDesign: function () {
+                $.material.init();
+            }
+        }
+    };
 
     //Init sammy
     if ($('#main')[0]) {
@@ -29,6 +42,8 @@
             });
         };
     });
+
+    window.App.Functions.ApplyMaterialDesign();
 });
 
 function InitSammy(app) {
@@ -47,10 +62,11 @@ function InitSammy(app) {
                 format: 'DD/MM/YYYY HH:mm'
             });
         });
-        $.material.init();
 
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
+
+        window.App.Functions.ApplyMaterialDesign();
         $view.show();
     };
 

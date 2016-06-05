@@ -15,6 +15,12 @@ function SessionModel(data, isEdit) {
         return new ActionModel(actionData, _this);
     });
 
+    _this.ParticipantNames = ko.computed(function () {
+        return _.reduceRight(_this.Participants(), function (current, next) {
+            return (current.length ? (current + ', ') : '') + next.Name();
+        }, '') || 'Собак нет';
+    });
+
     this.IsEdit = ko.observable(isEdit | false);
 
     this.GetParticipantName = function (participantId) {
@@ -64,7 +70,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
-    _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), 'dd/MM/yyyy HH:mm'));
+    _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), window.App.Format.DateTime));
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
     }));
@@ -72,18 +78,16 @@ function ActionModel(actionData, sessionModel, isEdit) {
         return new ConsumptionModel(consumptionData, _this.Session);
     }));
     _this.Description = ko.observable(actionData.Description);
-
-    _this.DatailsExpanded = ko.observable(false);
     _this.IsEdit = ko.observable(isEdit || false);
 
     _this.Amount = ko.computed(function () {
-        return _.reduce(_this.Payers(), function (current, $new) {
-            return current + Number($new.Amount());
+        return _.reduce(_this.Payers(), function (current, next) {
+            return current + Number(next.Amount());
         }, 0);
     });
     _this.PayerNames = ko.computed(function () {
-        return _.reduceRight(_this.Payers(), function (current, $new) {
-            var participantName = _this.Session.GetParticipantName($new.ParticipantId());
+        return _.reduceRight(_this.Payers(), function (current, next) {
+            var participantName = _this.Session.GetParticipantName(next.ParticipantId());
             return (current.length ? (current + ', ') : '') + participantName;
         }, '');
     });
@@ -101,11 +105,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         });
         return consumerTotals;
     });
-
-    this.ToggleDetails = function () {
-        _this.DatailsExpanded(!_this.DatailsExpanded());
-    }
-
+    
     this.Delete = function () {
         alert('Удаление постановы.');
         window.location.href = '#/Session/' + _this.Session.Id;
@@ -121,6 +121,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         }, 0);
         consumptionModel.Amount(Math.max(_this.Amount() - usedAmount, 0));
         _this.Consumptions.push(consumptionModel);
+        window.App.Functions.ApplyMaterialDesign();
     }
     this.DeleteConsumption = function (consumptionModel) {
         _this.Consumptions.remove(consumptionModel);
@@ -202,8 +203,8 @@ function ConsumptionModel(consumptionData, sessionModel) {
     }
 
     this.RecalculateAmount = function () {
-        var initialAmount = _.reduce(_this.Consumers(), function (current, $new) {
-            return current + Number($new.Amount());
+        var initialAmount = _.reduce(_this.Consumers(), function (current, next) {
+            return current + Number(next.Amount());
         }, 0);
         _this.Amount(initialAmount);
     }
