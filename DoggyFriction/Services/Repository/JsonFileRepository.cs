@@ -167,14 +167,16 @@ namespace DoggyFriction.Services.Repository
             var consumptions = model.Consumptions ?? new List<ConsumptionModel>();
             consumptions.ForEach(consumption => {
                 consumption.Id = consumption.Id > 0 ? consumption.Id : GenerateId();
-                consumption.Consumers.ForEach(consumer => {
+                var newConsumers = consumption.Consumers?.Select(consumer => {
                     consumer.Id = consumer.Id > 0 ? consumer.Id : GenerateId();
                     consumer.ConsumptionId = consumption.Id;
                     consumer.SessionId = sessionId;
-
-                    consumerModels.RemoveAll(p => p.Id == consumer.Id);
-                    consumerModels.Add(consumer);
+                    return consumer;
                 });
+                consumerModels.RemoveAll(p => p.ConsumptionId == consumption.Id && p.SessionId == sessionId);
+                if (newConsumers != null) {
+                    consumerModels.AddRange(newConsumers);
+                }
                 consumption.Consumers = null;
             });
 

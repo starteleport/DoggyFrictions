@@ -50,7 +50,7 @@
                         <!-- /ko -->
                         <!-- ko if: !$root.IsEdit() -->
                         <td data-bind="text: Name"></td>
-                        <td data-bind="text: Balance() + '₽'"></td>
+                        <td data-bind="text: Balance().formatMoney()"></td>
                         <!-- /ko -->
                     </tr>
                     <!-- /ko -->
@@ -125,10 +125,10 @@
                     </thead>
                     <tbody data-bind="foreach: Rows">
                     <tr data-bind="click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)">
-                        <td data-bind="text: Date()"></td>
+                        <td data-bind="text: Date().formatDate()"></td>
                         <td data-bind="text: Description()"></td>
                         <td data-bind="text: PayerNames()"></td>
-                        <td data-bind="text: Amount() + '₽'"></td>
+                        <td data-bind="text: Amount().formatMoney()"></td>
                         <td class="actions-cell">
                             <a class="btn" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>

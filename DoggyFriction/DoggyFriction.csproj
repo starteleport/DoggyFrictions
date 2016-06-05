@@ -264,6 +264,9 @@
     <Content Include="Scripts\jquery.dateFormat-1.0.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout.validation.js" />
+    <Content Include="Scripts\knockout.validation.min.js" />
+    <Content Include="Scripts\ko-extensions.js" />
     <Content Include="Scripts\Material\material.js" />
     <Content Include="Scripts\Material\material.min.js" />
     <Content Include="Scripts\Material\ripples.js" />
@@ -282,6 +285,7 @@
     <Content Include="Scripts\Start.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\Util.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -304,6 +308,7 @@
     <Content Include="Views\Templates\Templates.cshtml" />
     <Content Include="Views\Templates\Sessions.cshtml" />
     <Content Include="Views\Templates\Action.cshtml" />
+    <Content Include="Scripts\knockout.validation.min.js.map" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

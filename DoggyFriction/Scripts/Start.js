@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     window.App = {
         Format: {
-            DateTime: 'dd/MM/yyyy HH:mm'
+            DateTime: 'DD/MM/YYYY HH:mm'
         },
         Functions: {
             Move: function(link) {
@@ -57,7 +57,7 @@ function InitSammy(app) {
         $view.hide();
         $view.appendTo('body');
 
-        _.forEach($view.find('input[type=datetime]'), function (input) {
+        _.forEach($view.find('input.date-time-input'), function (input) {
             $(input).datetimepicker({
                 format: 'DD/MM/YYYY HH:mm'
             });

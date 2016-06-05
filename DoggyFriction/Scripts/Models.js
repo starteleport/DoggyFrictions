@@ -70,7 +70,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
-    _this.Date = ko.observable($.format.date(moment(actionData.Date).toDate(), window.App.Format.DateTime));
+    _this.Date = ko.observable(actionData.Date);
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
     }));
@@ -137,7 +137,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         var serialized = {
             Id: _this.Id,
             Description: _this.Description(),
-            Date: moment(_this.Date()).toDate(),
+            Date: _this.Date(),
             Payers: _.map(_this.Payers(), function (payerModel) {
                 return {
                     Id: payerModel.Id,
@@ -215,7 +215,7 @@ function ConsumerModel(consumerData) {
     var _this = this;
     this.Id = consumerData.Id || 0;
     this.ParticipantId = consumerData.ParticipantId;
-    this.Amount = ko.observable(consumerData.Amount);
+    this.Amount = ko.observable(consumerData.Amount).extend({ required: true, min: 0, number: true });
     this.IsActive = ko.observable(consumerData.Amount > 0);
 
     _this.IsActive.subscribe(function (newValue) {

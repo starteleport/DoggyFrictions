@@ -5,7 +5,7 @@
                 <a class="btn btn-default btn-sm navigation-back" data-bind="attr: {href: '#/Session/' + $root.Session.Id}"><span class="glyphicon glyphicon-arrow-left"></span></a>
                 <div>
                     <h2 class="text-center">
-                        <span  data-bind="text: (Amount() || 0) + '₽' + ' - ' + (Description() || '') + ', ' + $.format.date(moment(Date()).toDate(), 'dd MMMM')"></span>
+                        <span  data-bind="text: Amount().formatMoney() + ' - ' + (Description() || '') + ', ' + Date().formatDate()"></span>
                         <!-- ko if: !$root.IsEdit() -->
                         <a class="btn" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         <!-- /ko -->
@@ -37,10 +37,10 @@
                                     </td>
                                     <td>
                                         <!-- ko if: $root.IsEdit() -->
-                                        <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сколько заплатил?">
+                                        <input type="text" class="form-control" data-bind="money: Amount" placeholder="Сколько заплатил?">
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
-                                        <span data-bind="text: Amount() + '₽'"></span>
+                                        <span data-bind="text: Amount().formatMoney()"></span>
                                         <!-- /ko -->
                                     </td>
                                     <!-- ko if: $root.IsEdit() -->
@@ -76,15 +76,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputDate" class="control-label">Когда дело было</label>
+                            <label class="control-label">Когда дело было</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="datetime" class="form-control" id="inputDate" data-bind="value: Date" placeholder="Укажи дату">
+                                    <input type="text" class="form-control date-time-input" data-bind="date: Date" placeholder="Укажи дату">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: $.format.date(moment(Date()).toDate(), window.App.Format.DateTime)"></span>
+                                    <span data-bind="text: Date().formatDate()"></span>
                                     <!-- /ko -->
                                 </div>
                             </div>
@@ -128,13 +128,13 @@
                                         <td>
                                             <!-- ko if: $root.IsEdit() -->
                                             <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="value: Amount" placeholder="Сумма">
+                                                <input type="text" class="form-control" data-bind="money: Amount" placeholder="Сумма">
                                                 <a class="small" data-bind="click: SplitAmount.bind($data, Amount())">Расписать</a>
                                                 <a class="small" data-bind="click: RecalculateAmount">Пересчитать</a>
                                             </div>
                                             <!-- /ko -->
                                             <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: Amount()  + '₽'"></span>
+                                            <span data-bind="text: Amount().formatMoney()"></span>
                                             <!-- /ko -->
                                         </td>
                                         <!-- ko foreach: Consumers -->
@@ -148,13 +148,13 @@
                                                         </span>
                                                     </span>
                                                     <div>
-                                                        <input type="text" class="form-control" data-bind="value: Amount, enabled: IsActive()" placeholder="сумма потребления">
+                                                        <input type="text" class="form-control" data-bind="money: Amount, enabled: IsActive()" placeholder="сумма потребления">
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- /ko -->
                                             <!-- ko if: !$root.IsEdit() && IsActive() -->
-                                            <span data-bind="text: Amount()  + '₽'"></span>
+                                            <span data-bind="text: Amount().formatMoney()"></span>
                                             <!-- /ko -->
                                         </td>
                                         <!-- /ko -->

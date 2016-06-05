@@ -26,7 +26,10 @@ namespace DoggyFriction
                 "~/Scripts/bootstrap-datetimepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                "~/Scripts/Util.js",
                 "~/Scripts/knockout-3.4.0.js",
+                "~/Scripts/knockout.validation.min.js",
+                "~/Scripts/ko-extensions.js",
                 "~/Scripts/sammy-0.7.5.min.js",
                 "~/Scripts/underscore.min.js",
                 "~/Scripts/PagedGridModel.js",
