@@ -81,7 +81,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control date-input" tabindex="-1" data-bind="date: Date" placeholder="Укажи дату">
+                                    <input type="text" class="form-control date-input" tabindex="-1" data-bind="value: Date" placeholder="Укажи дату">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Date().formatDate()"></span>
