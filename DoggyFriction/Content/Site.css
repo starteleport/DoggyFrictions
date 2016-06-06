@@ -88,3 +88,8 @@ div.jumbotron>div {
 .navigation-back {
     position: absolute !important;
 }
+
+.datepicker table tr td.active.active, .datepicker span.active {
+    background-color: #009688 !important;
+    border-color: #009688 !important;
+}

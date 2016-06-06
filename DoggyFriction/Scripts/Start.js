@@ -63,13 +63,7 @@ function InitSammy(app) {
         var $view = $(template);
         $view.hide();
         $view.appendTo('body');
-
-        _.forEach($view.find('input.date-input'), function (input) {
-            $(input).datepicker({
-                format: window.App.Format.DateTime.toLowerCase()
-            });
-        });
-
+        
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
 
@@ -78,6 +72,15 @@ function InitSammy(app) {
             $(cell).click(function(e) {
                 e.preventDefault();
                 return true;
+            });
+        });
+        _.forEach($view.find('input.date-input'), function (input) {
+            $(input).datepicker({
+                format: window.App.Format.DateTime.toLowerCase(),
+                orientation: 'bottom',
+                language: 'ru',
+                autoclose: true,
+                todayhighlight: true
             });
         });
         $view.show();
