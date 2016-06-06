@@ -71,12 +71,15 @@ namespace DoggyFriction.Services.Repository
             var sessionId = model.Id > 0 ? model.Id : GenerateId();
 
             var newParticipants = model.Participants;
-            newParticipants.ForEach(participant => {
+            newParticipants = model.Participants?.Select(participant => {
                 participant.Id = participant.Id > 0 ? participant.Id : GenerateId();
                 participant.SessionId = sessionId;
-                participantModels.RemoveAll(p => p.Id == participant.Id);
-                participantModels.Add(participant);
+                return participant;
             });
+            participantModels.RemoveAll(p => p.SessionId == sessionId);
+            if (newParticipants != null) {
+                participantModels.AddRange(newParticipants);
+            }
             model.Participants = null;
 
             model.Id = sessionId;
@@ -154,14 +157,16 @@ namespace DoggyFriction.Services.Repository
             var consumerModels = LoadEntities<ConsumerModel>(ConsumersFileName).ToList();
 
             var actionId = model.Id > 0 ? model.Id : GenerateId();
-            var newPayers = model.Payers ?? new List<PayerModel>();
-            newPayers.ForEach(payer => {
+            var newPayers = model.Payers?.Select(payer => {
                 payer.Id = payer.Id > 0 ? payer.Id : GenerateId();
                 payer.ActionId = actionId;
                 payer.SessionId = sessionId;
-                payerModels.RemoveAll(p => p.Id == payer.Id);
-                payerModels.Add(payer);
+                return payer;
             });
+            payerModels.RemoveAll(p => p.ActionId == actionId && p.SessionId == sessionId);
+            if (newPayers != null) {
+                payerModels.AddRange(newPayers);
+            }
             model.Payers = null;
 
             var consumptions = model.Consumptions ?? new List<ConsumptionModel>();
