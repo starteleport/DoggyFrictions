@@ -13,7 +13,7 @@
                     <div class="inline-block col-lg-5">
                         <h4>Спонсоры:</h4>
                         <span data-bind="if: !Payers().length">Нет данных</span>
-                        <table class="table">
+                        <table class="table" data-bind="executeOnEnter: AddPayer">
                             <thead data-bind="if: Payers().length">
                                 <tr>
                                     <th>Кто платил</th>
@@ -28,7 +28,7 @@
                                         <!-- ko if: $root.IsEdit() -->
                                         <div>
                                             <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next()}"></select>
+                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 10}"></select>
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
@@ -37,7 +37,7 @@
                                     </td>
                                     <td>
                                         <!-- ko if: $root.IsEdit() -->
-                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Сколько заплатил?">
+                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сколько заплатил?">
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
                                         <span data-bind="text: Amount().formatMoney()"></span>
@@ -67,7 +67,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" tabindex="-1" data-bind="value: Description" placeholder="Поясни вкратце">
+                                    <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни вкратце">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Description"></span>
@@ -81,7 +81,7 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <div>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control date-input" tabindex="-1" data-bind="value: Date" placeholder="Укажи дату">
+                                    <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Date().formatDate()"></span>
@@ -101,7 +101,7 @@
                         <h4>Использовали:</h4>
                         <div>
                             <span data-bind="if: !Consumptions().length">Нет данных</span>
-                            <table class="table">
+                            <table class="table" data-bind="executeOnEnter: AddConsumption">
                                 <thead data-bind="if: Consumptions().length">
                                     <tr>
                                         <th class="big-textarea-cell">Позиция</th>
@@ -118,7 +118,7 @@
                                         <td>
                                             <!-- ko if: $root.IsEdit() -->
                                             <div class="form-group">
-                                                <textarea type="text" class="form-control" rows="3" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Что делим?"></textarea>
+                                                <textarea type="text" class="form-control" rows="3" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 1000}, hasFocus: HasFocus" placeholder="Что делим?"></textarea>
                                             </div>
                                             <!-- /ko -->
                                             <!-- ko if: !$root.IsEdit() -->
@@ -128,7 +128,7 @@
                                         <td>
                                             <!-- ko if: $root.IsEdit() -->
                                             <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Сумма">
+                                                <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
                                                 <a class="small" data-bind="click: SplitAmount.bind($data, Amount())">Расписать</a>
                                                 <a class="small" data-bind="click: RecalculateAmount">Пересчитать</a>
                                             </div>

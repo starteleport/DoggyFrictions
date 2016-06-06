@@ -111,7 +111,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         window.location.href = '#/Session/' + _this.Session.Id;
     }
 
-    this.AddConsumption = function () {
+    this.AddConsumption = function (current) {
         var consumptionModel = new ConsumptionModel({}, _this.Session);
         _.forEach(consumptionModel.Consumers(), function (consumer) {
             consumer.IsActive(true);
@@ -121,13 +121,19 @@ function ActionModel(actionData, sessionModel, isEdit) {
         }, 0);
         consumptionModel.Amount(Math.max(_this.Amount() - usedAmount, 0));
         _this.Consumptions.push(consumptionModel);
+
+        _.each(_this.Consumptions(), function(c) { c.HasFocus(false); });
+        consumptionModel.HasFocus(true);
         window.App.Functions.ApplyMaterialDesign();
     }
     this.DeleteConsumption = function (consumptionModel) {
         _this.Consumptions.remove(consumptionModel);
     }
     this.AddPayer = function () {
-        _this.Payers.push(new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id, Amount: 0 }));
+        var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id, Amount: 0 });
+        _this.Payers.push(payerModel);
+
+        window.App.Functions.ApplyMaterialDesign();
     }
     this.DeletePayer = function (payerModel) {
         _this.Payers.remove(payerModel);
@@ -183,6 +189,7 @@ function ConsumptionModel(consumptionData, sessionModel) {
         return new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 });
     }));
     this.Amount = ko.observable(0);
+    this.HasFocus = ko.observable(false);
 
     this.SplitAmount = function (amount) {
         amount = Number(amount);
