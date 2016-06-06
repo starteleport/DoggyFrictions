@@ -37,10 +37,32 @@ div.inline-block {
     margin-right: 20px;
 }
 
-table>thead>tr>th.big-textarea-cell {
-    width: 230px;
+table.table th.wide-cell, table.table td.wide-cell {
+    width: 250px;
 }
-
+table.table td.wide-cell input {
+    width: 200px;
+}
+table.table th.small-cell, table.table td.small-cell {
+    width: 30px;
+    text-align: center;
+}
+table.table th.money-cell, table.table td.money-cell, table.table td.money-cell input {
+    text-align: right;
+}
+table.table td.money-cell .input-group-addon {
+    margin: 0;
+    padding: 0 2px;
+}
+table.table>tbody>tr>td {
+    padding: 2px 8px;
+}
+table.table>tbody>tr>td .form-group {
+    padding-bottom: 0;
+}
+table.table>tbody>tr>td .form-group .form-control {
+    margin-bottom: 0;
+}
 table>thead>tr>th.delete-row-cell {
     width: 30px;
 }
@@ -49,7 +71,7 @@ div.jumbotron .form-group {
     margin: 0;
 }
 table>tbody>tr>td .checkbox {
-    padding-top: 0;
+    padding-top: 0; 
 }
 
 table.table td {
@@ -69,8 +91,8 @@ table.table td.actions-cell, table.table th.actions-cell {
 table.table td.actions-cell .btn, table.table th.actions-cell .btn, h2 .btn {
     padding: 8px;
 }
-table.table td input.form-control {
-    width: 70px;
+table.table td input, table.table td span.form-control {
+    width: 90px;
 }
 
 table.table.table-clickable {
