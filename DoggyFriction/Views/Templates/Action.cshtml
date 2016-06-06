@@ -32,7 +32,7 @@
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
-                                        <span data-bind="text: $parent.Session.GetParticipantName(ParticipantId())"></span>
+                                        <span data-bind="text: $parent.Session.GetParticipant(ParticipantId()).Name()"></span>
                                         <!-- /ko -->
                                     </td>
                                     <td>

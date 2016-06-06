@@ -8,6 +8,9 @@ function SessionModel(data, isEdit) {
     var _this = this;
     this.Id = data.Id || 0;
     this.Name = ko.observable(data.Name || '');
+    this.Tags = ko.observableArray(_.map(data.Tags || [], function (tagData) {
+        return new TagModel(tagData);
+    }));
     this.Participants = ko.observableArray(_.map(data.Participants || [], function (participantData) {
         return new ParticipantModel(participantData);
     }));
@@ -22,15 +25,26 @@ function SessionModel(data, isEdit) {
     });
 
     this.IsEdit = ko.observable(isEdit | false);
+    
+    this.GetTag = function (tagId) {
+        return _.find(_this.Tags(), function (tag) {
+            return tag.Id == tagId;
+        });
+    }
+    this.AddTag = function () {
+        _this.Tags.push(new TagModel({ Id: 0 }));
+    };
+    this.DeleteTag = function (tagModel) {
+        _this.Tags.remove(tagModel);
+    };
 
-    this.GetParticipantName = function (participantId) {
+    this.GetParticipant = function (participantId) {
         return _.find(_this.Participants(), function (participant) {
             return participant.Id == participantId;
-        }).Name();
+        });
     }
-
     this.AddParticipant = function() {
-        this.Participants.push(new ParticipantModel({Id: 0}));
+        _this.Participants.push(new ParticipantModel({Id: 0}));
     };
     this.DeleteParticipant = function (participantModel) {
         if (participantModel.Id != 0) {
@@ -49,6 +63,13 @@ function SessionModel(data, isEdit) {
                     Id: participantModel.Id,
                     Name: participantModel.Name()
                 }
+            }),
+            Tags: _.map(_this.Tags(), function (tagModel) {
+                return {
+                    Id: tagModel.Id,
+                    Name: tagModel.Name(),
+                    Color: tagModel.Color()
+                }
             })
         };
         var operation = _this.Id == 0
@@ -66,6 +87,13 @@ function SessionModel(data, isEdit) {
     }
 }
 
+function TagModel(tagData) {
+    var _this = this;
+    _this.Id = tagData.Id || 0;
+    _this.Name = ko.observable(tagData.Name);
+    _this.Color = ko.observable(tagData.Color);
+}
+
 function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
@@ -78,6 +106,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         return new ConsumptionModel(consumptionData, _this.Session);
     }));
     _this.Description = ko.observable(actionData.Description);
+    _this.Tags = ko.observableArray(actionData.Tags || []);
     _this.IsEdit = ko.observable(isEdit || false);
 
     _this.Amount = ko.computed(function () {
@@ -87,7 +116,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     });
     _this.PayerNames = ko.computed(function () {
         return _.reduceRight(_this.Payers(), function (current, next) {
-            var participantName = _this.Session.GetParticipantName(next.ParticipantId());
+            var participantName = _this.Session.GetParticipant(next.ParticipantId()).Name();
             return (current.length ? (current + ', ') : '') + participantName;
         }, '');
     });
@@ -165,7 +194,8 @@ function ActionModel(actionData, sessionModel, isEdit) {
                         };
                     })
                 }
-            })
+            }),
+            Tags: _this.Tags()
         };
         var operation = _this.Id == 0
             ? $.post('Api/Actions/' + _this.Session.Id, serialized)

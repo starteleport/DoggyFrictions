@@ -32,39 +32,90 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <!-- ko foreach: Participants-->
-                    <tr>
-                        <!-- ko if: $root.IsEdit() -->
-                        <td>
-                            <div class="form-group">
-                                <label class="control-label">Имя собаки</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                    <div>
-                                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
-                                    </div>
+                <!-- ko foreach: Participants-->
+                <tr>
+                    <!-- ko if: $root.IsEdit() -->
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label">Имя собаки</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <div>
+                                    <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
                                 </div>
                             </div>
-                        </td>
-                        <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
-                        <!-- /ko -->
-                        <!-- ko if: !$root.IsEdit() -->
-                        <td data-bind="text: Name"></td>
-                        <td data-bind="text: Balance().formatMoney()"></td>
-                        <!-- /ko -->
-                    </tr>
+                        </div>
+                    </td>
+                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                     <!-- /ko -->
-                    <!-- ko if: $root.IsEdit() -->
-                    <tr>
-                        <td class="actions-cell">
-                            <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                                <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                            </button>
-                        </td>
-                    </tr>
+                    <!-- ko if: !$root.IsEdit() -->
+                    <td data-bind="text: Name"></td>
+                    <td data-bind="text: Balance().formatMoney()"></td>
                     <!-- /ko -->
+                </tr>
+                <!-- /ko -->
+                <!-- ko if: $root.IsEdit() -->
+                <tr>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                        </button>
+                    </td>
+                </tr>
+                <!-- /ko -->
                 </tbody>
             </table>
+
+            <!-- ko if: $root.IsEdit() -->
+            <h4>Теги:</h4>
+            <span data-bind="if: !Tags().length">Тегов нет</span>
+            <table class="table">
+                <thead data-bind="if: Tags().length">
+                <tr>
+                    <th>Название</th>
+                    <th>Цвет</th>
+                    <th class="actions-cell"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- ko foreach: Tags -->
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label">Название тега</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <div>
+                                    <input type="text" class="form-control" data-bind="value: Name" placeholder="Название">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label">Цвет тега</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-text-color"></span></span>
+                                <div>
+                                    <input type="text" class="form-control" data-bind="value: Color" placeholder="Цвет">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteTag"><span class="glyphicon glyphicon-trash"></span></button></td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-primary" data-bind="click: AddTag">
+                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- /ko -->
+
             <!-- ko if: !$root.IsEdit() -->
             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-random"></span>  Пояснить за долги</a>

@@ -10,5 +10,14 @@ namespace DoggyFriction.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<ParticipantModel> Participants { get; set; }
+        public IEnumerable<TagModel> Tags { get; set; }
+    }
+
+    public class TagModel
+    {
+        public int Id { get; set; }
+        public int SessionId { get; set; }
+        public string Name { get; set; }
+        public string Color { get; set; }
     }
 }

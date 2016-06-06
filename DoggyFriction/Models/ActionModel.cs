@@ -10,6 +10,7 @@ namespace DoggyFriction.Models
         public string Description { get; set; }
         public IEnumerable<PayerModel> Payers { get; set; }
         public IEnumerable<ConsumptionModel> Consumptions { get; set; }
+        public IEnumerable<int> Tags { get; set; }
         public int SessionId { get; set; }
     }
 }

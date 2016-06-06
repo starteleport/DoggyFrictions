@@ -70,8 +70,7 @@ namespace DoggyFriction.Services.Repository
             
             var sessionId = model.Id > 0 ? model.Id : GenerateId();
 
-            var newParticipants = model.Participants;
-            newParticipants = model.Participants?.Select(participant => {
+            var newParticipants = model.Participants?.Select(participant => {
                 participant.Id = participant.Id > 0 ? participant.Id : GenerateId();
                 participant.SessionId = sessionId;
                 return participant;
