@@ -49,7 +49,9 @@ namespace DoggyFriction.Services.Repository
 
         public IEnumerable<SessionModel> GetSessions()
         {
-            var sessionModels = LoadEntities<SessionModel>(SessionsFileName).ToList();
+            var sessionModels = LoadEntities<SessionModel>(SessionsFileName)
+                .OrderBy(s => s.Name)
+                .ToList();
             var participantsLookup = LoadEntities<ParticipantModel>(ParticipantsFileName).ToLookup(s => s.SessionId);
             sessionModels.ForEach(s => s.Participants = participantsLookup[s.Id].ToList());
             return sessionModels;
@@ -119,9 +121,11 @@ namespace DoggyFriction.Services.Repository
         {
             var actionModels = LoadEntities<ActionModel>(ActionsFileName)
                 .Where(a => a.SessionId == sessionId)
+                .OrderByDescending(a => a.Date)
                 .ToList();
             var payers = LoadEntities<PayerModel>(PayersFileName)
                 .Where(p => p.SessionId == sessionId)
+                .OrderBy(p => p.ParticipantId)
                 .ToLookup(p => p.ActionId);
             actionModels.ForEach(a => {
                 a.Consumptions = a.Consumptions ?? new ConsumptionModel[] {};

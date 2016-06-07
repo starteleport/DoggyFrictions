@@ -122,7 +122,7 @@
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Sessions'}">Отмена</a>
+            <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + Id : '#/Sessions'}">Отмена</a>
             <!-- /ko -->
 
 

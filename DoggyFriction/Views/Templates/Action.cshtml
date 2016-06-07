@@ -92,7 +92,7 @@
                         <!-- ko if: $root.IsEdit() -->
                         <div>
                             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову</button>
-                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + $root.Session.Id}">Отмена</a>
+                            <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + $root.Session.Id + '/Action/' + Id : ('#/Session/' + $root.Session.Id)}">Отмена</a>
                         </div>
                         <!-- /ko -->
                     </div>
