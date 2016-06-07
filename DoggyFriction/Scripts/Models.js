@@ -151,7 +151,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
 
         _.each(_this.Consumptions(), function(c) { c.HasFocus(false); });
         consumptionModel.HasFocus(true);
-        window.App.Functions.ApplyMaterialDesign();
+        window.App.Functions.ReapplyJQuerryStuff();
     }
     this.DeleteConsumption = function (consumptionModel) {
         _this.Consumptions.remove(consumptionModel);
@@ -160,7 +160,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id, Amount: 0 });
         _this.Payers.push(payerModel);
 
-        window.App.Functions.ApplyMaterialDesign();
+        window.App.Functions.ReapplyJQuerryStuff();
     }
     this.DeletePayer = function (payerModel) {
         _this.Payers.remove(payerModel);

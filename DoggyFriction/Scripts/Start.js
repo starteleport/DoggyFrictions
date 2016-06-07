@@ -10,8 +10,25 @@
                     window.location.href = link;
                 }
             },
-            ApplyMaterialDesign: function () {
+            ReapplyJQuerryStuff: function () {
                 $.material.init();
+                _.each($('.table-clickable .actions-cell'), function (cell) {
+                    $(cell).click(function (e) {
+                        e.preventDefault();
+                        return true;
+                    });
+                });
+                _.forEach($.find('input.date-input'), function (input) {
+                    $(input).datepicker({
+                        format: window.App.Format.DateTime.toLowerCase(),
+                        orientation: 'bottom',
+                        language: 'ru',
+                        autoclose: true,
+                        todayhighlight: true
+                    });
+                });
+                $('.sticky-table-head').stickyHeader();
+                $('.sticky-table-foot').stickyFooter();
             }
         },
         GlobalId: {
@@ -50,7 +67,7 @@
         };
     });
 
-    window.App.Functions.ApplyMaterialDesign();
+    window.App.Functions.ReapplyJQuerryStuff();
 });
 
 function InitSammy(app) {
@@ -66,23 +83,7 @@ function InitSammy(app) {
         
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
-
-        window.App.Functions.ApplyMaterialDesign();
-        _.each($('.table-clickable .actions-cell'), function(cell) {
-            $(cell).click(function(e) {
-                e.preventDefault();
-                return true;
-            });
-        });
-        _.forEach($view.find('input.date-input'), function (input) {
-            $(input).datepicker({
-                format: window.App.Format.DateTime.toLowerCase(),
-                orientation: 'bottom',
-                language: 'ru',
-                autoclose: true,
-                todayhighlight: true
-            });
-        });
+        window.App.Functions.ReapplyJQuerryStuff();
         $view.show();
     };
 

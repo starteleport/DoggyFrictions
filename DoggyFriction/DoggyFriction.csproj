@@ -359,6 +359,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\PagedGridModel.js" />
+    <Content Include="Scripts\Plugins\sticky-header.js" />
     <Content Include="Scripts\Plugins\sticky.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

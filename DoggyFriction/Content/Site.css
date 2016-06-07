@@ -37,20 +37,36 @@ div.inline-block {
     margin-right: 20px;
 }
 
-table.table th.wide-cell, table.table td.wide-cell {
+.sticky-table-head, .sticky-table-foot {
+    color: #fff;
+    color: #eee;
+    display: inline-flex;
+    height: 0;
+    z-index: 100;
+    text-transform: uppercase;
+}
+
+.sticky-table-head>div, .sticky-table-foot>div {
+    display: inline-block;
+    padding: 8px;
+    background-color: #00b9a8;
+}
+
+.wide-cell {
     width: 250px;
 }
-table.table td.wide-cell input {
+td.wide-cell input {
     width: 200px;
 }
-table.table th.small-cell, table.table td.small-cell {
+.small-cell {
     width: 30px;
     text-align: center;
 }
-table.table th.money-cell, table.table td.money-cell, table.table td.money-cell input {
+.money-cell, td.money-cell input {
+    width: 120px;
     text-align: right;
 }
-table.table td.money-cell .input-group-addon {
+td.money-cell .input-group-addon {
     margin: 0;
     padding: 0 2px;
 }
@@ -80,15 +96,15 @@ table.table>tbody td {
 table.table>tbody tr:hover td {
     background-color: #f5f5f5;
 }
-table.table>tfoot>tr, table.table>thead>tr {
+table.table>tfoot>tr, table.table>thead>tr, .sticky-table-head, .sticky-table-foot {
     font-weight: bold;
 }
 table.table>tfoot>tr>td, table.table>thead>tr>th {
     border: none !important;
 }
 
-table.table td.actions-cell, table.table th.actions-cell {
-    border: none;
+.actions-cell {
+    border: none !important;
     text-align: left;
     padding: 0;
     background: initial !important;

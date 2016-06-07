@@ -6,20 +6,20 @@
                 <div>
                     <h2 class="text-center">
                         <span class="form-inline">
-                <span data-bind="text: Amount().formatMoney()"></span> - 
-                <!-- ko if: $root.IsEdit() -->
-                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">,
-                <!-- /ko -->
-                <!-- ko if: !$root.IsEdit() -->
-                <span data-bind="text: (Description() || '')"></span>,
-                <!-- /ko -->
-                <!-- ko if: $root.IsEdit() -->
-                <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
-                <!-- /ko -->
-                <!-- ko if: !$root.IsEdit() -->
-                <span data-bind="text: Date().formatDate()"></span>
-                <!-- /ko -->
-             </span>
+                            <span data-bind="text: Amount().formatMoney()"></span> - 
+                            <!-- ko if: $root.IsEdit() -->
+                            <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">,
+                            <!-- /ko -->
+                            <!-- ko if: !$root.IsEdit() -->
+                            <span data-bind="text: (Description() || '')"></span>,
+                            <!-- /ko -->
+                            <!-- ko if: $root.IsEdit() -->
+                            <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
+                            <!-- /ko -->
+                            <!-- ko if: !$root.IsEdit() -->
+                            <span data-bind="text: Date().formatDate()"></span>
+                            <!-- /ko -->
+                        </span>
                         <!-- ko if: !$root.IsEdit() -->
                         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         <!-- /ko -->
@@ -28,8 +28,16 @@
                     <div>
                         <h4>Позиции:</h4>
                         <div>
+                            <div class="sticky-table-head">
+                                <div class="wide-cell">Позиция</div>
+                                <div class="money-cell">Сумма</div>
+                                <div class="small-cell">Поровну</div>
+                                <!-- ko foreach: Session.Participants -->
+                                <div class="money-cell" data-bind="text: Name()"></div>
+                                <!-- /ko -->
+                            </div>
                             <span data-bind="if: !Consumptions().length">Нет данных</span>
-                            <table class="table table-fixed-header" data-bind="executeOnEnter: AddConsumption">
+                            <table class="table" data-bind="executeOnEnter: AddConsumption">
                                 <thead data-bind="if: Consumptions().length">
                                 <tr>
                                     <th class="wide-cell">Позиция</th>
@@ -129,6 +137,14 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                            <div class="sticky-table-foot">
+                                <div data-bind="if: Consumptions().length">Итого</div>
+                                <div class="money-cell" data-bind="if: Consumptions().length"><span data-bind="text: Amount().formatMoney()"></span></div>
+                                <div class="small-cell" data-bind="if: Consumptions().length"></div>
+                                <!-- ko foreach: ConsumerTotals -->
+                                <div class="money-cell" data-bind="if: $parent.Consumptions().length"><span data-bind="text: $data.formatMoney()"></span></div>
+                                <!-- /ko -->
+                            </div>
                         </div>
                     </div>
 
