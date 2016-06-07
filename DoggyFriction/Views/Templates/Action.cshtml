@@ -1,107 +1,35 @@
 ﻿<script type="text/html" id="action-template">
     <div class="action">
-        <form class="">
+        <div class="form-horizontal">
             <div class="jumbotron container">
                 <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: '#/Session/' + $root.Session.Id}"><span class="glyphicon glyphicon-arrow-left"></span></a>
                 <div>
                     <h2 class="text-center">
-                        <span  data-bind="text: Amount().formatMoney() + ' - ' + (Description() || '') + ', ' + Date().formatDate()"></span>
+                        <span class="form-inline">
+                <span data-bind="text: Amount().formatMoney()"></span> - 
+                <!-- ko if: $root.IsEdit() -->
+                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">,
+                <!-- /ko -->
+                <!-- ko if: !$root.IsEdit() -->
+                <span data-bind="text: (Description() || '')"></span>,
+                <!-- /ko -->
+                <!-- ko if: $root.IsEdit() -->
+                <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
+                <!-- /ko -->
+                <!-- ko if: !$root.IsEdit() -->
+                <span data-bind="text: Date().formatDate()"></span>
+                <!-- /ko -->
+             </span>
                         <!-- ko if: !$root.IsEdit() -->
                         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         <!-- /ko -->
                     </h2>
-                    <div class="inline-block col-lg-5">
-                        <h4>Спонсоры:</h4>
-                        <span data-bind="if: !Payers().length">Нет данных</span>
-                        <table class="table" data-bind="executeOnEnter: AddPayer">
-                            <thead data-bind="if: Payers().length">
-                            <tr>
-                                <th>Кто платил</th>
-                                <th>Сумма</th>
-                                <th class="actions-cell"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- ko foreach: Payers -->
-                            <tr>
-                                <td>
-                                    <!-- ko if: $root.IsEdit() -->
-                                    <div>
-                                        <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 10}"></select>
-                                    </div>
-                                    <!-- /ko -->
-                                    <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: $parent.Session.GetParticipant(ParticipantId()).Name()"></span>
-                                    <!-- /ko -->
-                                </td>
-                                <td>
-                                    <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сколько заплатил?">
-                                    <!-- /ko -->
-                                    <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: Amount().formatMoney()"></span>
-                                    <!-- /ko -->
-                                </td>
-                                <!-- ko if: $root.IsEdit() -->
-                                <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                <!-- /ko -->
-                            </tr>
-                            <!-- /ko -->
-                            <!-- ko if: $root.IsEdit() -->
-                            <tr>
-                                <td class="actions-cell">
-                                    <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
-                                        <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- /ko -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="inline-block col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Суть постановы</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-                                <div>
-                                    <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни вкратце">
-                                    <!-- /ko -->
-                                    <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: Description"></span>
-                                    <!-- /ko -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Когда дело было</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <div>
-                                    <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
-                                    <!-- /ko -->
-                                    <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: Date().formatDate()"></span>
-                                    <!-- /ko -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ko if: $root.IsEdit() -->
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову</button>
-                            <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + $root.Session.Id + '/Action/' + Id : ('#/Session/' + $root.Session.Id)}">Отмена</a>
-                        </div>
-                        <!-- /ko -->
-                    </div>
 
-                    <div class="col-lg-12">
-                        <h4>Использовали:</h4>
+                    <div>
+                        <h4>Позиции:</h4>
                         <div>
                             <span data-bind="if: !Consumptions().length">Нет данных</span>
-                            <table class="table" data-bind="executeOnEnter: AddConsumption">
+                            <table class="table table-fixed-header" data-bind="executeOnEnter: AddConsumption">
                                 <thead data-bind="if: Consumptions().length">
                                 <tr>
                                     <th class="wide-cell">Позиция</th>
@@ -177,6 +105,15 @@
                                     <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
+                                <!-- ko if: $root.IsEdit() && !Consumptions().length -->
+                                <tr>
+                                    <td class="actions-cell">
+                                        <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
+                                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -187,15 +124,74 @@
                                     <td class="money-cell" data-bind="if: $parent.Consumptions().length"><span data-bind="text: $data.formatMoney()"></span></td>
                                     <!-- /ko -->
                                     <!-- ko if: $root.IsEdit() -->
-                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: AddConsumption"><span class="glyphicon glyphicon-plus"></span></button></td>
+                                    <td class="actions-cell"></td>
                                     <!-- /ko -->
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
+
+                    <div>
+                        <h4>Кто платил:</h4>
+                        <span data-bind="if: !Payers().length">Нет данных</span>
+                        <table class="table" data-bind="executeOnEnter: AddPayer">
+                            <thead data-bind="if: Payers().length">
+                            <tr>
+                                <th>Имя</th>
+                                <th>Сумма</th>
+                                <th class="actions-cell"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ko foreach: Payers -->
+                            <tr>
+                                <td>
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <div>
+                                        <select class="form-control" data-bind="options: $parent.Session.Participants,
+                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 10}"></select>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: $parent.Session.GetParticipant(ParticipantId()).Name()"></span>
+                                    <!-- /ko -->
+                                </td>
+                                <td>
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сколько заплатил?">
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: Amount().formatMoney()"></span>
+                                    <!-- /ko -->
+                                </td>
+                                <!-- ko if: $root.IsEdit() -->
+                                <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                <!-- /ko -->
+                            </tr>
+                            <!-- /ko -->
+                            <!-- ko if: $root.IsEdit() && !Payers().length -->
+                            <tr>
+                                <td class="actions-cell">
+                                    <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
+                                        <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- /ko -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <!-- ko if: $root.IsEdit() -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову</button>
+                            <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + $root.Session.Id + '/Action/' + Id : ('#/Session/' + $root.Session.Id)}">Отмена</a>
+                        </div>
+                        <!-- /ko -->
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </script>

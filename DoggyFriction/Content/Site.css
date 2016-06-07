@@ -80,8 +80,11 @@ table.table>tbody td {
 table.table>tbody tr:hover td {
     background-color: #f5f5f5;
 }
-table.table>tfoot tr, table.table>thead tr {
+table.table>tfoot>tr, table.table>thead>tr {
     font-weight: bold;
+}
+table.table>tfoot>tr>td, table.table>thead>tr>th {
+    border: none !important;
 }
 
 table.table td.actions-cell, table.table th.actions-cell {

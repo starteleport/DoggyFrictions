@@ -33,6 +33,7 @@ namespace DoggyFriction
                 "~/Scripts/ko-extensions.js",
                 "~/Scripts/sammy-0.7.5.min.js",
                 "~/Scripts/underscore.min.js",
+                "~/Scripts/Plugins/sticky.js",
                 "~/Scripts/PagedGridModel.js",
                 "~/Scripts/Models.js",
                 "~/Scripts/Start.js"));
