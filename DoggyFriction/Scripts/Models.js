@@ -98,7 +98,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
-    _this.Date = ko.observable(actionData.Date.formatDate());
+    _this.Date = ko.observable((actionData.Date || Date()).formatDate());
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
     }));
@@ -110,7 +110,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     _this.IsEdit = ko.observable(isEdit || false);
 
     _this.Amount = ko.computed(function () {
-        return _.reduce(_this.Payers(), function (current, next) {
+        return _.reduce(_this.Consumptions(), function (current, next) {
             return current + Number(next.Amount());
         }, 0);
     });
@@ -120,19 +120,17 @@ function ActionModel(actionData, sessionModel, isEdit) {
             return (current.length ? (current + ', ') : '') + participantName;
         }, '');
     });
-    _this.ConsumerTotals = ko.computed(function () {
-        var consumerTotals = _.map(_this.Session.Participants(), function (participant) {
-            return new ConsumerModel({ ParticipantId: participant.Id, Amount: 0 });
-        });
-        _.forEach(_this.Consumptions(), function (consumption) {
-            _.forEach(consumption.Consumers(), function (consumer) {
-                var ct = _.find(consumerTotals, function (consumerTotal) {
-                    return consumerTotal.ParticipantId == consumer.ParticipantId;
+    _this.ConsumerTotals = _.map(_this.Session.Participants(), function (participant) {
+        return ko.computed(function() {
+            var total = 0;
+            _.forEach(_this.Consumptions(), function(consumption) {
+                var consumer = _.find(consumption.Consumers(), function(consumer) {
+                    return consumer.ParticipantId == participant.Id;
                 });
-                ct.Amount(ct.Amount() + consumer.Amount());
+                total += consumer.Amount();
             });
+            return total;
         });
-        return consumerTotals;
     });
     
     this.Delete = function () {
@@ -244,6 +242,7 @@ function ConsumptionModel(consumptionData, sessionModel) {
         });
     }
     _this.Amount.subscribe(_this.SplitAmount);
+    _this.IsAuto.subscribe(_this.SplitAmount);
 
     this.RecalculateAmount = function () {
         var initialAmount = _.reduce(_this.Consumers(), function (current, next) {

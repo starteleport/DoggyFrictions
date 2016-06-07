@@ -12,10 +12,13 @@ String.prototype.extractDate = function () {
     return moment(this.toString(), window.App.Format.DateTime.toUpperCase()).format(window.App.Format.DateTimeSave.toUpperCase());
 };
 String.prototype.formatMoney = function () {
-    return Number((this.toString() + '').replace(/[\$₽]/g, '').replace(/[,]/g, '.')) + '₽';
+    var number = Number((this.toString() + '').replace(/[\$₽]/g, '').replace(/[,]/g, '.'));
+    number = number.toFixed(2);
+    return number + '₽';
 };
 Number.prototype.formatMoney = function() {
-    return Number((this + '').replace(/[\$₽]/g, '').replace(/[,]/g, '.')) + '₽';
+    var number = this.toFixed(2);
+    return number + '₽';
 };
 String.prototype.formatNumber = function () {
     return Number((this.toString() + '').replace(/[\$₽]/g, '').replace(/[,]/g, '.'));

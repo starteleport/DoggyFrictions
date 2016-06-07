@@ -158,7 +158,7 @@
                                                 </span>
                                                 <div>
                                                     <!-- ko if: $parent.IsAuto() && IsActive() -->
-                                                    <span class="form-control form-control-highlight" data-bind="text: Amount().formatMoney()"></span>
+                                                    <span class="form-control form-control-highlight" data-bind="text: Amount().formatMoney()" disabled></span>
                                                     <!-- /ko -->
                                                     <!-- ko if: !$parent.IsAuto() && IsActive() -->
                                                     <input type="text" class="form-control" data-bind="money: Amount" tabindex="-1" placeholder="сумма потребления">
@@ -177,16 +177,20 @@
                                     <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
-                                <!-- ko if: $root.IsEdit() -->
-                                <tr>
-                                    <td class="actions-cell">
-                                        <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
-                                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- /ko -->
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td data-bind="if: Consumptions().length">Итого</td>
+                                    <td class="money-cell" data-bind="if: Consumptions().length"><span data-bind="text: Amount().formatMoney()"></span></td>
+                                    <td class="small-cell" data-bind="if: Consumptions().length"></td>
+                                    <!-- ko foreach: ConsumerTotals -->
+                                    <td class="money-cell" data-bind="if: $parent.Consumptions().length"><span data-bind="text: $data.formatMoney()"></span></td>
+                                    <!-- /ko -->
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: AddConsumption"><span class="glyphicon glyphicon-plus"></span></button></td>
+                                    <!-- /ko -->
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
