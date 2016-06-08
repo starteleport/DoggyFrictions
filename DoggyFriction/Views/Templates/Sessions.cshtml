@@ -1,5 +1,5 @@
 ﻿<script type="text/html" id="sessions-template">
-    <div class="sessions jumbotron">
+    <div class="sessions jumbotron is-preview">
         <div>
             <h2 class="text-center">Главная</h2>
             <h4>Тёрки:</h4>
@@ -12,9 +12,9 @@
                 </tr>
                 </thead>
                 <tbody data-bind="foreach: Sessions">
-                <tr data-bind="click: window.App.Functions.Move('#/Session/' + Id)">
-                    <td data-bind="text: Name"></td>
-                    <td data-bind="text: ParticipantNames()"></td>
+                <tr>
+                    <td data-bind="text: Name, click: window.App.Functions.Move('#/Session/' + Id)"></td>
+                    <td data-bind="text: ParticipantNames(), click: window.App.Functions.Move('#/Session/' + Id)"></td>
                     <td class="actions-cell">
                         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>

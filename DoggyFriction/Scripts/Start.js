@@ -12,12 +12,6 @@
             },
             ReapplyJQuerryStuff: function () {
                 $.material.init();
-                _.each($('.table-clickable .actions-cell'), function (cell) {
-                    $(cell).click(function (e) {
-                        e.preventDefault();
-                        return true;
-                    });
-                });
                 _.forEach($.find('input.date-input'), function (input) {
                     $(input).datepicker({
                         format: window.App.Format.DateTime.toLowerCase(),
@@ -83,8 +77,8 @@ function InitSammy(app) {
         
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
-        window.App.Functions.ReapplyJQuerryStuff();
         $view.show();
+        window.App.Functions.ReapplyJQuerryStuff();
     };
 
     $app.get('#/Sessions', function (context) {

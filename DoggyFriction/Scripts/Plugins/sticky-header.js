@@ -1,5 +1,9 @@
 ﻿$.fn.stickyHeader = function () {
     var _this = $(this);
+
+    if (_this.parent().hasClass('sticky-wrapper')) {
+        return;
+    }
     _this.unstick();
     _this.hide();
     var cells = _this.find('div');
@@ -18,9 +22,15 @@
         }
     });
 
-    _this.sticky({ topSpacing: 58 });
-    _this.on('sticky-start', function () { _this.show(); });
+    _this.sticky({ topSpacing: 58, bottomSpacing: 500, zIndex: 100 });
+    _this.on('sticky-start', function () { _this.fadeIn(300); });
     _this.on('sticky-end', function () { _this.hide(); });
+
+    /*_this.on('sticky-start', function () { console.log("Started"); });
+    _this.on('sticky-end', function () { console.log("Ended"); });
+    _this.on('sticky-update', function () { console.log("Update"); });
+    _this.on('sticky-bottom-reached', function () { console.log("Bottom reached"); });
+    _this.on('sticky-bottom-unreached', function () { console.log("Bottom unreached"); });*/
 }
 
 $.fn.stickyFooter = function () {

@@ -1,5 +1,5 @@
 ﻿<script type="text/html" id="action-template">
-    <div class="action">
+    <div class="action" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div class="form-horizontal">
             <div class="jumbotron container">
                 <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: '#/Session/' + $root.Session.Id}"><span class="glyphicon glyphicon-arrow-left"></span></a>

@@ -1,9 +1,9 @@
 ﻿<script type="text/html" id="session-template">
-    <div class="session jumbotron container">
+    <div class="session jumbotron container" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: '#/Sessions'}"><span class="glyphicon glyphicon-arrow-left"></span></a>
         <div>
             <h2 class="text-center">
-                <span data-bind="text: Name()"></span>
+                <span data-bind="text: Name() || 'Без названия'"></span>
                 <!-- ko if: !$root.IsEdit() -->
                 <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                 <!-- /ko -->
@@ -14,7 +14,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                     <div>
-                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсужаем?">
+                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсуждаем?">
                     </div>
                 </div>
             </div>
