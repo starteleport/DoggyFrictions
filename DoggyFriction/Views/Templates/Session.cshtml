@@ -1,6 +1,8 @@
 ﻿<script type="text/html" id="session-template">
     <div class="session jumbotron container" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
-        <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: '#/Sessions'}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+        <a class="btn btn-primary btn-sm navigation-back" data-bind="attr: {href: (IsEdit() && Id) ? '#/Session/' + Id : '#/Sessions'}">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </a>
         <div>
             <h2 class="text-center">
                 <span data-bind="text: Name() || 'Без названия'"></span>
@@ -24,9 +26,9 @@
             <table class="table">
                 <thead data-bind="if: Participants().length">
                 <tr>
-                    <th>Имя</th>
+                    <th class="wide-cell">Имя</th>
                     <!-- ko if: !$root.IsEdit() -->
-                    <th>Баланс</th>
+                    <th class="money-cell">Баланс</th>
                     <!-- /ko -->
                     <th class="actions-cell"></th>
                 </tr>
@@ -34,23 +36,19 @@
                 <tbody>
                 <!-- ko foreach: Participants-->
                 <tr>
-                    <!-- ko if: $root.IsEdit() -->
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label">Имя собаки</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <div>
-                                    <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
-                                </div>
-                            </div>
-                        </div>
+                    <td class="wide-cell">
+                        <!-- ko if: $root.IsEdit() -->
+                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                        <!-- /ko -->
+                        <!-- ko if: !$root.IsEdit() -->
+                        <span data-bind="text: Name"></span>
+                        <!-- /ko -->
                     </td>
-                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
-                    <!-- /ko -->
                     <!-- ko if: !$root.IsEdit() -->
-                    <td data-bind="text: Name"></td>
-                    <td data-bind="text: Balance().formatMoney()"></td>
+                    <td class="money-cell" data-bind="text: Balance().formatMoney()"></td>
+                    <!-- /ko -->
+                    <!-- ko if: $root.IsEdit() -->
+                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                     <!-- /ko -->
                 </tr>
                 <!-- /ko -->
@@ -72,35 +70,19 @@
             <table class="table">
                 <thead data-bind="if: Tags().length">
                 <tr>
-                    <th>Название</th>
-                    <th>Цвет</th>
+                    <th class="wide-cell">Название</th>
+                    <th class="wide-cell">Цвет</th>
                     <th class="actions-cell"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- ko foreach: Tags -->
                 <tr>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label">Название тега</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <div>
-                                    <input type="text" class="form-control" data-bind="value: Name" placeholder="Название">
-                                </div>
-                            </div>
-                        </div>
+                    <td class="wide-cell">
+                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Название">
                     </td>
-                    <td>
-                        <div class="form-group">
-                            <label class="control-label">Цвет тега</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-text-color"></span></span>
-                                <div>
-                                    <input type="text" class="form-control" data-bind="value: Color" placeholder="Цвет">
-                                </div>
-                            </div>
-                        </div>
+                    <td class="wide-cell">
+                        <input type="text" class="form-control" data-bind="value: Color" placeholder="Цвет">
                     </td>
                     <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteTag"><span class="glyphicon glyphicon-trash"></span></button></td>
                 </tr>
