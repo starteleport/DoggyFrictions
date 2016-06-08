@@ -51,17 +51,14 @@ div.inline-block {
     background-color: #00b9a8;
 }
 
-.wide-cell {
+.wide-cell, table>tbody>tr>td.wide-cell input {
     width: 250px;
-}
-td.wide-cell input {
-    width: 200px;
 }
 .small-cell {
     width: 30px;
     text-align: center;
 }
-.money-cell, td.money-cell input {
+.money-cell, table>tbody>tr>td.money-cell input {
     width: 120px;
     text-align: right;
 }
@@ -77,6 +74,7 @@ table.table>tbody>tr>td .form-group {
 }
 table.table>tbody>tr>td .form-group .form-control {
     margin-bottom: 0;
+    display: table-cell;
 }
 table>thead>tr>th.delete-row-cell {
     width: 30px;

@@ -175,11 +175,11 @@
                     </tr>
                     </thead>
                     <tbody data-bind="foreach: Rows">
-                    <tr data-bind="click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)">
-                        <td data-bind="text: Date().formatDate()"></td>
-                        <td data-bind="text: Description()"></td>
-                        <td data-bind="text: PayerNames()"></td>
-                        <td data-bind="text: Amount().formatMoney()"></td>
+                    <tr>
+                        <td data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                         <td class="actions-cell">
                             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
