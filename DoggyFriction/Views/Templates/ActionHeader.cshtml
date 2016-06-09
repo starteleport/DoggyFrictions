@@ -1,0 +1,46 @@
+﻿<div class="page-head container">
+    <ul class="breadcrumb breadcrumb-default col-lg-3">
+        <li><a data-bind="attr: {href: '#/Sessions'}">Тёрки</a></li>
+        <li><a data-bind="attr: {href: '#/Session/' + $root.Session.Id}">Тёрка</a></li>
+        <li data-bind="css: {active: !$root.IsEdit() || !Id}">
+            <!-- ko if: !$root.IsEdit() -->
+            Постанова
+            <!-- /ko -->
+            <!-- ko if: $root.IsEdit() && !Id -->
+            Новая постанова
+            <!-- /ko -->
+            <!-- ko if: $root.IsEdit() && Id -->
+            <a data-bind="attr: {href: '#/Session/' + $root.Session.Id + '/Action/' + Id}">Постанова</a>
+            <!-- /ko -->
+        </li>
+        <!-- ko if: $root.IsEdit() && Id -->
+        <li class="active">Правка</li>
+        <!-- /ko -->
+    </ul>
+    <h2 class="col col-lg-9">
+        <span class="form-inline">
+            <span data-bind="text: Amount().formatMoney()"></span> -
+            <!-- ko if: $root.IsEdit() -->
+            <span class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">,
+            </span>
+            <!-- /ko -->
+            <!-- ko if: !$root.IsEdit() -->
+            <span data-bind="text: (Description() || '')"></span>,
+            <!-- /ko -->
+            <!-- ko if: $root.IsEdit() -->
+            <span class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
+            </span>
+            <!-- /ko -->
+            <!-- ko if: !$root.IsEdit() -->
+            <span data-bind="text: Date().formatDate()"></span>
+            <!-- /ko -->
+        </span>
+        <!-- ko if: !$root.IsEdit() -->
+        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+        <!-- /ko -->
+    </h2>
+</div>

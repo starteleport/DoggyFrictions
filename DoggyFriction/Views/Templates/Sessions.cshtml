@@ -1,24 +1,26 @@
 ﻿<script type="text/html" id="sessions-template">
     <div class="sessions jumbotron is-preview">
         <div>
-            <h2 class="text-center">Главная</h2>
+            <div class="page-head container">
+                <h2 class="text-center">Главная</h2>
+            </div>
             <h4>Тёрки:</h4>
             <table class="table table-clickable">
                 <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Участники</th>
-                    <th class="actions-cell"></th>
-                </tr>
+                    <tr>
+                        <th class="really-wide-cell">Название</th>
+                        <th class="really-wide-cell">Участники</th>
+                        <th class="actions-cell"></th>
+                    </tr>
                 </thead>
                 <tbody data-bind="foreach: Sessions">
-                <tr>
-                    <td data-bind="text: Name, click: window.App.Functions.Move('#/Session/' + Id)"></td>
-                    <td data-bind="text: ParticipantNames(), click: window.App.Functions.Move('#/Session/' + Id)"></td>
-                    <td class="actions-cell">
-                        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="really-wide-cell" data-bind="text: Name, click: window.App.Functions.Move('#/Session/' + Id)"></td>
+                        <td class="really-wide-cell" data-bind="text: ParticipantNames(), click: window.App.Functions.Move('#/Session/' + Id)"></td>
+                        <td class="actions-cell">
+                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <a class="btn btn-raised btn-primary" data-bind="attr: {href: '#/Session/Create'}"><span class="glyphicon glyphicon-plus"></span> Начать тёрку</a>

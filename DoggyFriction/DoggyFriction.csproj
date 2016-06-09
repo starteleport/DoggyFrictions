@@ -393,6 +393,8 @@
     <Content Include="Views\Templates\Action.cshtml" />
     <Content Include="Scripts\knockout.validation.min.js.map" />
     <Content Include="Views\Templates\Pages.cshtml" />
+    <Content Include="Views\Templates\ActionHeader.cshtml" />
+    <Content Include="Views\Templates\SessionHeader.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,0 +1,33 @@
+﻿<div class="page-head container">
+    <ul class="breadcrumb breadcrumb-default col-lg-4">
+        <li><a data-bind="attr: {href: '#/Sessions'}">Тёрки</a></li>
+        <li data-bind="css: {active: !$root.IsEdit() || !Id}">
+            <!-- ko if: !$root.IsEdit() -->
+            Тёрка
+            <!-- /ko -->
+            <!-- ko if: $root.IsEdit() && !Id -->
+            Новая тёрка
+            <!-- /ko -->
+            <!-- ko if: $root.IsEdit() && Id -->
+            <a data-bind="attr: {href: '#/Session/' + Id}">Тёрка</a>
+            <!-- /ko -->
+        </li>
+        <!-- ko if: $root.IsEdit() && Id -->
+        <li class="active">Правка</li>
+        <!-- /ko -->
+    </ul>
+    <h2 class="col col-lg-8 form-inline">
+        <!-- ko if: $root.IsEdit() -->
+        <span class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+            <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсуждаем?">
+        </span>
+        <!-- /ko -->
+        <!-- ko if: !$root.IsEdit() -->
+        <span data-bind="text: (Name() || '')"></span>
+        <!-- /ko -->
+        <!-- ko if: !$root.IsEdit() -->
+        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+        <!-- /ko -->
+    </h2>
+</div>

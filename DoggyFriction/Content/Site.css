@@ -21,12 +21,24 @@ footer {
     margin-top: 25px;
 }
 body .container div.jumbotron {
-    padding: 10px 45px 30px 35px;
+    padding: 30px 45px 30px 35px;
     width: 1170px;
 }
 body .container div.jumbotron>div {
     overflow-x: auto;
     overflow-y: visible;
+}
+
+.page-head.container {
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+.breadcrumb.breadcrumb-default {
+    background: none;
+    margin: 0;
+}
+div.jumbotron h2 {
+    margin-top: 0;
 }
 
 
@@ -139,5 +151,5 @@ table.table td input, table.table td span.form-control {
 .pages {
     text-align: right;
     margin-bottom: 10px;
-    padding-right: 75px;
+    padding-right: 65px;
 }
