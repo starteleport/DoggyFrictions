@@ -97,7 +97,7 @@
                                         <span class="form-control form-control-highlight" data-bind="text: Amount().formatMoney()" disabled></span>
                                         <!-- /ko -->
                                         <!-- ko if: !$parent.IsAuto() && IsActive() -->
-                                        <input type="text" class="form-control" data-bind="money: Amount" tabindex="-1" placeholder="сумма потребления">
+                                        <input type="text" class="form-control" data-bind="money: Amount" tabindex="-1" placeholder="Доля">
                                         <!-- /ko -->
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@
                         </td>
                         <td class="money-cell">
                             <!-- ko if: $root.IsEdit() -->
-                            <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сколько заплатил?">
+                            <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
                             <!-- /ko -->
                             <!-- ko if: !$root.IsEdit() -->
                             <span data-bind="text: Amount().formatMoney()"></span>

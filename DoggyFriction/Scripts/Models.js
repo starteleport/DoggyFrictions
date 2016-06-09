@@ -33,6 +33,7 @@ function SessionModel(data, isEdit) {
     }
     this.AddTag = function () {
         _this.Tags.push(new TagModel({ Id: 0 }));
+        window.App.Functions.ReapplyJQuerryStuff();
     };
     this.DeleteTag = function (tagModel) {
         _this.Tags.remove(tagModel);
@@ -44,7 +45,8 @@ function SessionModel(data, isEdit) {
         });
     }
     this.AddParticipant = function() {
-        _this.Participants.push(new ParticipantModel({Id: 0}));
+        _this.Participants.push(new ParticipantModel({ Id: 0 }));
+        window.App.Functions.ReapplyJQuerryStuff();
     };
     this.DeleteParticipant = function (participantModel) {
         if (participantModel.Id != 0) {

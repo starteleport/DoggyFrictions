@@ -113,55 +113,24 @@
             <div data-bind="if: Actions.IsLoading()">Загрузка . . .</div>
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">
-                <!-- ko if: TotalPages() > 1 -->
-                <div style="text-align: right; margin-bottom: 10px;">
-                    Страница:
-                    <!-- ko if: Page() >= 3 -->
-                    <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>
-                    <span data-bind="if: Page() != 3"> . . . </span>
-                    <!-- /ko -->
-                    <!-- ko if: Page() - 10 > 2 -->
-                    <a data-bind="text: Page() - 10, click: function() { LoadPage(Page() - 10); }, clickBubble: false"></a>
-                    <span> . . . </span>
-                    <!-- /ko -->
-                    <!-- ko if: Page() - 100 > 2 -->
-                    <a data-bind="text: Page() - 100, click: function() { LoadPage(Page() - 100); }, clickBubble: false"></a>
-                    <span> . . . </span>
-                    <!-- /ko -->
-                    <a data-bind="text: Page() - 1, visible: Page() > 1, click: function() { LoadPage(Page() - 1); }, clickBubble: false"></a>
-                    <span data-bind="text: Page()"></span>
-                    <a data-bind="text: Page() + 1, visible: Page() < TotalPages(), click: function() { LoadPage(Page() + 1); }, clickBubble: false"></a>
-                    <!-- ko if: Page() + 10 < TotalPages() - 1 -->
-                    <span> . . . </span>
-                    <a data-bind="text: Page() + 10, click: function() { LoadPage(Page() + 10); }, clickBubble: false"></a>
-                    <!-- /ko -->
-                    <!-- ko if: Page() + 100 < TotalPages() - 1 -->
-                    <span> . . . </span>
-                    <a data-bind="text: Page() + 100, click: function() { LoadPage(Page() + 100); }, clickBubble: false"></a>
-                    <!-- /ko -->
-                    <!-- ko if: Page() <= TotalPages() - 2 -->
-                    <span data-bind="if: Page() != TotalPages() - 2"> . . . </span>
-                    <a data-bind="text: TotalPages(), click: function() { LoadPage(TotalPages()); }, clickBubble: false"></a>
-                    <!-- /ko -->
-                </div>
-                <!-- /ko -->
+                @Html.Partial("Pages")
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
                 <table class="table table-clickable" data-bind="if: Rows().length">
                     <thead>
                     <tr>
                         <th>Дата</th>
-                        <th>Суть</th>
-                        <th>Спонсор(ы)</th>
-                        <th>Сумма</th>
+                        <th class="really-wide">Суть</th>
+                        <th class="really-wide-cell">Спонсор(ы)</th>
+                        <th class="money-cell">Сумма</th>
                         <th class="actions-cell"></th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach: Rows">
                     <tr>
                         <td data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td class="really-wide" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td class="really-wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                        <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                         <td class="actions-cell">
                             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>

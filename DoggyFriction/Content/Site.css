@@ -3,13 +3,6 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
@@ -27,6 +20,15 @@ footer {
 #main {
     margin-top: 25px;
 }
+body .container div.jumbotron {
+    padding: 10px 45px 30px 35px;
+    width: 1170px;
+}
+body .container div.jumbotron>div {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
 
 table>tbody>tr>td.row-details {
     padding: 10px 25px;
@@ -51,6 +53,9 @@ div.inline-block {
     background-color: #00b9a8;
 }
 
+.really-wide-cell, table>tbody>tr>td.really-wide-cell input {
+    width: 450px;
+}
 .wide-cell, table>tbody>tr>td.wide-cell input {
     width: 250px;
 }
@@ -102,9 +107,11 @@ table.table>tbody>tr>td.actions-cell {
     border: none;
     text-align: left;
     padding: 0;
+    vertical-align: middle;
 }
 table.table td.actions-cell .btn, table.table th.actions-cell .btn, h2 .btn {
     padding: 8px;
+    margin: 0;
 }
 table.table>tfoot td.actions-cell .btn{
     margin: 0 3px;
@@ -120,15 +127,6 @@ table.table td input, table.table td span.form-control {
     cursor: pointer;
 }
 
-div.jumbotron {
-    padding: 10px 25px;
-    width: 1170px;
-}
-div.jumbotron>div {
-    overflow-x: auto;
-    overflow-y: visible;
-}
-
 .navigation-back {
     position: absolute !important;
 }
@@ -136,4 +134,10 @@ div.jumbotron>div {
 .datepicker table tr td.active.active, .datepicker span.active {
     background-color: #009688 !important;
     border-color: #009688 !important;
+}
+
+.pages {
+    text-align: right;
+    margin-bottom: 10px;
+    padding-right: 75px;
 }
