@@ -151,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Plugins\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -224,6 +223,7 @@
     <Content Include="Content\Material\bootstrap-material-design.min.css" />
     <Content Include="Content\Material\ripples.css" />
     <Content Include="Content\Material\ripples.min.css" />
+    <Content Include="Content\Plugins\snackbar.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -359,6 +359,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\PagedGridModel.js" />
+    <Content Include="Scripts\Plugins\snackbar.min.js" />
     <Content Include="Scripts\Plugins\sticky-header.js" />
     <Content Include="Scripts\Plugins\sticky.js" />
     <Content Include="Scripts\respond.js" />

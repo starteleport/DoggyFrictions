@@ -27,6 +27,7 @@ namespace DoggyFriction
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                "~/Scripts/Plugins/snackbar.min.js",
                 "~/Scripts/Util.js",
                 "~/Scripts/knockout-3.4.0.js",
                 "~/Scripts/knockout.validation.min.js",
@@ -44,6 +45,7 @@ namespace DoggyFriction
                 "~/Content/site.css",
                 "~/Content/Material/bootstrap-material-design.min.css",
                 "~/Content/Material/ripples.min.css",
+                "~/Content/Plugins/snackbar.min.css",
                 "~/Content/bootstrap-datepicker3.css"));
         }
     }
