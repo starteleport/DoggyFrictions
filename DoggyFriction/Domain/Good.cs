@@ -2,7 +2,7 @@
 
 namespace DoggyFriction.Domain
 {
-    public class Consumption
+    public class Good
     {
         public string Description { get; set; }
         public IEnumerable<Participation> Consumers { get; set; }

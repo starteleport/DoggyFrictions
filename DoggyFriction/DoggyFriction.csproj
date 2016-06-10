@@ -191,7 +191,7 @@
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Domain\Action.cs" />
-    <Compile Include="Domain\Consumption.cs" />
+    <Compile Include="Domain\Good.cs" />
     <Compile Include="Domain\Participation.cs" />
     <Compile Include="Domain\SessionActionsProvider.cs" />
     <Compile Include="Global.asax.cs">

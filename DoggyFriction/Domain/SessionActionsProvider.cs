@@ -15,7 +15,7 @@ namespace DoggyFriction.Domain
                     {
                         Date = a.Date,
                         Description = a.Description,
-                        Consumptions = a.Consumptions.Select(c => MapConsumption(c, participants)),
+                        Goods = a.Consumptions.Select(c => MapConsumption(c, participants)),
                         Sponsors = a.Payers.Select(p => MapPayer(p, participants))
                     });
         }
@@ -26,9 +26,9 @@ namespace DoggyFriction.Domain
         private Participation MapPayer(PayerModel payer, Dictionary<int, string> participants)
             => new Participation {Amount = payer.Amount, Participant = participants[payer.ParticipantId]};
 
-        private Consumption MapConsumption(ConsumptionModel consumption, Dictionary<int, string> participants)
+        private Good MapConsumption(ConsumptionModel consumption, Dictionary<int, string> participants)
         {
-            return new Consumption
+            return new Good
             {
                 Description = consumption.Description,
                 PricePerUnit = consumption.Amount,

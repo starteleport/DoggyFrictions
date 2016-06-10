@@ -8,6 +8,6 @@ namespace DoggyFriction.Domain
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public IEnumerable<Participation> Sponsors { get; set; }
-        public IEnumerable<Consumption> Consumptions { get; set; }
+        public IEnumerable<Good> Goods { get; set; }
     }
 }
