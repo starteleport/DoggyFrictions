@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DoggyFriction.Services.Repository;
+﻿using DoggyFriction.Services.Repository;
 
 namespace DoggyFriction.Services
 {
