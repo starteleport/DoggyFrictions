@@ -98,26 +98,6 @@ namespace DoggyFriction.Services.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ParticipantModel> GetParticipants(int sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel GetParticipant(int sessionId, int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel UpdateParticipant(int sessionId, ParticipantModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel DeleteParticipant(int sessionId, int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<ActionModel> GetActions(int sessionId)
         {
             var actionModels = LoadEntities<ActionModel>(ActionsFileName)
@@ -218,16 +198,6 @@ namespace DoggyFriction.Services.Repository
             SaveEntities(ConsumersFileName, consumerModels);
             SaveEntities(PayersFileName, payerModels);
             return model;
-        }
-
-        public IEnumerable<PayerModel> GetPayers(int sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ConsumerModel> GetConsumers(int sessionId)
-        {
-            throw new NotImplementedException();
         }
     }
 }
