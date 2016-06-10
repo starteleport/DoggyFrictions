@@ -113,7 +113,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
 
     _this.Amount = ko.computed(function () {
         return _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount());
+            return current + Number(next.Amount()) * Number(next.Quantity());
         }, 0);
     });
     _this.PayerNames = ko.computed(function () {
@@ -183,6 +183,9 @@ function ActionModel(actionData, sessionModel, isEdit) {
             Consumptions: _.map(_this.Consumptions(), function (consumptonModel) {
                 return {
                     Id: consumptonModel.Id,
+                    Amount: consumptonModel.Amount(),
+                    Quantity: consumptonModel.Quantity(),
+                    SplittedEqually: consumptonModel.IsAuto(),
                     Description: consumptonModel.Description(),
                     Consumers: _.map(_.filter(consumptonModel.Consumers(), function (consumerModel) {
                         return consumerModel.IsActive();
@@ -218,8 +221,9 @@ function ConsumptionModel(consumptionData, sessionModel) {
         });
         return new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 }, _this);
     }));
-    this.Amount = ko.observable(0);
-    this.IsAuto = ko.observable(true);
+    this.Amount = ko.observable(consumptionData.Amount || 0);
+    this.Quantity = ko.observable(consumptionData.Quantity || 1);
+    this.IsAuto = ko.observable(consumptionData.SplittedEqually);
     this.HasFocus = ko.observable(false);
 
     this.SplitAmount = function () {
@@ -227,7 +231,7 @@ function ConsumptionModel(consumptionData, sessionModel) {
             return;
         }
 
-        var amount = Number(_this.Amount());
+        var amount = Number(_this.Amount()) * Number(_this.Quantity());
         var activeConsumers = _.filter(_this.Consumers(), function (consumerModel) {
             return consumerModel.IsActive();
         });
@@ -244,15 +248,8 @@ function ConsumptionModel(consumptionData, sessionModel) {
         });
     }
     _this.Amount.subscribe(_this.SplitAmount);
+    _this.Quantity.subscribe(_this.SplitAmount);
     _this.IsAuto.subscribe(_this.SplitAmount);
-
-    this.RecalculateAmount = function () {
-        var initialAmount = _.reduce(_this.Consumers(), function (current, next) {
-            return current + Number(next.Amount());
-        }, 0);
-        _this.Amount(initialAmount);
-    }
-    _this.RecalculateAmount();
 }
 
 function ConsumerModel(consumerData, consumptionModel) {

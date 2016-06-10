@@ -6,6 +6,7 @@ using System.Text;
 using System.Web.Helpers;
 using DoggyFriction.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using WebGrease.Css.Extensions;
 
 namespace DoggyFriction.Services.Repository
