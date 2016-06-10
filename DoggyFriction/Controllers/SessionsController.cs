@@ -11,38 +11,6 @@ namespace DoggyFriction.Controllers
 {
     public class SessionsController : ApiController
     {
-        private SessionModel sessionModel = new SessionModel {
-            Id = 1,
-            Name = "Назад в будущее",
-            Participants = new[] {
-                new ParticipantModel {
-                    Id = 0,
-                    Name = "Эмметт Браун",
-                    Balance = 42m
-                },
-                new ParticipantModel {
-                    Id = 1,
-                    Name = "Марти Макфлай",
-                    Balance = 1.34m
-                },
-                new ParticipantModel {
-                    Id = 2,
-                    Name = "Бифф",
-                    Balance = -43.34m
-                },
-                new ParticipantModel {
-                    Id = 3,
-                    Name = "Дженнифер",
-                    Balance = 0m
-                },
-                new ParticipantModel {
-                    Id = 4,
-                    Name = "Олух Батя",
-                    Balance = 0m
-                },
-            }
-        };
-
         // GET: api/Sessions
         public IEnumerable<SessionModel> Get()
         {

@@ -10,48 +10,6 @@ namespace DoggyFriction.Controllers
 {
     public class ActionsController : ApiController
     {
-        private ActionModel actionModel = new ActionModel {
-            Id = 1,
-            Date = DateTime.Now,
-            Description = "В магаз набижали",
-            Payers = new[] {
-                new PayerModel {
-                    ParticipantId = 0,
-                    Amount = 400m
-                },
-                new PayerModel {
-                    ParticipantId = 1,
-                    Amount = 100m
-                }
-            },
-            Consumptions = new ConsumptionModel[] {
-                new ConsumptionModel {
-                    Consumers = new[] {
-                        new ConsumerModel {
-                            ParticipantId = 2,
-                            Amount = 400m
-                        },
-                        new ConsumerModel {
-                            ParticipantId = 1,
-                            Amount = 50m
-                        }
-                    },
-                    Description = "Платим за всю хуйню"
-
-                },
-                new ConsumptionModel {
-                    Consumers = new[] {
-                        new ConsumerModel {
-                            ParticipantId = 0,
-                            Amount = 50m
-                        }
-                    },
-                    Description = "Жувачка!"
-
-                }
-            }
-        };
-
         // GET: api/Actions/5
         [Route("api/Actions/{sessionId:int:min(1)}")]
         public PagedCollection<ActionModel> Get(int sessionId, [FromUri] ActionsFilter filter = null)

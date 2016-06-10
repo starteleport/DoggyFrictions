@@ -9,7 +9,6 @@ namespace DoggyFriction.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Balance { get; set; }
         public int SessionId { get; set; }
     }
 }

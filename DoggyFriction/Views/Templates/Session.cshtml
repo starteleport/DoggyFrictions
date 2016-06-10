@@ -9,9 +9,6 @@
                 <thead data-bind="if: Participants().length">
                 <tr>
                     <th class="wide-cell">Имя</th>
-                    <!-- ko if: !$root.IsEdit() -->
-                    <th class="money-cell">Баланс</th>
-                    <!-- /ko -->
                     <th class="actions-cell"></th>
                 </tr>
                 </thead>
@@ -26,9 +23,6 @@
                         <span data-bind="text: Name"></span>
                         <!-- /ko -->
                     </td>
-                    <!-- ko if: !$root.IsEdit() -->
-                    <td class="money-cell" data-bind="text: Balance().formatMoney()"></td>
-                    <!-- /ko -->
                     <!-- ko if: $root.IsEdit() -->
                     <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                     <!-- /ko -->
@@ -45,40 +39,6 @@
                 <!-- /ko -->
                 </tbody>
             </table>
-
-            <!-- ko if: $root.IsEdit() -->
-            <h4>Теги:</h4>
-            <span data-bind="if: !Tags().length">Тегов нет</span>
-            <table class="table">
-                <thead data-bind="if: Tags().length">
-                <tr>
-                    <th class="wide-cell">Название</th>
-                    <th class="wide-cell">Цвет</th>
-                    <th class="actions-cell"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- ko foreach: Tags -->
-                <tr>
-                    <td class="wide-cell">
-                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Название">
-                    </td>
-                    <td class="wide-cell">
-                        <input type="text" class="form-control" data-bind="value: Color" placeholder="Цвет">
-                    </td>
-                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteTag"><span class="glyphicon glyphicon-trash"></span></button></td>
-                </tr>
-                <!-- /ko -->
-                <tr>
-                    <td class="actions-cell">
-                        <button type="button" class="btn btn-primary" data-bind="click: AddTag">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- /ko -->
 
             <!-- ko if: !$root.IsEdit() -->
             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>

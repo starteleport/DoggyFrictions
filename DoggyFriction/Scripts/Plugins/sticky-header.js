@@ -22,7 +22,7 @@
         }
     });
 
-    _this.sticky({ topSpacing: 58, bottomSpacing: 500, zIndex: 100 });
+    _this.sticky({ topSpacing: 50, bottomSpacing: 500, zIndex: 100 });
     _this.on('sticky-start', function () { _this.fadeIn(300); });
     _this.on('sticky-end', function () { _this.hide(); });
 

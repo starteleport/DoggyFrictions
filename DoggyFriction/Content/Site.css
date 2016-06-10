@@ -3,6 +3,18 @@
     padding-bottom: 20px;
 }
 
+.navbar {
+    height: 50px;
+}
+.navbar .navbar-header .navbar-brand img {
+    width: 43px;
+    display: inline-block;
+    margin-right: 10px;
+}
+.navbar .navbar-header .navbar-brand {
+    padding-top: 2px;
+}
+
 input,
 select,
 textarea {
@@ -71,7 +83,7 @@ div.inline-block {
 .wide-cell, table>tbody>tr>td.wide-cell input {
     width: 250px;
 }
-.small-cell {
+.small-cell, table>tbody>tr>td.small-cell input {
     width: 30px;
     text-align: center;
 }
