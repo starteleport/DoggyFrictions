@@ -208,7 +208,7 @@
     <Compile Include="Services\Debt.cs" />
     <Compile Include="Services\DebtContainer.cs" />
     <Compile Include="Services\DebtContainerKey.cs" />
-    <Compile Include="Services\DebtHustoryUnit.cs" />
+    <Compile Include="Services\DebtTransaction.cs" />
     <Compile Include="Services\DebtService.cs" />
     <Compile Include="Services\Hub.cs" />
     <Compile Include="Services\IDebtService.cs" />

@@ -25,7 +25,7 @@ namespace DoggyFriction.Services
                                 if (!debtContainers.ContainsKey(key)) {
                                     debtContainers.Add(key, new DebtContainer(key));
                                 }
-                                var debtUnit = new DebtHustoryUnit(debtAmount, action, good);
+                                var debtUnit = new DebtTransaction(debtAmount, action.Description, good.Description, action.Date);
                                 debtContainers[key].AddUnit(key, debtUnit);
                             }
                         }
