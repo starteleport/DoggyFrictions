@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DoggyFriction.Models;
+using Microsoft.Ajax.Utilities;
 using Action = DoggyFriction.Domain.Action;
 
 namespace DoggyFriction.Services
@@ -9,41 +10,31 @@ namespace DoggyFriction.Services
     {
         public IEnumerable<Debt> GetDebts(IEnumerable<Action> actions)
         {
-            var sponsors = actions
-                .SelectMany(a => a.Sponsors)
-                .GroupBy(g => g.Participant, g => g.Amount)
-                .Select(g => new
-                {
-                    Participant = g.Key,
-                    Amount = g.Sum()
-                }).ToList();
-            var consumers = actions
-                .SelectMany(a => a.Goods)
-                .SelectMany(g => g.Consumers)
-                .GroupBy(g => g.Participant, g => g.Amount)
-                .Select(g => new
-                {
-                    Participant = g.Key,
-                    Amount = g.Sum()
-                }).ToList();
-            var amountPaid = sponsors.Sum(s => s.Amount);
-            foreach (var sponsor in sponsors)
-            {
-                var fraction = sponsor.Amount/amountPaid;
-                foreach (var consumer in consumers.Where(c => c.Participant != sponsor.Participant))
-                {
-                    var debtAmount = consumer.Amount*fraction;
-                    if (debtAmount > 0)
-                    {
-                        yield return new Debt
-                        {
-                            Amount = debtAmount,
-                            Creditor = sponsor.Participant,
-                            Debtor = consumer.Participant
-                        };
+            var debtContainers = new Dictionary<DebtContainerKey, DebtContainer>();
+            foreach (var action in actions) {
+                var sponsors = action.Sponsors;
+                var amountPaid = sponsors.Sum(s => s.Amount);
+                foreach (var sponsor in sponsors) {
+                    var fraction = sponsor.Amount / amountPaid;
+                    foreach (var good in action.Goods) {
+                        var consumers = good.Consumers;
+                        foreach (var consumer in consumers.Where(c => c.Participant != sponsor.Participant)) {
+                            var debtAmount = consumer.Amount * fraction;
+                            if (debtAmount > 0) {
+                                var key = new DebtContainerKey(sponsor.Participant, consumer.Participant);
+                                if (!debtContainers.ContainsKey(key)) {
+                                    debtContainers.Add(key, new DebtContainer(key));
+                                }
+                                var debtUnit = new DebtHustoryUnit(debtAmount, action, good);
+                                debtContainers[key].AddUnit(key, debtUnit);
+                            }
+                        }
                     }
                 }
             }
+            return debtContainers.Values
+                .Select(debtContainer => debtContainer.Total)
+                .Where(totalDebt => totalDebt.Amount != 0);
         }
     }
 }
