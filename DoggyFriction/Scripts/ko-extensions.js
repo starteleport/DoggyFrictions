@@ -27,4 +27,38 @@
             });
         }
     };
+
+    ko.bindingHandlers.ifConfirmed = {
+        init: function (element, valueAccessor) {
+            var modal = $('#modal-confirm');
+            modal.modal({
+                show: false
+            });
+            var modalModel = new ModalModel(valueAccessor());
+            ko.applyBindings(modalModel, modal[0]);
+            
+            $(element).click(function() {
+                modal.modal('show');
+            });
+
+            var value = valueAccessor();
+            if (typeof value === 'function') {
+                $(element).on('hide.bs.modal', function () {
+                    value();
+                });
+            }
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                modal.modal("destroy");
+            });
+
+        }
+    }
 });
+
+function ModalModel(cb) {
+    this.Title = 'Подтверждение';
+    this.Message = 'Ну вы уверены вообще-то?';
+    this.Submit = function() {
+        alert('LOL');
+    };
+}

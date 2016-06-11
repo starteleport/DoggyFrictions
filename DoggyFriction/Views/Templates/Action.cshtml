@@ -182,7 +182,7 @@
                     <div class="">
                         <!-- ko if: $root.IsEdit() -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову</button>
+                            <button type="submit" class="btn btn-primary btn-raised" data-bind="ifConfirmed: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову</button>
                             <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + $root.Session.Id + '/Action/' + Id : ('#/Session/' + $root.Session.Id)}">Отмена</a>
                         </div>
                         <!-- /ko -->
