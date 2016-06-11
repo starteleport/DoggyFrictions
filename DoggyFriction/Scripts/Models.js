@@ -66,6 +66,12 @@ function SessionModel(data, isEdit) {
     }
 }
 
+function DebtsModel(debtsData, sessionModel) {
+    var _this = this;
+    _this.Session = sessionModel;
+    _this.Debts = debtsData || [];
+}
+
 function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;

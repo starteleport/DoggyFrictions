@@ -1,0 +1,36 @@
+﻿<script type="text/html" id="debts-template">
+    <div class="debts jumbotron is-preview">
+        <div>
+            @Html.Partial("DebtsHeader")
+            <h4>Долговая яма:</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="wide-cell">Кто</th>
+                    <th class="wide-cell">Кому</th>
+                    <th class="money-cell">Сколько</th>
+                    <th class="actions-cell"></th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: Debts">
+                <tr>
+                    <td class="wide-cell" data-bind="text: Debtor"></td>
+                    <td class="wide-cell" data-bind="text: Creditor"></td>
+                    <td class="money-cell" data-bind="text: Amount.formatMoney()"></td>
+                    <td class="actions-cell"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- ko foreach: Debts -->
+            <div>
+                <div class="inline-block wide-cell" data-bind="text: Debtor"></div>
+                <div class="inline-block money-cell">
+                    <span class="" data-bind="text: Amount.formatMoney()"></span>
+                    <i class="glyphicon text-success glyphicon-arrow-right"></i>
+                </div>
+                <div class="inline-block wide-cell" data-bind="text: Creditor"></div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</script>

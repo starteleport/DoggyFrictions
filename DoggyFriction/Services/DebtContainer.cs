@@ -14,11 +14,11 @@ namespace DoggyFriction.Services
         {
             get
             {
-                var totalAmount = History.Sum(u => u.Amount);
+                var totalAmount = Math.Round(History.Sum(u => u.Amount), 2);
                 return new Debt {
                     Creditor = totalAmount > 0 ? Key.FirstGuy : Key.SecondGuy,
                     Debtor = totalAmount > 0 ? Key.SecondGuy : Key.FirstGuy,
-                    Amount = totalAmount
+                    Amount = Math.Abs(totalAmount)
                 };
             }
         }
