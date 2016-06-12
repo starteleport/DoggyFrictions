@@ -11,7 +11,7 @@
                         <span class="" data-bind="text: Amount.formatMoney()"></span>
                         <i class="glyphicon text-success glyphicon-arrow-right"></i>
                     </td>
-                    <td data-bind="text: Creditor"></td>
+                    <td class="wide-cell text-right" data-bind="text: Creditor"></td>
                 </tr>
                 <!-- ko if: IsExpanded -->
                 <tr>
@@ -19,7 +19,6 @@
                         <table>
                             <tbody data-bind="foreach: Transactions">
                             <tr>
-                                <td data-bind="text: Date.formatDate()"></td>
                                 <td class="money-cell">
                                     <span class="" data-bind="text: Math.abs(Amount).formatMoney()"></span>
                                     <!-- ko if: Amount > 0 -->
@@ -30,7 +29,7 @@
                                     <!-- /ko -->
                                 </td>
                                 <td class="wide-cell" data-bind="text: Action"></td>
-                                @*<td data-bind="text: Good"></td>*@
+                                <td data-bind="text: Date.formatDate()"></td>
                             </tr>
                             </tbody>
                         </table>
