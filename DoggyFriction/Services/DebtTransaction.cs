@@ -1,6 +1,4 @@
 ﻿using System;
-using DoggyFriction.Domain;
-using Action = DoggyFriction.Domain.Action;
 
 namespace DoggyFriction.Services
 {

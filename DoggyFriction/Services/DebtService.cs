@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DoggyFriction.Models;
-using Microsoft.Ajax.Utilities;
 using Action = DoggyFriction.Domain.Action;
 
 namespace DoggyFriction.Services
