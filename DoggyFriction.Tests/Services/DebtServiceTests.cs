@@ -127,6 +127,7 @@ namespace DoggyFriction.Tests.Services
 
             Assert.That(actual.Count(), Is.EqualTo(0));
         }
+
         private Good GoodWithConsumers(Participation[] consumers, decimal total)
         {
             return fixture.Build<Good>()

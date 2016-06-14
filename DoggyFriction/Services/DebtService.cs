@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using Action = DoggyFriction.Domain.Action;
 
 namespace DoggyFriction.Services
@@ -8,7 +9,11 @@ namespace DoggyFriction.Services
     {
         public IEnumerable<Debt> GetDebts(IEnumerable<Action> actions)
         {
-            var debtContainers = new Dictionary<DebtContainerKey, DebtContainer>();
+            if (actions?.Any() != true) {
+                return Enumerable.Empty<Debt>();
+            }
+
+            var debtAggregator = new DebtAggregator();
             foreach (var action in actions) {
                 var sponsors = action.Sponsors;
                 var amountPaid = sponsors.Sum(s => s.Amount);
@@ -19,20 +24,14 @@ namespace DoggyFriction.Services
                         foreach (var consumer in consumers.Where(c => c.Participant != sponsor.Participant)) {
                             var debtAmount = consumer.Amount * fraction;
                             if (debtAmount > 0) {
-                                var key = new DebtContainerKey(sponsor.Participant, consumer.Participant);
-                                if (!debtContainers.ContainsKey(key)) {
-                                    debtContainers.Add(key, new DebtContainer(key));
-                                }
-                                var debtUnit = new DebtTransaction(debtAmount, action.Description, good.Description, action.Date);
-                                debtContainers[key].AddUnit(key, debtUnit);
+                                var debtTransaction = new DebtTransaction(debtAmount, action.Description, good.Description, action.Date);
+                                debtAggregator.AddTransaction(sponsor.Participant, consumer.Participant, debtTransaction);
                             }
                         }
                     }
                 }
             }
-            return debtContainers.Values
-                .Select(debtContainer => debtContainer.Total)
-                .Where(totalDebt => totalDebt.Amount != 0);
+            return debtAggregator.GetDebts().Where(totalDebt => totalDebt.Amount != 0);
         }
     }
 }
