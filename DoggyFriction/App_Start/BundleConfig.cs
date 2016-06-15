@@ -37,8 +37,8 @@ namespace DoggyFriction
                 "~/Scripts/Plugins/sticky.js",
                 "~/Scripts/Plugins/sticky-header.js",
                 "~/Scripts/PagedGridModel.js",
-                "~/Scripts/Models.js",
-                "~/Scripts/Start.js"));
+                "~/Scripts/Start.js")
+                .IncludeDirectory("~/Scripts/Models", "*.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.min.css",

@@ -357,7 +357,10 @@
     <Content Include="Scripts\Material\material.min.js" />
     <Content Include="Scripts\Material\ripples.js" />
     <Content Include="Scripts\Material\ripples.min.js" />
-    <Content Include="Scripts\Models.js" />
+    <Content Include="Scripts\Models\Action.js" />
+    <Content Include="Scripts\Models\Consumption.js" />
+    <Content Include="Scripts\Models\Navigation.js" />
+    <Content Include="Scripts\Models\Session.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -402,6 +405,7 @@
     <Content Include="Views\Templates\ActionHeader.cshtml" />
     <Content Include="Views\Templates\SessionHeader.cshtml" />
     <Content Include="Views\Templates\ConfirmDialog.cshtml" />
+    <Content Include="Views\Templates\NavigationBar.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
