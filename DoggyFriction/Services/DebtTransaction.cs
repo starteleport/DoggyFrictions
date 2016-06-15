@@ -9,7 +9,7 @@ namespace DoggyFriction.Services
         public string Good { get; }
         public DateTime Date { get; }
 
-        public DebtTransaction Inverse() => new DebtTransaction(-Amount, Action, Good, Date);
+        public DebtTransaction Reverse() => new DebtTransaction(-Amount, Action, Good, Date);
 
         public DebtTransaction(decimal amount, string action, string good, DateTime date)
         {

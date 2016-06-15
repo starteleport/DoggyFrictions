@@ -65,21 +65,7 @@ namespace DoggyFriction.Services
                 debt.Transactions.Add(transaction.Inverse());
                 debt.Amount -= transaction.Amount;
                 if (debt.Amount <= 0)
-                {
-                    debts[key] = ReverseDebt(debt);
-                }
+                    debts[key] = debt.Reverse();
             }
-        }
-
-        private Debt ReverseDebt(Debt debt)
-        {
-            return new Debt
-            {
-                Amount = -debt.Amount,
-                Creditor = debt.Debtor,
-                Debtor = debt.Creditor,
-                Transactions = debt.Transactions.Select(t => t.Inverse()).ToList()
-            };
-        }
     }
 }
