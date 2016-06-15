@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Ajax.Utilities;
 
 namespace DoggyFriction.Services
@@ -62,10 +61,11 @@ namespace DoggyFriction.Services
             }
             else
             {
-                debt.Transactions.Add(transaction.Inverse());
+                debt.Transactions.Add(transaction.Reverse());
                 debt.Amount -= transaction.Amount;
                 if (debt.Amount <= 0)
                     debts[key] = debt.Reverse();
             }
+        }
     }
 }

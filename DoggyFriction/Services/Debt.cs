@@ -17,7 +17,7 @@ namespace DoggyFriction.Services
                 Amount = -Amount,
                 Creditor = Debtor,
                 Debtor = Creditor,
-                Transactions = Transactions.Select(t => t.Inverse()).ToList()
+                Transactions = Transactions.Select(t => t.Reverse()).ToList()
             };
         }
     }
