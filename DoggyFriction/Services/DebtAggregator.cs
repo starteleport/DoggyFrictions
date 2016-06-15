@@ -41,30 +41,31 @@ namespace DoggyFriction.Services
 
         public void AddTransaction(string creditor, string debtor, DebtTransaction transaction)
         {
-            if ((transaction?.Amount ?? 0m) <= 0m) {
+            if ((transaction?.Amount ?? 0m) <= 0m)
+            {
                 throw new ArgumentException($"Cannot add transaction: amount must be > 0 but was {transaction?.Amount}.");
             }
-            if (creditor.IsNullOrWhiteSpace() || debtor.IsNullOrWhiteSpace()) {
+            if (creditor.IsNullOrWhiteSpace() || debtor.IsNullOrWhiteSpace())
+            {
                 throw new ArgumentException($"Cannot add transaction: creditor = [{creditor}], debtor = [{debtor}].");
             }
 
             var key = new DebtAggregatorKey(creditor, debtor);
-            if (!debts.ContainsKey(key)) {
-                debts.Add(key, new Debt {
-                    Creditor = creditor,
-                    Debtor = debtor
-                });
-            }
+            if (!debts.ContainsKey(key))
+                debts.Add(key, new Debt {Creditor = creditor, Debtor = debtor});
 
             var debt = debts[key];
-            if (key.Creditor == debt.Creditor) {
+            if (key.Creditor == debt.Creditor)
+            {
                 debt.Transactions.Add(transaction);
                 debt.Amount += transaction.Amount;
             }
-            else {
+            else
+            {
                 debt.Transactions.Add(transaction.Inverse());
                 debt.Amount -= transaction.Amount;
-                if (debt.Amount <= 0) {
+                if (debt.Amount <= 0)
+                {
                     debts[key] = ReverseDebt(debt);
                 }
             }
@@ -72,7 +73,8 @@ namespace DoggyFriction.Services
 
         private Debt ReverseDebt(Debt debt)
         {
-            return new Debt {
+            return new Debt
+            {
                 Amount = -debt.Amount,
                 Creditor = debt.Debtor,
                 Debtor = debt.Creditor,
