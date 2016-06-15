@@ -401,6 +401,7 @@
     <Content Include="Views\Templates\Pages.cshtml" />
     <Content Include="Views\Templates\ActionHeader.cshtml" />
     <Content Include="Views\Templates\SessionHeader.cshtml" />
+    <Content Include="Views\Templates\ConfirmDialog.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

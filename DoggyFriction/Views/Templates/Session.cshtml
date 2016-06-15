@@ -7,36 +7,36 @@
             <span data-bind="if: !Participants().length">Собак нет</span>
             <table class="table">
                 <thead data-bind="if: Participants().length">
-                <tr>
-                    <th class="wide-cell">Имя</th>
-                    <th class="actions-cell"></th>
-                </tr>
+                    <tr>
+                        <th class="wide-cell">Имя</th>
+                        <th class="actions-cell"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <!-- ko foreach: Participants-->
-                <tr>
-                    <td class="wide-cell">
+                    <!-- ko foreach: Participants-->
+                    <tr>
+                        <td class="wide-cell">
+                            <!-- ko if: $root.IsEdit() -->
+                            <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                            <!-- /ko -->
+                            <!-- ko if: !$root.IsEdit() -->
+                            <span data-bind="text: Name"></span>
+                            <!-- /ko -->
+                        </td>
                         <!-- ko if: $root.IsEdit() -->
-                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                        <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                         <!-- /ko -->
-                        <!-- ko if: !$root.IsEdit() -->
-                        <span data-bind="text: Name"></span>
-                        <!-- /ko -->
-                    </td>
-                    <!-- ko if: $root.IsEdit() -->
-                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    </tr>
                     <!-- /ko -->
-                </tr>
-                <!-- /ko -->
-                <!-- ko if: $root.IsEdit() -->
-                <tr>
-                    <td class="actions-cell">
-                        <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- /ko -->
+                    <!-- ko if: $root.IsEdit() -->
+                    <tr>
+                        <td class="actions-cell">
+                            <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                                <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- /ko -->
                 </tbody>
             </table>
 
@@ -46,10 +46,11 @@
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
-            <a class="btn btn-primary" data-bind="attr: {href: Id > 0 ? '#/Session/' + Id : '#/Sessions'}">Отмена</a>
+            <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
+                cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">
+                Отмена
+            </button>
             <!-- /ko -->
-
-
             <!-- ko if: !$root.IsEdit() -->
             <h4>Постановы:</h4>
             <div data-bind="if: Actions.IsLoading()">Загрузка . . .</div>
@@ -59,24 +60,24 @@
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
                 <table class="table table-clickable" data-bind="if: Rows().length">
                     <thead>
-                    <tr>
-                        <th>Дата</th>
-                        <th class="really-wide">Суть</th>
-                        <th class="really-wide-cell">Спонсор(ы)</th>
-                        <th class="money-cell">Сумма</th>
-                        <th class="actions-cell"></th>
-                    </tr>
+                        <tr>
+                            <th>Дата</th>
+                            <th class="really-wide">Суть</th>
+                            <th class="really-wide-cell">Спонсор(ы)</th>
+                            <th class="money-cell">Сумма</th>
+                            <th class="actions-cell"></th>
+                        </tr>
                     </thead>
                     <tbody data-bind="foreach: Rows">
-                    <tr>
-                        <td data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td class="really-wide" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td class="really-wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                        <td class="actions-cell">
-                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="really-wide" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="really-wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="actions-cell">
+                                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

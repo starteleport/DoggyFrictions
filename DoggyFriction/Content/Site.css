@@ -165,3 +165,7 @@ table.table td input, table.table td span.form-control {
     margin-bottom: 10px;
     padding-right: 65px;
 }
+
+.modal-dialog .modal-content .modal-footer {
+    padding-bottom: 13px;
+}

@@ -64,6 +64,31 @@ function SessionModel(data, isEdit) {
         alert("Удаление тёрки.");
         window.location.href = '#/Sessions';
     }
+
+    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая тёрка') : 'Тёрка';
+    var navigation = new NavigationModel(currentPlace);
+    navigation.AddHistory('Тёрки', '#/Sessions');
+    if (_this.IsEdit() && _this.Id) {
+        navigation.AddHistory('Тёркa', '#/Session/' + _this.Id);
+    }
+    this.Navigation = navigation;
+}
+
+function NavigationModel(currentPlace) {
+    var _this = this;
+    this.CurrentPlace = currentPlace || '';
+    this.History = [];
+    this.Back = function () {
+        return _.last(_this.History);
+    }
+    this.AddHistory = function(name, url) {
+        _this.History.push(new NavigationLinkModel(name, url));
+    }
+}
+function NavigationLinkModel(name, url) {
+    var _this = this;
+    this.Name = name || 'Home';
+    this.Url = url || '/';
 }
 
 function ActionModel(actionData, sessionModel, isEdit) {
@@ -172,10 +197,19 @@ function ActionModel(actionData, sessionModel, isEdit) {
             ? $.post('Api/Actions/' + _this.Session.Id, serialized)
             : $.put('Api/Actions/' + _this.Session.Id + '/' + _this.Id, serialized);
         $.when(operation)
-            .done(function(actionData) {
-                window.location.href = '#/Session/' + _this.Session.Id + '/Action/' + actionData.Id;
+            .done(function (actionData) {
+                window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
             });
     }
+
+    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая постанова') : 'Постанова';
+    var navigation = new NavigationModel(currentPlace);
+    navigation.AddHistory('Тёрки', '#/Sessions');
+    navigation.AddHistory('Тёрка', '#/Session/' + _this.Session.Id);
+    if (_this.IsEdit() && _this.Id) {
+        navigation.AddHistory('Пастанова', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
+    }
+    this.Navigation = navigation;
 }
 
 function ConsumptionModel(consumptionData, sessionModel) {

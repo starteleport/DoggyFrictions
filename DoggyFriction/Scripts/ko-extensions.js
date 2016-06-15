@@ -29,36 +29,33 @@
     };
 
     ko.bindingHandlers.ifConfirmed = {
-        init: function (element, valueAccessor) {
-            var modal = $('#modal-confirm');
-            modal.modal({
-                show: false
-            });
-            var modalModel = new ModalModel(valueAccessor());
-            ko.applyBindings(modalModel, modal[0]);
-            
+        init: function (element, valueAccessor, allBindings) {
             $(element).click(function() {
-                modal.modal('show');
-            });
-
-            var value = valueAccessor();
-            if (typeof value === 'function') {
-                $(element).on('hide.bs.modal', function () {
-                    value();
+                var template = $('#confirm-dialog-template').html();
+                var modalView = $(template);
+                modalView.appendTo('body');
+                modalView.modal({
+                    show: false
                 });
-            }
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                modal.modal("destroy");
+                modalView.modal('show');
+                var modalModel = {
+                    Title: allBindings.get('cdTitle') || 'Подтверждение',
+                    Message: allBindings.get('cdMessage') || 'Вы уверены?',
+                    Submit: valueAccessor()
+                };
+                modalView.on('hide.bs.modal', function () {
+                    ko.cleanNode(modalView[0]);
+                    modalView.remove();
+                });
+                ko.applyBindings(modalModel, modalView[0]);
             });
-
         }
     }
 });
 
-function ModalModel(cb) {
-    this.Title = 'Подтверждение';
-    this.Message = 'Ну вы уверены вообще-то?';
-    this.Submit = function() {
-        alert('LOL');
-    };
+function ModalModel(tittle, message, submitCallback, declineCallback) {
+    this.Title = tittle;
+    this.Message = message;
+    this.Submit = submitCallback;
+    this.Decline = declineCallback;
 }

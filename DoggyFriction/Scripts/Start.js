@@ -23,6 +23,9 @@
                 });
                 $('.sticky-table-head').stickyHeader();
                 $('.sticky-table-foot').stickyFooter();
+                $('.confirm-dialog').each(function() {
+                    $(this).data('bs.modal', null);
+                });
             }
         },
         GlobalId: {

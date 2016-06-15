@@ -1,21 +1,7 @@
 ﻿<div class="page-head container">
-    <ul class="breadcrumb breadcrumb-default col-lg-4">
-        <li><a data-bind="attr: {href: '#/Sessions'}">Тёрки</a></li>
-        <li data-bind="css: {active: !$root.IsEdit() || !Id}">
-            <!-- ko if: !$root.IsEdit() -->
-            Тёрка
-            <!-- /ko -->
-            <!-- ko if: $root.IsEdit() && !Id -->
-            Новая тёрка
-            <!-- /ko -->
-            <!-- ko if: $root.IsEdit() && Id -->
-            <a data-bind="attr: {href: '#/Session/' + Id}">Тёрка</a>
-            <!-- /ko -->
-        </li>
-        <!-- ko if: $root.IsEdit() && Id -->
-        <li class="active">Правка</li>
-        <!-- /ko -->
-    </ul>
+    <div class="col-lg-4">
+        @Html.Partial("NavigationBar")
+    </div>
     <h2 class="col col-lg-8 form-inline">
         <!-- ko if: $root.IsEdit() -->
         <span class="input-group">
