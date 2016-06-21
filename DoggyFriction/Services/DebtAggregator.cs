@@ -24,7 +24,7 @@ namespace DoggyFriction.Services
 
             public override string ToString()
             {
-                return $"{Creditor}, {Debtor}}}";
+                return $"{Creditor}, {Debtor}";
             }
 
             public DebtAggregatorKey(string creditor, string debtor)
@@ -40,13 +40,16 @@ namespace DoggyFriction.Services
 
         public void AddTransaction(string creditor, string debtor, DebtTransaction transaction)
         {
-            if ((transaction?.Amount ?? 0m) <= 0m)
+            if ((transaction?.Amount ?? 0m) < 0m)
             {
                 throw new ArgumentException($"Cannot add transaction: amount must be > 0 but was {transaction?.Amount}.");
             }
             if (creditor.IsNullOrWhiteSpace() || debtor.IsNullOrWhiteSpace())
             {
                 throw new ArgumentException($"Cannot add transaction: creditor = [{creditor}], debtor = [{debtor}].");
+            }
+            if ((transaction?.Amount ?? 0m) == 0m) {
+                return;
             }
 
             var key = new DebtAggregatorKey(creditor, debtor);
@@ -57,14 +60,14 @@ namespace DoggyFriction.Services
             if (key.Creditor == debt.Creditor)
             {
                 debt.Transactions.Add(transaction);
-                debt.Amount += transaction.Amount;
             }
             else
             {
                 debt.Transactions.Add(transaction.Reverse());
-                debt.Amount -= transaction.Amount;
-                if (debt.Amount <= 0)
+                if (debt.Amount < 0)
                     debts[key] = debt.Reverse();
+                else if (debt.Amount == 0)
+                    debts.Remove(key);
             }
         }
     }

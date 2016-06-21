@@ -17,7 +17,6 @@ namespace DoggyFriction.Tests.Services
         public void SetUp()
         {
             fixture = new Fixture();
-
             sut = fixture.Create<DebtService>();
         }
 

@@ -7,14 +7,13 @@ namespace DoggyFriction.Services
     {
         public string Debtor { get; set; }
         public string Creditor { get; set; }
-        public decimal Amount { get; set; }
         public IList<DebtTransaction> Transactions { get; set; } = new List<DebtTransaction>();
+        public decimal Amount => Transactions.Sum(t => t.Amount);
 
         public Debt Reverse()
         {
             return new Debt
             {
-                Amount = -Amount,
                 Creditor = Debtor,
                 Debtor = Creditor,
                 Transactions = Transactions.Select(t => t.Reverse()).ToList()
