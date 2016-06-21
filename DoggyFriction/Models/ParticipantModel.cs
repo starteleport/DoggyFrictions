@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DoggyFriction.Models
+﻿namespace DoggyFriction.Models
 {
     public class ParticipantModel
     {

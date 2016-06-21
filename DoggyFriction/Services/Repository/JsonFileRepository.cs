@@ -6,7 +6,6 @@ using System.Text;
 using System.Web.Helpers;
 using DoggyFriction.Models;
 using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
 using WebGrease.Css.Extensions;
 
 namespace DoggyFriction.Services.Repository
@@ -94,26 +93,6 @@ namespace DoggyFriction.Services.Repository
         }
 
         public SessionModel DeleteSession(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ParticipantModel> GetParticipants(int sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel GetParticipant(int sessionId, int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel UpdateParticipant(int sessionId, ParticipantModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ParticipantModel DeleteParticipant(int sessionId, int id)
         {
             throw new NotImplementedException();
         }
@@ -218,16 +197,6 @@ namespace DoggyFriction.Services.Repository
             SaveEntities(ConsumersFileName, consumerModels);
             SaveEntities(PayersFileName, payerModels);
             return model;
-        }
-
-        public IEnumerable<PayerModel> GetPayers(int sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ConsumerModel> GetConsumers(int sessionId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

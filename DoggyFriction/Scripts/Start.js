@@ -133,5 +133,14 @@ function InitSammy(app) {
             });
     });
 
+    $app.get('#/Session/:sessionId/Debts', function (context) {
+        $.when($.get('Api/Sessions/' + context.params.sessionId), $.get('Api/Debts/' + context.params.sessionId))
+            .then(function (sessionData, debtsData) {
+                var sessionModel = new SessionModel(sessionData[0]);
+                var actionModel = new DebtsModel(debtsData[0], sessionModel);
+                show('debts', actionModel);
+            });
+    });
+
     $app.run('#/Sessions');
 }
