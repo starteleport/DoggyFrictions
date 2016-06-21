@@ -64,7 +64,6 @@ div.inline-block {
 }
 
 .sticky-table-head, .sticky-table-foot {
-    color: #fff;
     color: #eee;
     display: inline-flex;
     height: 0;
@@ -164,4 +163,23 @@ table.table td input, table.table td span.form-control {
     text-align: right;
     margin-bottom: 10px;
     padding-right: 65px;
+}
+
+.debt-block {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #fdfbfb;
+}
+.debt-block td {
+    padding: 3px 10px;
+}
+.debt-details-block {
+    padding-left: 20px;
+    cursor: pointer;
+}
+.debt-details-block td {
+    padding: 3px 10px;
+}
+.debt-block:hover, .debt-details-block tr:hover {
+    background-color: #f5f5f5;
 }

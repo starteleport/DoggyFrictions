@@ -206,14 +206,14 @@
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Debt.cs" />
-    <Compile Include="Services\DebtContainer.cs" />
-    <Compile Include="Services\DebtContainerKey.cs" />
-    <Compile Include="Services\DebtHustoryUnit.cs" />
+    <Compile Include="Services\DebtAggregator.cs" />
+    <Compile Include="Services\DebtTransaction.cs" />
     <Compile Include="Services\DebtService.cs" />
     <Compile Include="Services\Hub.cs" />
     <Compile Include="Services\IDebtService.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
     <Compile Include="Services\Repository\JsonFileRepository.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

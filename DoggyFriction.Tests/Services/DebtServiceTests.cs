@@ -17,7 +17,6 @@ namespace DoggyFriction.Tests.Services
         public void SetUp()
         {
             fixture = new Fixture();
-
             sut = fixture.Create<DebtService>();
         }
 
@@ -127,6 +126,7 @@ namespace DoggyFriction.Tests.Services
 
             Assert.That(actual.Count(), Is.EqualTo(0));
         }
+
         private Good GoodWithConsumers(Participation[] consumers, decimal total)
         {
             return fixture.Build<Good>()

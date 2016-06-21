@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DoggyFriction.Models;
 using Microsoft.Ajax.Utilities;
 using Action = DoggyFriction.Domain.Action;
 
@@ -10,31 +9,25 @@ namespace DoggyFriction.Services
     {
         public IEnumerable<Debt> GetDebts(IEnumerable<Action> actions)
         {
-            var debtContainers = new Dictionary<DebtContainerKey, DebtContainer>();
-            foreach (var action in actions) {
-                var sponsors = action.Sponsors;
-                var amountPaid = sponsors.Sum(s => s.Amount);
-                foreach (var sponsor in sponsors) {
-                    var fraction = sponsor.Amount / amountPaid;
-                    foreach (var good in action.Goods) {
-                        var consumers = good.Consumers;
-                        foreach (var consumer in consumers.Where(c => c.Participant != sponsor.Participant)) {
-                            var debtAmount = consumer.Amount * fraction;
-                            if (debtAmount > 0) {
-                                var key = new DebtContainerKey(sponsor.Participant, consumer.Participant);
-                                if (!debtContainers.ContainsKey(key)) {
-                                    debtContainers.Add(key, new DebtContainer(key));
-                                }
-                                var debtUnit = new DebtHustoryUnit(debtAmount, action, good);
-                                debtContainers[key].AddUnit(key, debtUnit);
-                            }
-                        }
-                    }
-                }
+            if (actions?.Any() != true) {
+                return Enumerable.Empty<Debt>();
             }
-            return debtContainers.Values
-                .Select(debtContainer => debtContainer.Total)
-                .Where(totalDebt => totalDebt.Amount != 0);
+
+            var debtAggregator = new DebtAggregator();
+            actions.OrderBy(a => a.Date).ForEach(action => {
+                var totalAmountPaid = action.Sponsors.Sum(s => s.Amount);
+                action.Sponsors.ForEach(sponsor => {
+                    var sponsorRate = sponsor.Amount / totalAmountPaid;
+                    action.Goods.ForEach(good => {
+                        good.Consumers.Where(c => c.Participant != sponsor.Participant).ForEach(consumer => {
+                            var debtAmount = consumer.Amount * sponsorRate;
+                            var debtTransaction = new DebtTransaction(debtAmount, action.Description, good.Description, action.Date);
+                            debtAggregator.AddTransaction(sponsor.Participant, consumer.Participant, debtTransaction);
+                        });
+                    });
+                });
+            });
+            return debtAggregator.GetDebts().Where(totalDebt => totalDebt.Amount != 0);
         }
     }
 }
