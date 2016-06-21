@@ -27,4 +27,35 @@
             });
         }
     };
+
+    ko.bindingHandlers.ifConfirmed = {
+        init: function (element, valueAccessor, allBindings) {
+            $(element).click(function() {
+                var template = $('#confirm-dialog-template').html();
+                var modalView = $(template);
+                modalView.appendTo('body');
+                modalView.modal({
+                    show: false
+                });
+                modalView.modal('show');
+                var modalModel = {
+                    Title: allBindings.get('cdTitle') || 'Подтверждение',
+                    Message: allBindings.get('cdMessage') || 'Вы уверены?',
+                    Submit: valueAccessor()
+                };
+                modalView.on('hide.bs.modal', function () {
+                    ko.cleanNode(modalView[0]);
+                    modalView.remove();
+                });
+                ko.applyBindings(modalModel, modalView[0]);
+            });
+        }
+    }
 });
+
+function ModalModel(tittle, message, submitCallback, declineCallback) {
+    this.Title = tittle;
+    this.Message = message;
+    this.Submit = submitCallback;
+    this.Decline = declineCallback;
+}
