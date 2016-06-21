@@ -189,7 +189,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\DebtsController.cs" />
+    <Compile Include="Domain\Action.cs" />
+    <Compile Include="Domain\Good.cs" />
+    <Compile Include="Domain\Participation.cs" />
+    <Compile Include="Domain\SessionActionsProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,9 +205,15 @@
     <Compile Include="Models\PayerModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Debt.cs" />
+    <Compile Include="Services\DebtAggregator.cs" />
+    <Compile Include="Services\DebtTransaction.cs" />
+    <Compile Include="Services\DebtService.cs" />
     <Compile Include="Services\Hub.cs" />
+    <Compile Include="Services\IDebtService.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
     <Compile Include="Services\Repository\JsonFileRepository.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -359,6 +369,7 @@
     <Content Include="Scripts\Material\ripples.min.js" />
     <Content Include="Scripts\Models\Action.js" />
     <Content Include="Scripts\Models\Consumption.js" />
+    <Content Include="Scripts\Models\Debt.js" />
     <Content Include="Scripts\Models\Navigation.js" />
     <Content Include="Scripts\Models\Session.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -406,6 +417,8 @@
     <Content Include="Views\Templates\SessionHeader.cshtml" />
     <Content Include="Views\Templates\ConfirmDialog.cshtml" />
     <Content Include="Views\Templates\NavigationBar.cshtml" />
+    <Content Include="Views\Templates\Debts.cshtml" />
+    <Content Include="Views\Templates\DebtsHeader.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
