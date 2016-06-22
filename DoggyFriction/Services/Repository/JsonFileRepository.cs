@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Web.Helpers;
@@ -12,12 +13,13 @@ namespace DoggyFriction.Services.Repository
 {
     public class JsonFileRepository : IRepository
     {
-        private string BasePath => AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-        private string SessionsFileName => Path.Combine(BasePath, @"Data/Sessions.json");
-        private string ActionsFileName => Path.Combine(BasePath, @"Data/Actions.json");
-        private string ParticipantsFileName => Path.Combine(BasePath, @"Data/Participants.json");
-        private string PayersFileName => Path.Combine(BasePath, @"Data/Payers.json");
-        private string ConsumersFileName => Path.Combine(BasePath, @"Data/Consumers.json");
+        private string AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+        private string BasePath => Path.Combine(AppDataPath, "Data");
+        private string SessionsFileName => Path.Combine(BasePath, @"Sessions.json");
+        private string ActionsFileName => Path.Combine(BasePath, @"Actions.json");
+        private string ParticipantsFileName => Path.Combine(BasePath, @"Participants.json");
+        private string PayersFileName => Path.Combine(BasePath, @"Payers.json");
+        private string ConsumersFileName => Path.Combine(BasePath, @"Consumers.json");
         private Random Randomizer = new Random();
 
         private IEnumerable<T> LoadEntities<T>(string fileName)
@@ -197,6 +199,14 @@ namespace DoggyFriction.Services.Repository
             SaveEntities(ConsumersFileName, consumerModels);
             SaveEntities(PayersFileName, payerModels);
             return model;
+        }
+
+        public string CreateBackup()
+        {
+            var zipFileName = $"Backup_{DateTime.Now.ToString("yyyyMMdd_HH-mm-ss")}.zip";
+            var zipFilePath = Path.Combine(AppDataPath, zipFileName);
+            ZipFile.CreateFromDirectory(BasePath, zipFilePath);
+            return zipFilePath;
         }
     }
 }
