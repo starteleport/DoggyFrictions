@@ -4,6 +4,25 @@
     this.Debts = _.map(debtsData || [], function (debtData) {
         return new DebtModel(debtData);
     });
+
+    this.PayOff = function (debtModel) {
+        var moveMoneyModel = {
+            From: debtModel.Debtor,
+            To: debtModel.Creditor,
+            Amount: debtModel.Amount
+        };
+        $.post('Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel)
+            .success(function(actionModel) {
+                $.snackbar({
+                    content: "Успешно! Постанова <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
+                    htmlAllowed: true
+                });
+                window.App.Functions.Move("#/Session/" + _this.Session.Id + "/Debts")();
+            })
+            .fail(function(a, b, c) {
+                $.snackbar({ content: "Ошибка! " + a + '////' + b + '////' + c });
+            });
+    }
 }
 function DebtModel(debtData) {
     var _this = this;
