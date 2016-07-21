@@ -12,6 +12,7 @@
                         <i class="glyphicon text-success glyphicon-arrow-right"></i>
                     </td>
                     <td class="wide-cell text-right" data-bind="text: Creditor"></td>
+                    <td class="actions-cell"><a class="btn btn-sm btn-primary" data-bind="click: $parent.PayOff">Погасить</a></td>
                 </tr>
                 <!-- ko if: IsExpanded -->
                 <tr>
@@ -34,7 +35,6 @@
                             </tbody>
                         </table>
                     </td>
-                    <td class="actions-cell"><a class="btn btn-fab-mini" data-bind="click: $parent.PayOff">Погасить</a></td>
                 </tr>
                 <!-- /ko -->
                 </tbody>
