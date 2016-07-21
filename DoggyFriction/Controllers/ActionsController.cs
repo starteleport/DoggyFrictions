@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -47,6 +48,47 @@ namespace DoggyFriction.Controllers
             if (actionModel.Id <= 0) {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
+            return Hub.Repository.UpdateAction(sessionId, actionModel);
+        }
+        
+        [Route("api/Actions/{sessionId:int:min(1)}/MoveMoney")]
+        public ActionModel Post(int sessionId, [FromBody]MoveMoneyModel moveMoneyModel)
+        {
+            if (!ModelState.IsValid) {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            var sessionModel = Hub.Repository.GetSession(sessionId);
+            var fromParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyModel.From);
+            var toParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyModel.To);
+            if (fromParticipant == null || toParticipant == null) {
+                throw new HttpResponseException(HttpStatusCode.RequestedRangeNotSatisfiable);
+            }
+            var description = moveMoneyModel.Reason ?? $"{fromParticipant.Name} -> {toParticipant.Name}";
+
+            var actionModel = new ActionModel {
+                Date = moveMoneyModel.Date ?? DateTime.Now,
+                Description = description,
+                Payers = new[] {
+                    new PayerModel {
+                        Amount = moveMoneyModel.Amount,
+                        ParticipantId = fromParticipant.Id
+                    }
+                },
+                Consumptions = new[] {
+                    new ConsumptionModel {
+                        Amount = moveMoneyModel.Amount,
+                        Description = description,
+                        Quantity = 1,
+                        SplittedEqually = false,
+                        Consumers = new[] {
+                            new ConsumerModel {
+                                Amount = moveMoneyModel.Amount,
+                                ParticipantId = toParticipant.Id
+                            }
+                        }
+                    }
+                }
+            };
             return Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
