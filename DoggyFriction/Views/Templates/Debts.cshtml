@@ -5,14 +5,17 @@
             <h4>Долговая яма:</h4>
             <table>
                 <tbody data-bind="foreach: Debts">
-                <tr class="debt-block" data-bind="click: function() { IsExpanded(!IsExpanded()); }">
-                    <td class="wide-cell" data-bind="text: Debtor"></td>
-                    <td class="money-cell">
+                <tr class="debt-block">
+                    <td class="wide-cell" data-bind="text: Debtor, click: function() { IsExpanded(!IsExpanded()); }"></td>
+                    <td class="money-cell" data-bind="click: function() { IsExpanded(!IsExpanded()); }">
                         <span class="" data-bind="text: Amount.formatMoney()"></span>
                         <i class="glyphicon text-success glyphicon-arrow-right"></i>
                     </td>
-                    <td class="wide-cell text-right" data-bind="text: Creditor"></td>
-                    <td class="actions-cell"><a class="btn btn-sm btn-primary" data-bind="click: $parent.PayOff">Погасить</a></td>
+                    <td class="wide-cell text-right" data-bind="text: Creditor, click: function() { IsExpanded(!IsExpanded()); }"></td>
+                    <td class="actions-cell">
+                        <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff,
+                           cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">Погасить</a>
+                    </td>
                 </tr>
                 <!-- ko if: IsExpanded -->
                 <tr>

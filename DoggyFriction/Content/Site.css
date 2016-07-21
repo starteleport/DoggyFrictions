@@ -32,9 +32,14 @@ footer {
 #main {
     margin-top: 25px;
 }
+#loading-screen{
+    margin-top: 25px;
+}
+#loading-screen img{
+    margin: 25px auto;
+}
 body .container div.jumbotron {
     padding: 30px 45px 30px 35px;
-    width: 1170px;
 }
 body .container div.jumbotron>div {
     overflow-x: auto;
@@ -194,4 +199,8 @@ table.table td input, table.table td span.form-control {
 
 .modal-dialog .modal-content .modal-footer {
     padding-bottom: 13px;
+}
+
+.snackbar.warning {
+    background-color: #f44336;
 }

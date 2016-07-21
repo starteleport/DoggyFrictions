@@ -57,12 +57,12 @@ function SessionModel(data, isEdit) {
                 }
             })
         };
-        var operation = _this.Id == 0
+        var operation = (_this.Id == 0
             ? $.post('Api/Sessions', serialized)
-            : $.put('Api/Sessions/' + _this.Id, serialized);
-        $.when(operation)
-            .done(function (sessionData) {
-                window.location.href = '#/Session/' + sessionData.Id;
+            : $.put('Api/Sessions/' + _this.Id, serialized)).promise();
+        window.App.Functions.Process(operation)
+            .done(function(sessionData) {
+                window.App.Functions.Move('#/Session/' + sessionData.Id)();
             });
     }
 
@@ -71,12 +71,14 @@ function SessionModel(data, isEdit) {
             alert('Can\'t delete session with id = ' + _this.Id);
             return;
         }
-        $.when($.ajax({
+        var operation = $.ajax({
             url: 'Api/Sessions/' + _this.Id,
             type: 'DELETE'
-        })).done(function () {
-            window.App.Functions.Move('#/Sessions')();
-        });
+        }).promise();
+        window.App.Functions.Process(operation)
+            .done(function() {
+                window.App.Functions.Move('#/Sessions')();
+            });
     }
 
     var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая тёрка') : 'Тёрка';

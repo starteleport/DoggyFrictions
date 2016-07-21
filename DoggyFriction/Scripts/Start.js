@@ -6,6 +6,24 @@
             DateTimeSave: 'YYYY/MM/DD'
         },
         Functions: {
+            Process: function (promise) {
+                $('#main').hide();
+                $('#loading-screen').show();
+                return $.when(promise)
+                    .done(function(result) {
+                        $('#main').show();
+                        $('#loading-screen').hide();
+                        return result;
+                    }).fail(function(a, b, c) {
+                        $('#main').show();
+                        $('#loading-screen').hide();
+                        $.snackbar({
+                            content: "Ошибка! " + a + '////' + b + '////' + c,
+                            timeout: 0,
+                            style: "warning"
+                        });
+                    });
+            },
             Move: function(link) {
                 return function () {
                     if (window.location.hash === link) {

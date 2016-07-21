@@ -7,36 +7,36 @@
             <span data-bind="if: !Participants().length">Собак нет</span>
             <table class="table">
                 <thead data-bind="if: Participants().length">
-                    <tr>
-                        <th class="wide-cell">Имя</th>
-                        <th class="actions-cell"></th>
-                    </tr>
+                <tr>
+                    <th class="wide-cell">Имя</th>
+                    <th class="actions-cell"></th>
+                </tr>
                 </thead>
                 <tbody>
-                    <!-- ko foreach: Participants-->
-                    <tr>
-                        <td class="wide-cell">
-                            <!-- ko if: $root.IsEdit() -->
-                            <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
-                            <!-- /ko -->
-                            <!-- ko if: !$root.IsEdit() -->
-                            <span data-bind="text: Name"></span>
-                            <!-- /ko -->
-                        </td>
+                <!-- ko foreach: Participants-->
+                <tr>
+                    <td class="wide-cell">
                         <!-- ko if: $root.IsEdit() -->
-                        <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
+                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
                         <!-- /ko -->
-                    </tr>
-                    <!-- /ko -->
+                        <!-- ko if: !$root.IsEdit() -->
+                        <span data-bind="text: Name"></span>
+                        <!-- /ko -->
+                    </td>
                     <!-- ko if: $root.IsEdit() -->
-                    <tr>
-                        <td class="actions-cell">
-                            <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                                <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                            </button>
-                        </td>
-                    </tr>
+                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                     <!-- /ko -->
+                </tr>
+                <!-- /ko -->
+                <!-- ko if: $root.IsEdit() -->
+                <tr>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                        </button>
+                    </td>
+                </tr>
+                <!-- /ko -->
                 </tbody>
             </table>
 
@@ -53,7 +53,9 @@
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
             <h4>Постановы:</h4>
-            <div data-bind="if: Actions.IsLoading()">Загрузка . . .</div>
+            <div class="text-center" data-bind="if: Actions.IsLoading()">
+                <img src='@Url.Content("../../Content/Runningdog.gif")' alt="Загрузка . . .">
+            </div>
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">
                 @Html.Partial("Pages")
@@ -76,7 +78,7 @@
                             <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="actions-cell">
                                 <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
-                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?',"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -13,7 +13,8 @@
         <span data-bind="text: (Name() || '')"></span>
         <!-- /ko -->
         <!-- ko if: !$root.IsEdit() -->
-        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
+        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
+                                    cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
         <!-- /ko -->
     </h2>
 </div>

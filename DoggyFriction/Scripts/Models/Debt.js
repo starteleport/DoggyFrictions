@@ -5,22 +5,22 @@
         return new DebtModel(debtData);
     });
 
-    this.PayOff = function (debtModel) {
+    this.PayOff = function(debtModel) {
         var moveMoneyModel = {
             From: debtModel.Debtor,
             To: debtModel.Creditor,
             Amount: debtModel.Amount
         };
-        $.post('Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel)
-            .success(function(actionModel) {
+        var operation = $.post('Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel).promise();
+        window.App.Functions.Process(operation)
+            .done(function(actionModel) {
                 $.snackbar({
-                    content: "Успешно! Постанова <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
-                    htmlAllowed: true
+                    content: "Успешно погашен долг между " + moveMoneyModel.From + " и " + moveMoneyModel.To
+                        + ". Постанова <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
+                    htmlAllowed: true,
+                    timeout: 0
                 });
                 window.App.Functions.Move("#/Session/" + _this.Session.Id + "/Debts")();
-            })
-            .fail(function(a, b, c) {
-                $.snackbar({ content: "Ошибка! " + a + '////' + b + '////' + c });
             });
     }
 }

@@ -203,11 +203,11 @@ namespace DoggyFriction.Services.Repository
 
             var model = actionModels.Single(a => a.SessionId == sessionId && a.Id == id);
             var payers = payerModels.Where(p => p.SessionId == sessionId && p.ActionId == id).ToList();
-            var consumers = model.Consumptions.SelectMany(c => consumerModels.Where(cs => cs.SessionId == sessionId && cs.ConsumptionId == c.Id)).ToList();
+            var consumers = model.Consumptions?.SelectMany(c => consumerModels.Where(cs => cs.SessionId == sessionId && cs.ConsumptionId == c.Id)).ToList();
 
             actionModels.Remove(model);
             payers.ForEach(p => payerModels.Remove(p));
-            consumers.ForEach(c => consumerModels.Remove(c));
+            consumers?.ForEach(c => consumerModels.Remove(c));
 
             SaveEntities(ActionsFileName, actionModels);
             SaveEntities(ConsumersFileName, consumerModels);

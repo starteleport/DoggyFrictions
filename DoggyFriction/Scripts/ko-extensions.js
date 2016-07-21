@@ -29,7 +29,7 @@
     };
 
     ko.bindingHandlers.ifConfirmed = {
-        init: function (element, valueAccessor, allBindings) {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             $(element).click(function() {
                 var template = $('#confirm-dialog-template').html();
                 var modalView = $(template);
@@ -41,7 +41,7 @@
                 var modalModel = {
                     Title: allBindings.get('cdTitle') || 'Подтверждение',
                     Message: allBindings.get('cdMessage') || 'Вы уверены?',
-                    Submit: valueAccessor()
+                    Submit: valueAccessor().bind(bindingContext, bindingContext.$data)
                 };
                 modalView.on('hide.bs.modal', function () {
                     ko.cleanNode(modalView[0]);
