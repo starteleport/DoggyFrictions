@@ -15,7 +15,7 @@ namespace DoggyFriction.Controllers
         {
             var actions = Hub.Repository.GetActions(sessionId);
             var page = filter?.Page ?? 1;
-            var pageSize = 10;
+            var pageSize = filter?.PageSize ?? 10;
             return new PagedCollection<ActionModel> {
                 TotalPages = (int)(actions.Count() / pageSize) + 1,
                 Page = page,
@@ -50,7 +50,8 @@ namespace DoggyFriction.Controllers
             return Hub.Repository.UpdateAction(sessionId, actionModel);
         }
 
-        // DELETE: api/Actions/5
+        // DELETE: api/Actions/5/5
+        [Route("api/Actions/{sessionId:int:min(1)}/{id:int:min(1)}")]
         public void Delete(int sessionId, int id)
         {
             Hub.Repository.DeleteAction(sessionId, id);
@@ -60,5 +61,6 @@ namespace DoggyFriction.Controllers
     public class ActionsFilter
     {
         public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 }

@@ -75,8 +75,8 @@
                             <td class="really-wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="actions-cell">
-                                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="click: Delete"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
+                                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
+                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?',"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>

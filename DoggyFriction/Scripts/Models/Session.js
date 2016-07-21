@@ -17,7 +17,7 @@ function SessionModel(data, isEdit) {
     this.Participants = ko.observableArray(_.map(data.Participants || [], function (participantData) {
         return new ParticipantModel(participantData);
     }));
-    this.Actions = new PagedGridModel('Api/Actions/' + data.Id, function (actionData) {
+    this.Actions = new PagedGridModel('Api/Actions/' + data.Id, 25, function (actionData) {
         return new ActionModel(actionData, _this);
     });
 
@@ -67,8 +67,16 @@ function SessionModel(data, isEdit) {
     }
 
     this.Delete = function () {
-        alert("Удаление тёрки.");
-        window.location.href = '#/Sessions';
+        if (_this.Id <= 0) {
+            alert('Can\'t delete session with id = ' + _this.Id);
+            return;
+        }
+        $.when($.ajax({
+            url: 'Api/Sessions/' + _this.Id,
+            type: 'DELETE'
+        })).done(function () {
+            window.App.Functions.Move('#/Sessions')();
+        });
     }
 
     var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая тёрка') : 'Тёрка';

@@ -42,6 +42,7 @@ namespace DoggyFriction.Controllers
         // DELETE: api/Sessions/5
         public void Delete(int id)
         {
+            Hub.Repository.DeleteSession(id);
         }
     }
 }

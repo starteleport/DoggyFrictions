@@ -1,6 +1,7 @@
-﻿function PagedGridModel(updateUrl, createModel) {
+﻿function PagedGridModel(updateUrl, pageSize, createModel) {
     var _this = this;
     _this.updateUrl = updateUrl;
+    _this.PageSize = pageSize;
     _this.CreateModelFunction = createModel;
     _this.Page = ko.observable(1);
     _this.TotalPages = ko.observable(1);
@@ -13,7 +14,7 @@
         }
         _this.IsLoading(true);
         _this.Rows.removeAll();
-        $.getJSON(_this.updateUrl, { page: page })
+        $.getJSON(_this.updateUrl, { page: page, pageSize: _this.PageSize })
             .done(function(data) {
                 if (data) {
                     _this.Page(data.Page);

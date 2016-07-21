@@ -43,9 +43,17 @@ function ActionModel(actionData, sessionModel, isEdit) {
         });
     });
 
-    this.Delete = function () {
-        alert('Удаление постановы.');
-        window.location.href = '#/Session/' + _this.Session.Id;
+    this.Delete = function() {
+        if (_this.Id <= 0) {
+            alert('Can\'t delete action with id = ' + _this.Id);
+            return;
+        }
+        $.when($.ajax({
+            url: 'Api/Actions/' + _this.Session.Id + '/' + _this.Id,
+            type: 'DELETE'
+        })).done(function() {
+            window.App.Functions.Move('#/Session/' + _this.Session.Id)();
+        });
     }
 
     this.AddConsumption = function (current) {

@@ -96,7 +96,21 @@ namespace DoggyFriction.Services.Repository
 
         public SessionModel DeleteSession(int id)
         {
-            throw new NotImplementedException();
+            var sessionModels = LoadEntities<SessionModel>(SessionsFileName).ToList();
+            var actionModels = LoadEntities<ActionModel>(ActionsFileName).Where(i => i.SessionId != id).ToList();
+            var payerModels = LoadEntities<PayerModel>(PayersFileName).Where(i => i.SessionId != id).ToList();
+            var consumerModels = LoadEntities<ConsumerModel>(ConsumersFileName).Where(i => i.SessionId != id).ToList();
+            var participantModels = LoadEntities<ParticipantModel>(ParticipantsFileName).Where(i => i.SessionId != id).ToList();
+
+            var session = sessionModels.Single(a => a.Id == id);
+            sessionModels.Remove(session);
+
+            SaveEntities(ActionsFileName, actionModels);
+            SaveEntities(ConsumersFileName, consumerModels);
+            SaveEntities(PayersFileName, payerModels);
+            SaveEntities(ParticipantsFileName, participantModels);
+            SaveEntities(SessionsFileName, sessionModels);
+            return session;
         }
 
         public IEnumerable<ActionModel> GetActions(int sessionId)

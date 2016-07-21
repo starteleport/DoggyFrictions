@@ -1,7 +1,7 @@
 ﻿String.prototype.formatDate = function () {
-    var date = moment(this.toString());
+    var date = moment(this.toString(), window.App.Format.DateTime.toUpperCase());
     if (!date.isValid()) {
-        date = moment(this.toString(), window.App.Format.DateTime.toUpperCase());
+        date = moment(this.toString());
     }
     return date.format(window.App.Format.DateTime.toUpperCase());
 };

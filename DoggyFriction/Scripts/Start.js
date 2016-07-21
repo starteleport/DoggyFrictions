@@ -1,13 +1,18 @@
 ﻿$(document).ready(function () {
     window.App = {
+        SammyApp: null,
         Format: {
             DateTime: 'DD/MM/YYYY',
             DateTimeSave: 'YYYY/MM/DD'
         },
         Functions: {
             Move: function(link) {
-                return function() {
-                    window.location.href = link;
+                return function () {
+                    if (window.location.hash === link) {
+                        window.App.SammyApp.refresh();
+                    } else {
+                        window.location.href = link;
+                    }
                 }
             },
             ReapplyJQuerryStuff: function () {
@@ -37,7 +42,7 @@
     };
 
     //Init sammy
-    if ($('#main')[0]) {
+    if ($("#main")[0]) {
         $.get('/Templates/Get').done(function (templates) {
             window.App.Templates = $(templates);
             window.App.Templates.appendTo('body');
@@ -145,5 +150,5 @@ function InitSammy(app) {
             });
     });
 
-    $app.run('#/Sessions');
+    window.App.SammyApp = $app.run('#/Sessions');
 }
