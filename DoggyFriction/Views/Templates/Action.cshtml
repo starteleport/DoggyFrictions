@@ -147,7 +147,7 @@
                                         <!-- ko if: $root.IsEdit() -->
                                         <div>
                                             <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}"></select>
+                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}, hasFocus: HasFocus"></select>
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->

@@ -3,6 +3,7 @@
     this.Id = payerData.Id || 0;
     this.ParticipantId = ko.observable(payerData.ParticipantId);
     this.Amount = ko.observable(payerData.Amount);
+    this.HasFocus = ko.observable(false);
 }
 
 function ActionModel(actionData, sessionModel, isEdit) {
@@ -44,17 +45,13 @@ function ActionModel(actionData, sessionModel, isEdit) {
     });
 
     this.AddConsumption = function (current) {
+        _.each(_this.Consumptions(), function (c) { c.HasFocus(false); });
         var consumptionModel = new ConsumptionModel({}, _this.Session);
         _.forEach(consumptionModel.Consumers(), function (consumer) {
             consumer.IsActive(true);
         });
-        var usedAmount = _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount());
-        }, 0);
-        consumptionModel.Amount(Math.max(_this.Amount() - usedAmount, 0));
         _this.Consumptions.push(consumptionModel);
 
-        _.each(_this.Consumptions(), function (c) { c.HasFocus(false); });
         consumptionModel.HasFocus(true);
         window.App.Functions.ReapplyJQuerryStuff();
     }
@@ -62,8 +59,19 @@ function ActionModel(actionData, sessionModel, isEdit) {
         _this.Consumptions.remove(consumptionModel);
     }
     this.AddPayer = function () {
-        var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id, Amount: 0 });
+        _.each(_this.Payers(), function (c) { c.HasFocus(false); });
+        var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id });
         _this.Payers.push(payerModel);
+        payerModel.HasFocus(true);
+
+        // Calculate unpaid rest
+        var consumedAmount = _.reduce(_this.Consumptions(), function (current, next) {
+            return current + Number(next.Amount() * next.Quantity() || 0);
+        }, 0);
+        var paidAmount = _.reduce(_this.Payers(), function (current, next) {
+            return current + Number(next.Amount() || 0);
+        }, 0);
+        payerModel.Amount(consumedAmount - paidAmount);
 
         window.App.Functions.ReapplyJQuerryStuff();
     }
