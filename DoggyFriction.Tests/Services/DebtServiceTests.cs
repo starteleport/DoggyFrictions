@@ -4,6 +4,7 @@ using DoggyFriction.Models;
 using DoggyFriction.Services;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Action = DoggyFriction.Domain.Action;
 
 namespace DoggyFriction.Tests.Services
 {

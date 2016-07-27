@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DoggyFriction.Models
 {
-    public class MoveMoneyModel
+    public class MoveMoneyTransaction
     {
         [Required]
         [Range(0.01, double.MaxValue)]

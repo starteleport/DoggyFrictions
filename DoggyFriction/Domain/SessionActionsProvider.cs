@@ -6,7 +6,7 @@ namespace DoggyFriction.Domain
 {
     public class SessionActionsProvider
     {
-        public IEnumerable<Action> GetSessionActions(SessionModel session, IEnumerable<ActionModel> actions)
+        public IEnumerable<Action> GetSessionActions(Session session, IEnumerable<Models.Action> actions)
         {
             var participants = session.Participants.ToDictionary(p => p.Id, p => p.Name);
             return actions.Select(
@@ -20,13 +20,13 @@ namespace DoggyFriction.Domain
                     });
         }
 
-        private Participation MapConsumer(ConsumerModel consumer, Dictionary<int, string> participants)
+        private Participation MapConsumer(Consumer consumer, Dictionary<string, string> participants)
             => new Participation {Amount = consumer.Amount, Participant = participants[consumer.ParticipantId]};
 
-        private Participation MapPayer(PayerModel payer, Dictionary<int, string> participants)
+        private Participation MapPayer(Payer payer, Dictionary<string, string> participants)
             => new Participation {Amount = payer.Amount, Participant = participants[payer.ParticipantId]};
 
-        private Good MapConsumption(ConsumptionModel consumption, Dictionary<int, string> participants)
+        private Good MapConsumption(Consumption consumption, Dictionary<string, string> participants)
         {
             return new Good
             {

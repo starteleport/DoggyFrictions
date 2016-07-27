@@ -82,6 +82,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     this.Save = function () {
         var serialized = {
             Id: _this.Id,
+            SessionId: _this.Session.Id,
             Description: _this.Description(),
             Date: _this.Date().extractDate(),
             Payers: _.map(_this.Payers(), function (payerModel) {

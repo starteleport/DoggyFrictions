@@ -10,11 +10,5 @@ namespace DoggyFriction.Controllers
         {
             return View();
         }
-        
-        public FileResult Backup()
-        {
-            var backupFileName = new JsonFileRepository().CreateBackup();
-            return File(backupFileName, MimeMapping.GetMimeMapping(backupFileName));
-        }
     }
 }

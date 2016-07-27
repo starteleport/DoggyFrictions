@@ -16,5 +16,15 @@ namespace DoggyFriction
                 action(item);
             }
         }
+
+        public static bool In<T>(this T obj, params T[] items)
+        {
+            return !items.IsNullOrEmpty() && items.Contains(obj);
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable == null || !enumerable.Any();
+        }
     }
 }
