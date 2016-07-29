@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DoggyFriction.Models;
 using DoggyFriction.Services.Repository.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Action = DoggyFriction.Models.Action;
 
@@ -19,7 +20,9 @@ namespace DoggyFriction.Services.Repository
         public async Task<IEnumerable<Session>> GetSessions()
         {
             var db = GetDatabase();
-            var sessions = await GetSessions(db).AsQueryable().ToListAsync();
+            var sessions = await GetSessions(db)
+                .AsQueryable()
+                .ToListAsync();
             return sessions.Select(session => session.Convert());
         }
 
@@ -52,6 +55,8 @@ namespace DoggyFriction.Services.Repository
             var db = GetDatabase();
             var session = await GetSessions(db)
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == id));
+            await GetActions(db)
+                .DeleteManyAsync(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == id));
             return session.Convert();
         }
 
@@ -78,8 +83,10 @@ namespace DoggyFriction.Services.Repository
             var db = GetDatabase();
             ActionModel action;
             if (model.Id.IsNullOrEmpty() || model.Id == "0") {
+                var actionsCollection = GetActions(db);
+                await CreateIndex(actionsCollection, nameof(ActionModel.SessionId));
                 action = model.Convert();
-                await GetActions(db).InsertOneAsync(action);
+                await actionsCollection.InsertOneAsync(action);
             }
             else {
                 action = await GetActions(db)
@@ -94,6 +101,28 @@ namespace DoggyFriction.Services.Repository
             var action = await GetActions(db)
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id));
             return action.Convert();
+        }
+
+        private async Task CreateIndex<T>(IMongoCollection<T> collection, string fieldName)
+        {
+            var indexes = await collection.Indexes.ListAsync();
+            var sessionIdIndexExists = false;
+            while (await indexes.MoveNextAsync()) {
+                var index = indexes.Current;
+                if (index.Any(d => d.Names.Contains(fieldName))) {
+                    sessionIdIndexExists = true;
+                    break;
+                }
+            }
+            if (!sessionIdIndexExists) {
+                var index = new BsonDocument();
+                index.Add(new BsonElement(fieldName, -1));
+                await collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index), new CreateIndexOptions {
+                    Unique = false,
+                    Sparse = false,
+                    Background = false,
+                });
+            }
         }
     }
 }
