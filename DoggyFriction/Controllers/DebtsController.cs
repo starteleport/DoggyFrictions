@@ -17,6 +17,11 @@ namespace DoggyFriction.Controllers
             var actionModels = await Hub.Repository.GetActions(id);
             var actions = actionsProvider.GetSessionActions(sessionModel, actionModels);
             return Hub.DebtService.GetDebts(actions)
+                .Select(d => new Debt {
+                    Debtor = d.Debtor,
+                    Creditor = d.Creditor,
+                    Transactions = d.Transactions.OrderByDescending(t=>t.Date).ToList()
+                })
                 .OrderBy(d => d.Debtor)
                 .ThenBy(d => d.Creditor);
         }

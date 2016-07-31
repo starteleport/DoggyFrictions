@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace DoggyFriction.Controllers
         // GET: api/Sessions
         public async Task<IEnumerable<Session>> Get()
         {
-            return await Hub.Repository.GetSessions();
+            return (await Hub.Repository.GetSessions()).OrderBy(s => s.Name);
         }
 
         // GET: api/Sessions/5

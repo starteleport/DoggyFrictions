@@ -22,7 +22,7 @@ namespace DoggyFriction.Controllers
             return new PagedCollection<Action> {
                 TotalPages = (actions.Count() / pageSize) + 1,
                 Page = page,
-                Rows = actions.Skip((page - 1) * pageSize).Take(pageSize)
+                Rows = actions.OrderByDescending(a => a.Date).Skip((page - 1) * pageSize).Take(pageSize)
             };
         }
 
