@@ -92,7 +92,7 @@
 
 function InitSammy(app) {
     var $app = app;
-    var show = function (templateName, model) {
+    var show = function(templateName, model) {
         var template = $('#' + templateName + '-template').html();
         // We need to add the view to the DOM before any elements are initialized
         // But we don't want the screen to flicker while the elements are being initialized
@@ -100,72 +100,79 @@ function InitSammy(app) {
         var $view = $(template);
         $view.hide();
         $view.appendTo('body');
-        
+
         ko.applyBindings(model, $view[0]);
         $app.swap($view);
         $view.show();
         window.App.Functions.ReapplyJQuerryStuff();
     };
 
-    $app.get('#/Sessions', function (context) {
-        $.when($.get('Api/Sessions')).then(function (data) {
+    $app.get('#/Sessions', function() {
+        var operation = $.when($.get('Api/Sessions')).then(function(data) {
             var model = new SessionsModel(data);
             show('sessions', model);
-        });
+        }).promise();
+        window.App.Functions.Process(operation);
     });
 
-    $app.get('#/Session/Create', function () {
+    $app.get('#/Session/Create', function() {
         var model = new SessionModel({ Id: 0 }, true);
         show('session', model);
     });
-    $app.get('#/Session/:id', function (context) {
-        $.when($.get('Api/Sessions/' + context.params.id)).then(function (data) {
+    $app.get('#/Session/:id', function(context) {
+        var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
             var model = new SessionModel(data, false);
             model.Actions.LoadPage();
             show('session', model);
-        });
+        }).promise();
+        window.App.Functions.Process(operation);
     });
-    $app.get('#/Session/Edit/:id', function (context) {
-        $.when($.get('Api/Sessions/' + context.params.id)).then(function (data) {
+    $app.get('#/Session/Edit/:id', function(context) {
+        var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
             var model = new SessionModel(data, true);
             show('session', model);
-        });
+        }).promise();
+        window.App.Functions.Process(operation);
     });
 
-    $app.get('#/Session/:sessionId/Action/Create', function (context) {
-        $.when($.get('Api/Sessions/' + context.params.sessionId))
+    $app.get('#/Session/:sessionId/Action/Create', function(context) {
+        var operation = $.when($.get('Api/Sessions/' + context.params.sessionId))
             .then(function(sessionData) {
                 var sessionModel = new SessionModel(sessionData);
                 var actionModel = new ActionModel({}, sessionModel, true);
                 show('action', actionModel);
-            });
+            }).promise();
+        window.App.Functions.Process(operation);
     });
     $app.get('#/Session/:sessionId/Action/Edit/:id', function(context) {
-        $.when($.get('Api/Sessions/' + context.params.sessionId),
+        var operation = $.when($.get('Api/Sessions/' + context.params.sessionId),
                 $.get('Api/Actions/' + context.params.sessionId + '/' + context.params.id))
             .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new ActionModel(actionData[0], sessionModel, true);
                 show('action', actionModel);
-            });
+            }).promise();
+        window.App.Functions.Process(operation);
     });
-    $app.get('#/Session/:sessionId/Action/:id', function (context) {
-        $.when($.get('Api/Sessions/' + context.params.sessionId),
+    $app.get('#/Session/:sessionId/Action/:id', function(context) {
+        var operation = $.when($.get('Api/Sessions/' + context.params.sessionId),
                 $.get('Api/Actions/' + context.params.sessionId + '/' + context.params.id))
-            .then(function (sessionData, actionData) {
+            .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new ActionModel(actionData[0], sessionModel, false);
                 show('action', actionModel);
-            });
+            }).promise();
+        window.App.Functions.Process(operation);
     });
 
-    $app.get('#/Session/:sessionId/Debts', function (context) {
-        $.when($.get('Api/Sessions/' + context.params.sessionId), $.get('Api/Debts/' + context.params.sessionId))
-            .then(function (sessionData, debtsData) {
+    $app.get('#/Session/:sessionId/Debts', function(context) {
+        var operation = $.when($.get('Api/Sessions/' + context.params.sessionId), $.get('Api/Debts/' + context.params.sessionId))
+            .then(function(sessionData, debtsData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new DebtsModel(debtsData[0], sessionModel);
                 show('debts', actionModel);
-            });
+            }).promise();
+        window.App.Functions.Process(operation);
     });
 
     window.App.SammyApp = $app.run('#/Sessions');
