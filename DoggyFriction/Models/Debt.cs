@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DoggyFriction.Services
@@ -8,7 +9,7 @@ namespace DoggyFriction.Services
         public string Debtor { get; set; }
         public string Creditor { get; set; }
         public IList<DebtTransaction> Transactions { get; set; } = new List<DebtTransaction>();
-        public decimal Amount => Transactions.Sum(t => t.Amount);
+        public decimal Amount => Math.Round(Transactions.Sum(t => t.Amount), 2);
 
         public Debt Reverse()
         {
