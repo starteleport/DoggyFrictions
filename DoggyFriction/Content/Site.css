@@ -166,8 +166,7 @@ table.table td input, table.table td span.form-control {
 
 .pages {
     text-align: right;
-    margin-bottom: 10px;
-    padding-right: 65px;
+    padding: 10px 65px 10px 0;
 }
 
 

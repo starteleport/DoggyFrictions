@@ -52,29 +52,36 @@
             </button>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
-            <h4>Постановы:</h4>
+            <div class="container">
+                <h4 class="pull-left">Постановы:</h4>
+                <div class="col-lg-1 pull-right"></div>
+                <!-- ko if: !Actions.IsLoading() -->
+                <span class="pull-right" data-bind="with: Actions">
+                    @Html.Partial("Pages")
+                </span>
+                <!-- /ko -->
+            </div>
             <div class="text-center" data-bind="if: Actions.IsLoading()">
                 <img src='@Url.Content("../../Content/Runningdog.gif")' alt="Загрузка . . .">
             </div>
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">
-                @Html.Partial("Pages")
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
                 <table class="table table-clickable" data-bind="if: Rows().length">
                     <thead>
                         <tr>
-                            <th>Дата</th>
-                            <th class="really-wide">Суть</th>
-                            <th class="really-wide-cell">Спонсор(ы)</th>
+                            <th class="small-cell">Дата</th>
+                            <th class="really-wide-cell">Суть</th>
+                            <th class="wide-cell">Спонсор(ы)</th>
                             <th class="money-cell">Сумма</th>
                             <th class="actions-cell"></th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: Rows">
                         <tr>
-                            <td data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                            <td class="really-wide" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
-                            <td class="really-wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="small-cell" data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="really-wide-cell" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="actions-cell">
                                 <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
