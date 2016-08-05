@@ -7,16 +7,13 @@
         },
         Functions: {
             Process: function (promise) {
-                $('#main').hide();
-                $('#loading-screen').show();
+                $('#loading-screen').fadeIn(300);
                 return $.when(promise)
                     .done(function(result) {
-                        $('#main').show();
-                        $('#loading-screen').hide();
+                        $('#loading-screen').fadeOut(300);
                         return result;
                     }).fail(function(a, b, c) {
-                        $('#main').show();
-                        $('#loading-screen').hide();
+                        $('#loading-screen').fadeOut(300);
                         $.snackbar({
                             content: "Ошибка! " + a + '////' + b + '////' + c,
                             timeout: 0,
