@@ -222,6 +222,7 @@
     <Content Include="Content\Material\ripples.min.css" />
     <Content Include="Content\Plugins\snackbar.min.css" />
     <Content Include="Content\Runningdog.gif" />
+    <Content Include="Content\runningdog_transparent.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

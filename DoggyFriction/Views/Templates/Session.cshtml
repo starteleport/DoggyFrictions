@@ -61,8 +61,8 @@
                 </span>
                 <!-- /ko -->
             </div>
-            <div class="text-center" data-bind="if: Actions.IsLoading()">
-                <img src='@Url.Content("../../Content/Runningdog.gif")' alt="Загрузка . . .">
+            <div class="loading-screen-small" data-bind="if: Actions.IsLoading()">
+                <img src='@Url.Content("../../Content/runningdog_transparent.gif")' alt="Загрузка . . .">
             </div>
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">

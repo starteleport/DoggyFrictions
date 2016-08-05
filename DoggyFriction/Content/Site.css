@@ -3,31 +3,29 @@
     padding-bottom: 20px;
 }
 
-#loading-screen {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    z-index: 9000;
-    -ms-opacity: 0.5;
-    opacity: 0.5;
+#loading-screen .loading-screen-content img {
+    width: 128px;
+    height: 64px;
+    background-color: transparent;
 }
-    #loading-screen img {
-        position: fixed;
-        width: 128px;
-        height: 64px;
-        top: 50%;
-        left: 50%;
-        margin-top: -32px; /* Negative half of height. */
-        margin-left: -64px; /* Negative half of width. */
-        z-index: 9001;
-    }
+#loading-screen .loading-screen-content {
+    position: fixed;
+    width: 128px;
+    height: 64px;
+    top: 40%;
+    left: 50%;
+    z-index: 1050;
+    margin-top: -32px;
+    margin-left: -64px;
+}
+.loading-screen-small img {
+    width: 64px;
+    background-color: transparent;
+}
 
 .navbar {
     height: 50px;
-        z-index: 9999;
+        z-index: 999;
 }
 .navbar .navbar-header .navbar-brand img {
     width: 43px;
