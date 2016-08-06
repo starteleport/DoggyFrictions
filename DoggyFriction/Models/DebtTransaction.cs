@@ -6,16 +6,14 @@ namespace DoggyFriction.Services
     {
         public decimal Amount { get; }
         public string Action { get; }
-        public string Good { get; }
         public DateTime Date { get; }
 
-        public DebtTransaction Reverse() => new DebtTransaction(-Amount, Action, Good, Date);
+        public DebtTransaction Reverse() => new DebtTransaction(-Amount, Action, Date);
 
-        public DebtTransaction(decimal amount, string action, string good, DateTime date)
+        public DebtTransaction(decimal amount, string action, DateTime date)
         {
             Amount = amount;
             Action = action;
-            Good = good;
             Date = date;
         }
     }

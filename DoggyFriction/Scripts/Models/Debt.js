@@ -26,17 +26,7 @@
 }
 function DebtModel(debtData) {
     var _this = this;
-    this.Transactions = _.map(_.pairs(_.groupBy(debtData.Transactions || [], "Action")), function (pair) {
-        var action = pair[0];
-        var transactions = pair[1];
-        return {
-            Action: action,
-            Date: _.first(transactions).Date,
-            Amount: _.reduce(transactions, function (current, next) {
-                return current + Number(next.Amount);
-            }, 0)
-        }
-    });
+    this.Transactions = debtData.Transactions;
     this.Amount = debtData.Amount;
     this.Creditor = debtData.Creditor;
     this.Debtor = debtData.Debtor;

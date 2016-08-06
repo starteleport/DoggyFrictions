@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Action = DoggyFriction.Domain.Action;
 
@@ -15,15 +16,21 @@ namespace DoggyFriction.Services
             var debtAggregator = new DebtAggregator();
             actions.OrderBy(a => a.Date).ForEach(action => {
                 var totalAmountPaid = action.Sponsors.Sum(s => s.Amount);
+                var payersDict = action.Goods
+                    .SelectMany(good => good.Consumers)
+                    .ToLookup(consumer => consumer.Participant)
+                    .ToDictionary(p => p.Key, p => p.Sum(consumer => consumer.Amount));
                 action.Sponsors.ForEach(sponsor => {
                     var sponsorRate = sponsor.Amount / totalAmountPaid;
-                    action.Goods.ForEach(good => {
-                        good.Consumers.Where(c => c.Participant != sponsor.Participant).ForEach(consumer => {
-                            var debtAmount = consumer.Amount * sponsorRate;
-                            var debtTransaction = new DebtTransaction(debtAmount, action.Description, good.Description, action.Date);
-                            debtAggregator.AddTransaction(sponsor.Participant, consumer.Participant, debtTransaction);
+                    payersDict
+                        .Where(pair => pair.Key != sponsor.Participant)
+                        .ForEach(pair => {
+                            var consumer = pair.Key;
+                            var amount = pair.Value;
+                            var debtAmount = Math.Round(amount * sponsorRate, 2);
+                            var debtTransaction = new DebtTransaction(debtAmount, action.Description, action.Date);
+                            debtAggregator.AddTransaction(sponsor.Participant, consumer, debtTransaction);
                         });
-                    });
                 });
             });
             return debtAggregator.GetDebts().Where(totalDebt => totalDebt.Amount != 0);

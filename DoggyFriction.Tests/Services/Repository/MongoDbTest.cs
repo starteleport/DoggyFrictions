@@ -20,13 +20,13 @@ namespace DoggyFriction.Tests.Services.Repository
         {
             fixture = new Fixture();
             fixture.Customize<decimal>(c => c.FromFactory<int>(i => Math.Round(Math.Abs(i) * 1.33m, 2)));
-            client = new MongoClient(MongoUrl.Create("mongodb://svsokrat:qwedsa@ds027165.mlab.com:27165/doggyfrictions"));
+            client = new MongoClient(MongoUrl.Create("mongodb://svsokrat:qwedsa@ds027165.mlab.com:27165/doggyfrictions-test"));
         }
 
-        [Test]
+        [Test, Explicit]
         public async Task CRUD_Test()
         {
-            var db = client.GetDatabase("doggyfrictions");
+            var db = client.GetDatabase("doggyfrictions-test");
 
             await db.DropCollectionAsync("Session");
 

@@ -20,7 +20,7 @@ namespace DoggyFriction.Controllers
                 .Select(d => new Debt {
                     Debtor = d.Debtor,
                     Creditor = d.Creditor,
-                    Transactions = d.Transactions.OrderByDescending(t=>t.Date).ToList()
+                    Transactions = d.Transactions.OrderByDescending(t => t.Date).ToList()
                 })
                 .OrderBy(d => d.Debtor)
                 .ThenBy(d => d.Creditor);
