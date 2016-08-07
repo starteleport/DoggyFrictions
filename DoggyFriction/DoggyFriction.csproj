@@ -194,6 +194,11 @@
     <Compile Include="Models\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Debt.cs" />
+    <Compile Include="Services\Cache\ActionsCache.cs" />
+    <Compile Include="Services\Cache\CacheBase.cs" />
+    <Compile Include="Services\Cache\ICacheService.cs" />
+    <Compile Include="Services\Cache\SessionsCache.cs" />
+    <Compile Include="Services\CachedRepository.cs" />
     <Compile Include="Services\DebtAggregator.cs" />
     <Compile Include="Models\DebtTransaction.cs" />
     <Compile Include="Services\DebtService.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Services\Repository\Models\ActionModel.cs" />
     <Compile Include="Services\Repository\Models\SessionModel.cs" />
     <Compile Include="Services\Repository\MongoRepository.cs" />
+    <Compile Include="Services\Repository\UpdateTime.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>

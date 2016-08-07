@@ -14,13 +14,13 @@ namespace DoggyFriction.Controllers
         // GET: api/Sessions
         public async Task<IEnumerable<Session>> Get()
         {
-            return (await Hub.Repository.GetSessions()).OrderBy(s => s.Name);
+            return (await Hub.CachedRepository.GetSessions()).OrderBy(s => s.Name);
         }
 
         // GET: api/Sessions/5
         public async Task<Session> Get(string id)
         {
-            return await Hub.Repository.GetSession(id);
+            return await Hub.CachedRepository.GetSession(id);
         }
 
         // POST: api/Sessions

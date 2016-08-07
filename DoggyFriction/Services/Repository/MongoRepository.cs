@@ -16,6 +16,7 @@ namespace DoggyFriction.Services.Repository
             .GetDatabase("doggyfrictions");
         private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db) => db.GetCollection<SessionModel>("Session");
         private static IMongoCollection<ActionModel> GetActions(IMongoDatabase db) => db.GetCollection<ActionModel>("Action");
+        private static IMongoCollection<UpdateTime> GetUpdateTimes(IMongoDatabase db) => db.GetCollection<UpdateTime>("UpdateTime");
 
         public async Task<IEnumerable<Session>> GetSessions()
         {
@@ -47,6 +48,7 @@ namespace DoggyFriction.Services.Repository
                 session = await GetSessions(db)
                     .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id), model.Convert());
             }
+            await LogUpdateTime(db, "Session");
             return session.Convert();
         }
 
@@ -57,7 +59,25 @@ namespace DoggyFriction.Services.Repository
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == id));
             await GetActions(db)
                 .DeleteManyAsync(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == id));
+            await LogUpdateTime(db, "Session");
             return session.Convert();
+        }
+
+        public async Task<DateTime> GetLastSessionsUpdateTime()
+        {
+            var db = GetDatabase();
+            return (await GetUpdateTimes(db)
+                .Find(new ExpressionFilterDefinition<UpdateTime>(t => t.TableName == "Session"))
+                .FirstOrDefaultAsync())?.UpdatedOn ?? DateTime.Now.AddDays(-1);
+        }
+
+        public async Task<IEnumerable<Action>> GetActions()
+        {
+            var db = GetDatabase();
+            var actions = await GetActions(db)
+                .AsQueryable()
+                .ToListAsync();
+            return actions.Select(action => action.Convert());
         }
 
         public async Task<IEnumerable<Action>> GetActions(string sessionId)
@@ -92,6 +112,7 @@ namespace DoggyFriction.Services.Repository
                 action = await GetActions(db)
                     .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id), model.Convert());
             }
+            await LogUpdateTime(db, "Action");
             return action.Convert();
         }
 
@@ -100,7 +121,24 @@ namespace DoggyFriction.Services.Repository
             var db = GetDatabase();
             var action = await GetActions(db)
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id));
+            await LogUpdateTime(db, "Action");
             return action.Convert();
+        }
+
+        public async Task<DateTime> GetLastActionsUpdateTime()
+        {
+            var db = GetDatabase();
+            return (await GetUpdateTimes(db)
+                .Find(new ExpressionFilterDefinition<UpdateTime>(t => t.TableName == "Action"))
+                .FirstOrDefaultAsync())?.UpdatedOn ?? DateTime.Now.AddDays(-1);
+        }
+
+        private async Task LogUpdateTime(IMongoDatabase db, string tableName)
+        {
+            await GetUpdateTimes(db).FindOneAndReplaceAsync(
+                new ExpressionFilterDefinition<UpdateTime>(t => t.TableName == tableName),
+                new UpdateTime() {TableName = tableName, UpdatedOn = DateTime.UtcNow},
+                new FindOneAndReplaceOptions<UpdateTime, UpdateTime> {IsUpsert = true});
         }
 
         private async Task CreateIndex<T>(IMongoCollection<T> collection, string fieldName)

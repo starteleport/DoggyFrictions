@@ -13,8 +13,8 @@ namespace DoggyFriction.Controllers
         public async Task<IEnumerable<Debt>> Get(string id)
         {
             var actionsProvider = new SessionActionsProvider();
-            var sessionModel = await Hub.Repository.GetSession(id);
-            var actionModels = await Hub.Repository.GetActions(id);
+            var sessionModel = await Hub.CachedRepository.GetSession(id);
+            var actionModels = await Hub.CachedRepository.GetActions(id);
             var actions = actionsProvider.GetSessionActions(sessionModel, actionModels);
             return Hub.DebtService.GetDebts(actions)
                 .Select(d => new Debt {

@@ -16,7 +16,7 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId}")]
         public async Task<PagedCollection<Action>> Get(string sessionId, [FromUri] ActionsFilter filter = null)
         {
-            var actions = await Hub.Repository.GetActions(sessionId);
+            var actions = await Hub.CachedRepository.GetActions(sessionId);
             var page = filter?.Page ?? 1;
             var pageSize = filter?.PageSize ?? 10;
             return new PagedCollection<Action> {
@@ -30,7 +30,7 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId}/{id}")]
         public async Task<Action> Get(string sessionId, string id)
         {
-            return await Hub.Repository.GetAction(sessionId, id);
+            return await Hub.CachedRepository.GetAction(sessionId, id);
         }
 
         // POST: api/Actions/5
@@ -59,7 +59,7 @@ namespace DoggyFriction.Controllers
             if (!ModelState.IsValid) {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            var sessionModel = await Hub.Repository.GetSession(sessionId);
+            var sessionModel = await Hub.CachedRepository.GetSession(sessionId);
             var fromParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.From);
             var toParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.To);
             if (fromParticipant == null || toParticipant == null) {
