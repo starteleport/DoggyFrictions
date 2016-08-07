@@ -136,8 +136,8 @@ namespace DoggyFriction.Services.Repository
         private async Task LogUpdateTime(IMongoDatabase db, string tableName)
         {
             await GetUpdateTimes(db).FindOneAndReplaceAsync(
-                new ExpressionFilterDefinition<UpdateTime>(t => t.TableName == tableName),
-                new UpdateTime() {TableName = tableName, UpdatedOn = DateTime.UtcNow},
+                new ExpressionFilterDefinition<UpdateTime>(t => t.Id == tableName),
+                new UpdateTime {Id = tableName, TableName = tableName, UpdatedOn = DateTime.UtcNow},
                 new FindOneAndReplaceOptions<UpdateTime, UpdateTime> {IsUpsert = true});
         }
 
