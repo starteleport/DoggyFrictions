@@ -129,7 +129,7 @@ namespace DoggyFriction.Services.Repository
         {
             var db = GetDatabase();
             return (await GetUpdateTimes(db)
-                .Find(new ExpressionFilterDefinition<UpdateTime>(t => t.TableName == "Action"))
+                .Find(new ExpressionFilterDefinition<UpdateTime>(t => t.Id == "Action"))
                 .FirstOrDefaultAsync())?.UpdatedOn ?? DateTime.Now.AddDays(-1);
         }
 
