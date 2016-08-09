@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using DoggyFriction.Models;
@@ -12,11 +13,17 @@ namespace DoggyFriction.Services.Repository
 {
     public class MongoRepository : IRepository
     {
-        private IMongoDatabase GetDatabase() => new MongoClient(MongoUrl.Create("mongodb://svsokrat:qwedsa@ds027165.mlab.com:27165/doggyfrictions"))
+        private IMongoDatabase GetDatabase() => new MongoClient(MongoUrl.Create(ConfigurationManager.ConnectionStrings["mongo"].ConnectionString))
             .GetDatabase("doggyfrictions");
-        private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db) => db.GetCollection<SessionModel>("Session");
-        private static IMongoCollection<ActionModel> GetActions(IMongoDatabase db) => db.GetCollection<ActionModel>("Action");
-        private static IMongoCollection<UpdateTime> GetUpdateTimes(IMongoDatabase db) => db.GetCollection<UpdateTime>("UpdateTime");
+
+        private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db)
+            => db.GetCollection<SessionModel>("Session");
+
+        private static IMongoCollection<ActionModel> GetActions(IMongoDatabase db)
+            => db.GetCollection<ActionModel>("Action");
+
+        private static IMongoCollection<UpdateTime> GetUpdateTimes(IMongoDatabase db)
+            => db.GetCollection<UpdateTime>("UpdateTime");
 
         public async Task<IEnumerable<Session>> GetSessions()
         {
@@ -74,9 +81,7 @@ namespace DoggyFriction.Services.Repository
         public async Task<IEnumerable<Action>> GetActions()
         {
             var db = GetDatabase();
-            var actions = await GetActions(db)
-                .AsQueryable()
-                .ToListAsync();
+            var actions = await GetActions(db).AsQueryable().ToListAsync();
             return actions.Select(action => action.Convert());
         }
 
@@ -102,13 +107,15 @@ namespace DoggyFriction.Services.Repository
         {
             var db = GetDatabase();
             ActionModel action;
-            if (model.Id.IsNullOrEmpty() || model.Id == "0") {
+            if (model.Id.IsNullOrEmpty() || model.Id == "0")
+            {
                 var actionsCollection = GetActions(db);
                 await CreateIndex(actionsCollection, nameof(ActionModel.SessionId));
                 action = model.Convert();
                 await actionsCollection.InsertOneAsync(action);
             }
-            else {
+            else
+            {
                 action = await GetActions(db)
                     .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id), model.Convert());
             }
@@ -145,21 +152,27 @@ namespace DoggyFriction.Services.Repository
         {
             var indexes = await collection.Indexes.ListAsync();
             var sessionIdIndexExists = false;
-            while (await indexes.MoveNextAsync()) {
+            while (await indexes.MoveNextAsync())
+            {
                 var index = indexes.Current;
-                if (index.Any(d => d.Names.Contains(fieldName))) {
+                if (index.Any(d => d.Names.Contains(fieldName)))
+                {
                     sessionIdIndexExists = true;
                     break;
                 }
             }
-            if (!sessionIdIndexExists) {
+            if (!sessionIdIndexExists)
+            {
                 var index = new BsonDocument();
                 index.Add(new BsonElement(fieldName, -1));
-                await collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index), new CreateIndexOptions {
-                    Unique = false,
-                    Sparse = false,
-                    Background = false,
-                });
+                await
+                    collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index),
+                        new CreateIndexOptions
+                        {
+                            Unique = false,
+                            Sparse = false,
+                            Background = false,
+                        });
             }
         }
     }
