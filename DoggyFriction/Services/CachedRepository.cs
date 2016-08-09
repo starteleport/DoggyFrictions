@@ -14,6 +14,12 @@ namespace DoggyFriction.Services
     {
         readonly SessionsCache sessionsCache = new SessionsCache();
         readonly ActionsCache actionsCache = new ActionsCache();
+        private readonly IRepository _repository;
+
+        public CachedRepository(IRepository repository)
+        {
+            _repository = repository;
+        }
 
         // Cached methods
         public async Task<IEnumerable<Session>> GetSessions() => await sessionsCache.GetItems();
@@ -24,11 +30,11 @@ namespace DoggyFriction.Services
         public async Task<Action> GetAction(string sessionId, string id) => await actionsCache.GetItem(id);
 
         // Non-cached methods
-        public async Task<Session> UpdateSession(Session model) => await Hub.Repository.UpdateSession(model);
-        public async Task<Session> DeleteSession(string id) => await Hub.Repository.DeleteSession(id);
-        public async Task<DateTime> GetLastSessionsUpdateTime() => await Hub.Repository.GetLastSessionsUpdateTime();
-        public async Task<Action> UpdateAction(string sessionId, Action model) => await Hub.Repository.UpdateAction(sessionId, model);
-        public async Task<Action> DeleteAction(string sessionId, string id) => await Hub.Repository.DeleteAction(sessionId, id);
-        public async Task<DateTime> GetLastActionsUpdateTime() => await Hub.Repository.GetLastActionsUpdateTime();
+        public async Task<Session> UpdateSession(Session model) => await _repository.UpdateSession(model);
+        public async Task<Session> DeleteSession(string id) => await _repository.DeleteSession(id);
+        public async Task<DateTime> GetLastSessionsUpdateTime() => await _repository.GetLastSessionsUpdateTime();
+        public async Task<Action> UpdateAction(string sessionId, Action model) => await _repository.UpdateAction(sessionId, model);
+        public async Task<Action> DeleteAction(string sessionId, string id) => await _repository.DeleteAction(sessionId, id);
+        public async Task<DateTime> GetLastActionsUpdateTime() => await _repository.GetLastActionsUpdateTime();
     }
 }
