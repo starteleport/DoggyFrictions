@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Web;
-using DoggyFriction.Models;
 
-namespace DoggyFriction.Services
+namespace DoggyFriction.Services.Cache
 {
     public abstract class CacheBase<T> : ICacheService<T> where T : class
     {
         private readonly object lockObject = new object();
-        private Task reloadTask = null;
-        private ConcurrentDictionary<string, T> items = null;
+        private Task reloadTask;
+        private ConcurrentDictionary<string, T> items;
         
         public async Task<T> GetItem(string id)
         {
@@ -37,8 +33,17 @@ namespace DoggyFriction.Services
             }
             if (items == null || !await IsActual()) {
                 lock (lockObject) {
-                    if (reloadTask == null) {
-                        reloadTask = Task.Run(() => { items = new ConcurrentDictionary<string, T>(Fetch().Select(i => new KeyValuePair<string, T>(GetKey(i), i))); }).ContinueWith(t => reloadTask = null);
+                    if (reloadTask == null)
+                    {
+                        reloadTask =
+                            Task.Run(
+                                () =>
+                                {
+                                    items =
+                                        new ConcurrentDictionary<string, T>(
+                                            Fetch().Select(i => new KeyValuePair<string, T>(GetKey(i), i)));
+                                })
+                                .ContinueWith(t => reloadTask = null);
                     }
                 }
             }

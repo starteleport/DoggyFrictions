@@ -6,17 +6,25 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using DoggyFriction.Models;
 using DoggyFriction.Services;
+using DoggyFriction.Services.Repository;
 using Action = DoggyFriction.Models.Action;
 
 namespace DoggyFriction.Controllers
 {
     public class ActionsController : ApiController
     {
+        private readonly IRepository _cachedRepository;
+
+        public ActionsController()
+        {
+            _cachedRepository = Hub.CachedRepository;
+        }
+
         // GET: api/Actions/5
         [Route("api/Actions/{sessionId}")]
         public async Task<PagedCollection<Action>> Get(string sessionId, [FromUri] ActionsFilter filter = null)
         {
-            var actions = await Hub.CachedRepository.GetActions(sessionId);
+            var actions = await _cachedRepository.GetActions(sessionId);
             var page = filter?.Page ?? 1;
             var pageSize = filter?.PageSize ?? 10;
             return new PagedCollection<Action> {
@@ -30,7 +38,7 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId}/{id}")]
         public async Task<Action> Get(string sessionId, string id)
         {
-            return await Hub.CachedRepository.GetAction(sessionId, id);
+            return await _cachedRepository.GetAction(sessionId, id);
         }
 
         // POST: api/Actions/5
@@ -59,7 +67,7 @@ namespace DoggyFriction.Controllers
             if (!ModelState.IsValid) {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            var sessionModel = await Hub.CachedRepository.GetSession(sessionId);
+            var sessionModel = await _cachedRepository.GetSession(sessionId);
             var fromParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.From);
             var toParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.To);
             if (fromParticipant == null || toParticipant == null) {

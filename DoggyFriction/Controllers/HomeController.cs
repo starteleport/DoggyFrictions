@@ -1,6 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using DoggyFriction.Services.Repository;
+﻿using System.Web.Mvc;
 
 namespace DoggyFriction.Controllers
 {

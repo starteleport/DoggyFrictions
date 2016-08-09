@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using DoggyFriction.Domain;
-using DoggyFriction.Models;
 using DoggyFriction.Services;
 using NUnit.Framework;
 using Ploeh.AutoFixture;

@@ -6,21 +6,31 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using DoggyFriction.Models;
 using DoggyFriction.Services;
+using DoggyFriction.Services.Repository;
 
 namespace DoggyFriction.Controllers
 {
     public class SessionsController : ApiController
     {
+        private readonly IRepository _cachedRepository;
+        private readonly IRepository _repository;
+
+        public SessionsController()
+        {
+            _cachedRepository = Hub.CachedRepository;
+            _repository = Hub.Repository;
+        }
+
         // GET: api/Sessions
         public async Task<IEnumerable<Session>> Get()
         {
-            return (await Hub.CachedRepository.GetSessions()).OrderBy(s => s.Name);
+            return (await _cachedRepository.GetSessions()).OrderBy(s => s.Name);
         }
 
         // GET: api/Sessions/5
         public async Task<Session> Get(string id)
         {
-            return await Hub.CachedRepository.GetSession(id);
+            return await _cachedRepository.GetSession(id);
         }
 
         // POST: api/Sessions
@@ -29,7 +39,7 @@ namespace DoggyFriction.Controllers
             if (session.Id != "0") {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            return await Hub.Repository.UpdateSession(session);
+            return await _repository.UpdateSession(session);
         }
 
         // PUT: api/Sessions/5
@@ -38,13 +48,13 @@ namespace DoggyFriction.Controllers
             if (session.Id == "0") {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            return await Hub.Repository.UpdateSession(session);
+            return await _repository.UpdateSession(session);
         }
 
         // DELETE: api/Sessions/5
         public async Task<Session> Delete(string id)
         {
-            return await Hub.Repository.DeleteSession(id);
+            return await _repository.DeleteSession(id);
         }
     }
 }
