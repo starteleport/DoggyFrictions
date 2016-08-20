@@ -450,7 +450,7 @@
   </Target> -->
   <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild">
     <ItemGroup>
-      <RoslynFiles Include="..\packages\Microsoft.Net.Compilers.1.2.2\tools\*" />
+      <RoslynFiles Include="..\packages\Microsoft.Net.Compilers.1.3.2\tools\*" />
     </ItemGroup>
     <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
     <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
