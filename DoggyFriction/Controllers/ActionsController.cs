@@ -27,8 +27,10 @@ namespace DoggyFriction.Controllers
             var actions = await _cachedRepository.GetActions(sessionId);
             var page = filter?.Page ?? 1;
             var pageSize = filter?.PageSize ?? 10;
-            return new PagedCollection<Action> {
-                TotalPages = (actions.Count() / pageSize) + 1,
+
+            return new PagedCollection<Action>
+            {
+                TotalPages = actions.Count() / pageSize + 1,
                 Page = page,
                 Rows = actions.OrderByDescending(a => a.Date).Skip((page - 1) * pageSize).Take(pageSize)
             };

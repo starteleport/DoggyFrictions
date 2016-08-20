@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using DoggyFriction.Models;
 using DoggyFriction.Services.Cache;
 using DoggyFriction.Services.Repository;
@@ -12,13 +11,15 @@ namespace DoggyFriction.Services
 {
     public class CachedRepository : IRepository
     {
-        readonly SessionsCache sessionsCache = new SessionsCache();
-        readonly ActionsCache actionsCache = new ActionsCache();
+        readonly SessionsCache sessionsCache;
+        readonly ActionsCache actionsCache;
         private readonly IRepository _repository;
 
         public CachedRepository(IRepository repository)
         {
             _repository = repository;
+            sessionsCache = new SessionsCache(repository);
+            actionsCache = new ActionsCache(repository);
         }
 
         // Cached methods

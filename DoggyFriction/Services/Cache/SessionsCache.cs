@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using DoggyFriction.Models;
+using DoggyFriction.Services.Repository;
 using Session = DoggyFriction.Models.Session;
 
 namespace DoggyFriction.Services.Cache
@@ -11,19 +9,25 @@ namespace DoggyFriction.Services.Cache
     public class SessionsCache : CacheBase<Session>
     {
         private DateTime cacheUpdateTime = DateTime.MinValue;
+        private readonly IRepository _repository;
+
+        public SessionsCache(IRepository repository)
+        {
+            _repository = repository;
+        }
 
         protected override string GetKey(Session item) => item.Id;
 
         protected override IEnumerable<Session> Fetch()
         {
             cacheUpdateTime = DateTime.UtcNow;
-            return Hub.Repository.GetSessions().Result;
+            return _repository.GetSessions().Result;
         }
 
         protected override async Task<bool> IsActual()
         {
-            var repoUpdateTime = await Hub.Repository.GetLastSessionsUpdateTime();
-            return repoUpdateTime < cacheUpdateTime && cacheUpdateTime > DateTime.UtcNow.AddMinutes(-30);
+            var repoUpdateTime = await _repository.GetLastSessionsUpdateTime();
+            return repoUpdateTime < cacheUpdateTime;
         }
     }
 }

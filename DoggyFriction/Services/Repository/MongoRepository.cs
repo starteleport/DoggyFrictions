@@ -13,8 +13,9 @@ namespace DoggyFriction.Services.Repository
 {
     public class MongoRepository : IRepository
     {
-        private IMongoDatabase GetDatabase() => new MongoClient(MongoUrl.Create(ConfigurationManager.ConnectionStrings["mongo"].ConnectionString))
-            .GetDatabase("doggyfrictions");
+        private IMongoDatabase GetDatabase()
+            => new MongoClient(MongoUrl.Create(ConfigurationManager.ConnectionStrings["mongo"].ConnectionString))
+                .GetDatabase("doggyfrictions");
 
         private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db)
             => db.GetCollection<SessionModel>("Session");
@@ -47,13 +48,16 @@ namespace DoggyFriction.Services.Repository
         {
             var db = GetDatabase();
             SessionModel session;
-            if (model.Id.IsNullOrEmpty() || model.Id == "0") {
+            if (model.Id.IsNullOrEmpty() || model.Id == "0")
+            {
                 session = model.Convert();
                 await GetSessions(db).InsertOneAsync(session);
             }
-            else {
+            else
+            {
                 session = await GetSessions(db)
-                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id), model.Convert());
+                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id),
+                        model.Convert());
             }
             await LogUpdateTime(db, "Session");
             return session.Convert();
@@ -117,7 +121,8 @@ namespace DoggyFriction.Services.Repository
             else
             {
                 action = await GetActions(db)
-                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id), model.Convert());
+                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id),
+                        model.Convert());
             }
             await LogUpdateTime(db, "Action");
             return action.Convert();
@@ -163,8 +168,7 @@ namespace DoggyFriction.Services.Repository
             }
             if (!sessionIdIndexExists)
             {
-                var index = new BsonDocument();
-                index.Add(new BsonElement(fieldName, -1));
+                var index = new BsonDocument {new BsonElement(fieldName, -1)};
                 await
                     collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index),
                         new CreateIndexOptions

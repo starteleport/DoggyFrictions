@@ -27,12 +27,15 @@ namespace DoggyFriction.Services.Cache
         
         private async Task UpdateCache()
         {
-            if (reloadTask != null) {
+            if (reloadTask != null)
+            {
                 await reloadTask;
                 return;
             }
-            if (items == null || !await IsActual()) {
-                lock (lockObject) {
+            if (items == null || !await IsActual())
+            {
+                lock (lockObject)
+                {
                     if (reloadTask == null)
                     {
                         reloadTask =
@@ -47,9 +50,8 @@ namespace DoggyFriction.Services.Cache
                     }
                 }
             }
-            if (reloadTask != null) {
+            if (reloadTask != null)
                 await reloadTask;
-            }
         }
 
         protected abstract string GetKey(T item);
