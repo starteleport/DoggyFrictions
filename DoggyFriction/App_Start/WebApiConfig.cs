@@ -15,6 +15,7 @@ namespace DoggyFriction
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.DependencyResolver = new StructureMapResolver(IocFactory.GetContainer());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

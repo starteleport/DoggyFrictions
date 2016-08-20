@@ -5,33 +5,27 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DoggyFriction.Models;
-using DoggyFriction.Services;
 using DoggyFriction.Services.Repository;
 
 namespace DoggyFriction.Controllers
 {
     public class SessionsController : ApiController
     {
-        private readonly IRepository _cachedRepository;
         private readonly IRepository _repository;
 
-        public SessionsController()
+        public SessionsController(IRepository repository)
         {
-            _cachedRepository = Hub.CachedRepository;
-            _repository = Hub.Repository;
+            _repository = repository;
         }
 
         // GET: api/Sessions
         public async Task<IEnumerable<Session>> Get()
         {
-            return (await _cachedRepository.GetSessions()).OrderBy(s => s.Name);
+            return (await _repository.GetSessions()).OrderBy(s => s.Name);
         }
 
         // GET: api/Sessions/5
-        public async Task<Session> Get(string id)
-        {
-            return await _cachedRepository.GetSession(id);
-        }
+        public async Task<Session> Get(string id) => await _repository.GetSession(id);
 
         // POST: api/Sessions
         public async Task<Session> Post([FromBody]Session session)

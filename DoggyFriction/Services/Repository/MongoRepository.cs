@@ -32,7 +32,7 @@ namespace DoggyFriction.Services.Repository
             var sessions = await GetSessions(db)
                 .AsQueryable()
                 .ToListAsync();
-            return sessions.Select(session => session.Convert());
+            return sessions.Select(session => session.FromModel());
         }
 
         public async Task<Session> GetSession(string id)
@@ -41,7 +41,7 @@ namespace DoggyFriction.Services.Repository
             var session = await GetSessions(db)
                 .Find(new ExpressionFilterDefinition<SessionModel>(s => s.Id == id))
                 .SingleOrDefaultAsync();
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<Session> UpdateSession(Session model)
@@ -50,17 +50,17 @@ namespace DoggyFriction.Services.Repository
             SessionModel session;
             if (model.Id.IsNullOrEmpty() || model.Id == "0")
             {
-                session = model.Convert();
+                session = model.ToModel();
                 await GetSessions(db).InsertOneAsync(session);
             }
             else
             {
                 session = await GetSessions(db)
                     .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id),
-                        model.Convert());
+                        model.ToModel());
             }
             await LogUpdateTime(db, "Session");
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<Session> DeleteSession(string id)
@@ -71,7 +71,7 @@ namespace DoggyFriction.Services.Repository
             await GetActions(db)
                 .DeleteManyAsync(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == id));
             await LogUpdateTime(db, "Session");
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<DateTime> GetLastSessionsUpdateTime()
@@ -86,16 +86,16 @@ namespace DoggyFriction.Services.Repository
         {
             var db = GetDatabase();
             var actions = await GetActions(db).AsQueryable().ToListAsync();
-            return actions.Select(action => action.Convert());
+            return actions.Select(action => action.FromModel());
         }
 
-        public async Task<IEnumerable<Action>> GetActions(string sessionId)
+        public async Task<IEnumerable<Action>> GetSessionActions(string sessionId)
         {
             var db = GetDatabase();
             var actions = await GetActions(db)
                 .Find(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == sessionId))
                 .ToListAsync();
-            return actions.Select(action => action.Convert());
+            return actions.Select(action => action.FromModel());
         }
 
         public async Task<Action> GetAction(string sessionId, string id)
@@ -104,7 +104,7 @@ namespace DoggyFriction.Services.Repository
             var action = await GetActions(db)
                 .Find(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id))
                 .SingleOrDefaultAsync();
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<Action> UpdateAction(string sessionId, Action model)
@@ -115,17 +115,17 @@ namespace DoggyFriction.Services.Repository
             {
                 var actionsCollection = GetActions(db);
                 await CreateIndex(actionsCollection, nameof(ActionModel.SessionId));
-                action = model.Convert();
+                action = model.ToModel();
                 await actionsCollection.InsertOneAsync(action);
             }
             else
             {
                 action = await GetActions(db)
                     .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id),
-                        model.Convert());
+                        model.ToModel());
             }
             await LogUpdateTime(db, "Action");
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<Action> DeleteAction(string sessionId, string id)
@@ -134,7 +134,7 @@ namespace DoggyFriction.Services.Repository
             var action = await GetActions(db)
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id));
             await LogUpdateTime(db, "Action");
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<DateTime> GetLastActionsUpdateTime()

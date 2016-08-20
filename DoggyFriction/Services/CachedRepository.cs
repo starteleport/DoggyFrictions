@@ -15,7 +15,7 @@ namespace DoggyFriction.Services
         readonly ActionsCache actionsCache;
         private readonly IRepository _repository;
 
-        public CachedRepository(IRepository repository)
+        public CachedRepository(MongoRepository repository)
         {
             _repository = repository;
             sessionsCache = new SessionsCache(repository);
@@ -26,7 +26,7 @@ namespace DoggyFriction.Services
         public async Task<IEnumerable<Session>> GetSessions() => await sessionsCache.GetItems();
         public async Task<Session> GetSession(string id) => await sessionsCache.GetItem(id);
         public async Task<IEnumerable<Action>> GetActions() => await actionsCache.GetItems();
-        public async Task<IEnumerable<Action>> GetActions(string sessionId) => 
+        public async Task<IEnumerable<Action>> GetSessionActions(string sessionId) => 
             (await actionsCache.GetItems()).Where(a => a.SessionId == sessionId).ToList();
         public async Task<Action> GetAction(string sessionId, string id) => await actionsCache.GetItem(id);
 
