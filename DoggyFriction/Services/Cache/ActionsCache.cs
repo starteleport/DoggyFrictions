@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DoggyFriction.Services.Repository;
 using Action = DoggyFriction.Models.Action;
 
 namespace DoggyFriction.Services.Cache
@@ -8,19 +9,25 @@ namespace DoggyFriction.Services.Cache
     public class ActionsCache : CacheBase<Action>
     {
         private DateTime cacheUpdateTime = DateTime.MinValue;
+        private readonly IRepository _repository;
+
+        public ActionsCache(IRepository repository)
+        {
+            _repository = repository;
+        }
 
         protected override string GetKey(Action item) => item.Id;
 
         protected override IEnumerable<Action> Fetch()
         {
             cacheUpdateTime = DateTime.UtcNow;
-            return Hub.Repository.GetActions().Result;
+            return _repository.GetActions().Result;
         }
 
         protected override async Task<bool> IsActual()
         {
-            var repoUpdateTime = await Hub.Repository.GetLastActionsUpdateTime();
-            return repoUpdateTime < cacheUpdateTime && cacheUpdateTime > DateTime.UtcNow.AddMinutes(-30);
+            var repoUpdateTime = await _repository.GetLastActionsUpdateTime();
+            return repoUpdateTime < cacheUpdateTime;
         }
     }
 }

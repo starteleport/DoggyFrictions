@@ -15,7 +15,7 @@ namespace DoggyFriction.Services.Repository
         Task<DateTime> GetLastSessionsUpdateTime();
         
         Task<IEnumerable<Action>> GetActions();
-        Task<IEnumerable<Action>> GetActions(string sessionId);
+        Task<IEnumerable<Action>> GetSessionActions(string sessionId);
         Task<Action> GetAction(string sessionId, string id);
         Task<Action> UpdateAction(string sessionId, Action model);
         Task<Action> DeleteAction(string sessionId, string id);

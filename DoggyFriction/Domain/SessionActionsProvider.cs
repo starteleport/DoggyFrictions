@@ -8,15 +8,15 @@ namespace DoggyFriction.Domain
     {
         public IEnumerable<Action> GetSessionActions(Session session, IEnumerable<Models.Action> actions)
         {
-            var participants = session.Participants.ToDictionary(p => p.Id, p => p.Name);
+            var participantIdNames = session.Participants.ToDictionary(p => p.Id, p => p.Name);
             return actions.Select(
                 a =>
                     new Action
                     {
                         Date = a.Date,
                         Description = a.Description,
-                        Goods = a.Consumptions.Select(c => MapConsumption(c, participants)),
-                        Sponsors = a.Payers.Select(p => MapPayer(p, participants))
+                        Goods = a.Consumptions.Select(c => MapConsumption(c, participantIdNames)),
+                        Sponsors = a.Payers.Select(p => MapPayer(p, participantIdNames))
                     });
         }
 

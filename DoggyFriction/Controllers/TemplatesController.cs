@@ -4,9 +4,6 @@ namespace DoggyFriction.Controllers
 {
     public class TemplatesController : Controller
     {
-        public ActionResult Get()
-        {
-            return PartialView("Templates");
-        }
+        public ActionResult Get() => PartialView("Templates");
     }
 }

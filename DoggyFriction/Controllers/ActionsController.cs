@@ -5,22 +5,33 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DoggyFriction.Models;
-using DoggyFriction.Services;
+using DoggyFriction.Services.Repository;
 using Action = DoggyFriction.Models.Action;
 
 namespace DoggyFriction.Controllers
 {
     public class ActionsController : ApiController
     {
+        private readonly IRepository _repository;
+        private readonly IMoneyMoverService _moneyMover;
+
+        public ActionsController(IRepository repository, IMoneyMoverService moneyMover)
+        {
+            _repository = repository;
+            _moneyMover = moneyMover;
+        }
+
         // GET: api/Actions/5
         [Route("api/Actions/{sessionId}")]
         public async Task<PagedCollection<Action>> Get(string sessionId, [FromUri] ActionsFilter filter = null)
         {
-            var actions = await Hub.CachedRepository.GetActions(sessionId);
+            var actions = await _repository.GetSessionActions(sessionId);
             var page = filter?.Page ?? 1;
             var pageSize = filter?.PageSize ?? 10;
-            return new PagedCollection<Action> {
-                TotalPages = (actions.Count() / pageSize) + 1,
+
+            return new PagedCollection<Action>
+            {
+                TotalPages = actions.Count() / pageSize + 1,
                 Page = page,
                 Rows = actions.OrderByDescending(a => a.Date).Skip((page - 1) * pageSize).Take(pageSize)
             };
@@ -30,7 +41,7 @@ namespace DoggyFriction.Controllers
         [Route("api/Actions/{sessionId}/{id}")]
         public async Task<Action> Get(string sessionId, string id)
         {
-            return await Hub.CachedRepository.GetAction(sessionId, id);
+            return await _repository.GetAction(sessionId, id);
         }
 
         // POST: api/Actions/5
@@ -40,7 +51,7 @@ namespace DoggyFriction.Controllers
             if (action.Id != "0") {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            return await Hub.Repository.UpdateAction(sessionId, action);
+            return await _repository.UpdateAction(sessionId, action);
         }
 
         // PUT: api/Actions/5/5
@@ -50,62 +61,24 @@ namespace DoggyFriction.Controllers
             if (action.Id == "0") {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest));
             }
-            return await Hub.Repository.UpdateAction(sessionId, action);
+            return await _repository.UpdateAction(sessionId, action);
         }
         
         [Route("api/Actions/{sessionId}/MoveMoney")]
         public async Task<Action> Post(string sessionId, [FromBody]MoveMoneyTransaction moveMoneyTransaction)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            var sessionModel = await Hub.CachedRepository.GetSession(sessionId);
-            var fromParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.From);
-            var toParticipant = sessionModel.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.To);
-            if (fromParticipant == null || toParticipant == null) {
-                throw new HttpResponseException(HttpStatusCode.RequestedRangeNotSatisfiable);
-            }
-            var description = moveMoneyTransaction.Reason ?? $"{fromParticipant.Name} -> {toParticipant.Name}";
+            var sessionModel = await _repository.GetSession(sessionId);
+            var actionModel = _moneyMover.CreateMoveMoneyTransaction(sessionModel, moveMoneyTransaction);
 
-            var actionModel = new Action {
-                SessionId = sessionId,
-                Date = moveMoneyTransaction.Date ?? DateTime.Now,
-                Description = description,
-                Payers = new[] {
-                    new Payer {
-                        Amount = moveMoneyTransaction.Amount,
-                        ParticipantId = fromParticipant.Id
-                    }
-                },
-                Consumptions = new[] {
-                    new Consumption {
-                        Amount = moveMoneyTransaction.Amount,
-                        Description = description,
-                        Quantity = 1,
-                        SplittedEqually = false,
-                        Consumers = new[] {
-                            new Consumer {
-                                Amount = moveMoneyTransaction.Amount,
-                                ParticipantId = toParticipant.Id
-                            }
-                        }
-                    }
-                }
-            };
-            return await Hub.Repository.UpdateAction(sessionId, actionModel);
+            return await _repository.UpdateAction(sessionId, actionModel);
         }
 
         // DELETE: api/Actions/5/5
         [Route("api/Actions/{sessionId}/{id}")]
-        public async Task<Action> Delete(string sessionId, string id)
-        {
-            return await Hub.Repository.DeleteAction(sessionId, id);
-        }
-    }
-
-    public class ActionsFilter
-    {
-        public int Page { get; set; }
-        public int PageSize { get; set; }
+        public async Task<Action> Delete(string sessionId, string id) => await _repository.DeleteAction(sessionId, id);
     }
 }

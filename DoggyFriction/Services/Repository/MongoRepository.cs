@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using DoggyFriction.Models;
@@ -12,11 +13,18 @@ namespace DoggyFriction.Services.Repository
 {
     public class MongoRepository : IRepository
     {
-        private IMongoDatabase GetDatabase() => new MongoClient(MongoUrl.Create("mongodb://svsokrat:qwedsa@ds027165.mlab.com:27165/doggyfrictions"))
-            .GetDatabase("doggyfrictions");
-        private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db) => db.GetCollection<SessionModel>("Session");
-        private static IMongoCollection<ActionModel> GetActions(IMongoDatabase db) => db.GetCollection<ActionModel>("Action");
-        private static IMongoCollection<UpdateTime> GetUpdateTimes(IMongoDatabase db) => db.GetCollection<UpdateTime>("UpdateTime");
+        private IMongoDatabase GetDatabase()
+            => new MongoClient(MongoUrl.Create(ConfigurationManager.ConnectionStrings["mongo"].ConnectionString))
+                .GetDatabase("doggyfrictions");
+
+        private static IMongoCollection<SessionModel> GetSessions(IMongoDatabase db)
+            => db.GetCollection<SessionModel>("Session");
+
+        private static IMongoCollection<ActionModel> GetActions(IMongoDatabase db)
+            => db.GetCollection<ActionModel>("Action");
+
+        private static IMongoCollection<UpdateTime> GetUpdateTimes(IMongoDatabase db)
+            => db.GetCollection<UpdateTime>("UpdateTime");
 
         public async Task<IEnumerable<Session>> GetSessions()
         {
@@ -24,7 +32,7 @@ namespace DoggyFriction.Services.Repository
             var sessions = await GetSessions(db)
                 .AsQueryable()
                 .ToListAsync();
-            return sessions.Select(session => session.Convert());
+            return sessions.Select(session => session.FromModel());
         }
 
         public async Task<Session> GetSession(string id)
@@ -33,23 +41,26 @@ namespace DoggyFriction.Services.Repository
             var session = await GetSessions(db)
                 .Find(new ExpressionFilterDefinition<SessionModel>(s => s.Id == id))
                 .SingleOrDefaultAsync();
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<Session> UpdateSession(Session model)
         {
             var db = GetDatabase();
             SessionModel session;
-            if (model.Id.IsNullOrEmpty() || model.Id == "0") {
-                session = model.Convert();
+            if (model.Id.IsNullOrEmpty() || model.Id == "0")
+            {
+                session = model.ToModel();
                 await GetSessions(db).InsertOneAsync(session);
             }
-            else {
+            else
+            {
                 session = await GetSessions(db)
-                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id), model.Convert());
+                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<SessionModel>(s => s.Id == model.Id),
+                        model.ToModel());
             }
             await LogUpdateTime(db, "Session");
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<Session> DeleteSession(string id)
@@ -60,7 +71,7 @@ namespace DoggyFriction.Services.Repository
             await GetActions(db)
                 .DeleteManyAsync(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == id));
             await LogUpdateTime(db, "Session");
-            return session.Convert();
+            return session.FromModel();
         }
 
         public async Task<DateTime> GetLastSessionsUpdateTime()
@@ -74,19 +85,17 @@ namespace DoggyFriction.Services.Repository
         public async Task<IEnumerable<Action>> GetActions()
         {
             var db = GetDatabase();
-            var actions = await GetActions(db)
-                .AsQueryable()
-                .ToListAsync();
-            return actions.Select(action => action.Convert());
+            var actions = await GetActions(db).AsQueryable().ToListAsync();
+            return actions.Select(action => action.FromModel());
         }
 
-        public async Task<IEnumerable<Action>> GetActions(string sessionId)
+        public async Task<IEnumerable<Action>> GetSessionActions(string sessionId)
         {
             var db = GetDatabase();
             var actions = await GetActions(db)
                 .Find(new ExpressionFilterDefinition<ActionModel>(a => a.SessionId == sessionId))
                 .ToListAsync();
-            return actions.Select(action => action.Convert());
+            return actions.Select(action => action.FromModel());
         }
 
         public async Task<Action> GetAction(string sessionId, string id)
@@ -95,25 +104,28 @@ namespace DoggyFriction.Services.Repository
             var action = await GetActions(db)
                 .Find(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id))
                 .SingleOrDefaultAsync();
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<Action> UpdateAction(string sessionId, Action model)
         {
             var db = GetDatabase();
             ActionModel action;
-            if (model.Id.IsNullOrEmpty() || model.Id == "0") {
+            if (model.Id.IsNullOrEmpty() || model.Id == "0")
+            {
                 var actionsCollection = GetActions(db);
                 await CreateIndex(actionsCollection, nameof(ActionModel.SessionId));
-                action = model.Convert();
+                action = model.ToModel();
                 await actionsCollection.InsertOneAsync(action);
             }
-            else {
+            else
+            {
                 action = await GetActions(db)
-                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id), model.Convert());
+                    .FindOneAndReplaceAsync(new ExpressionFilterDefinition<ActionModel>(s => s.Id == model.Id),
+                        model.ToModel());
             }
             await LogUpdateTime(db, "Action");
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<Action> DeleteAction(string sessionId, string id)
@@ -122,7 +134,7 @@ namespace DoggyFriction.Services.Repository
             var action = await GetActions(db)
                 .FindOneAndDeleteAsync(new ExpressionFilterDefinition<ActionModel>(a => a.Id == id));
             await LogUpdateTime(db, "Action");
-            return action.Convert();
+            return action.FromModel();
         }
 
         public async Task<DateTime> GetLastActionsUpdateTime()
@@ -145,21 +157,26 @@ namespace DoggyFriction.Services.Repository
         {
             var indexes = await collection.Indexes.ListAsync();
             var sessionIdIndexExists = false;
-            while (await indexes.MoveNextAsync()) {
+            while (await indexes.MoveNextAsync())
+            {
                 var index = indexes.Current;
-                if (index.Any(d => d.Names.Contains(fieldName))) {
+                if (index.Any(d => d.Names.Contains(fieldName)))
+                {
                     sessionIdIndexExists = true;
                     break;
                 }
             }
-            if (!sessionIdIndexExists) {
-                var index = new BsonDocument();
-                index.Add(new BsonElement(fieldName, -1));
-                await collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index), new CreateIndexOptions {
-                    Unique = false,
-                    Sparse = false,
-                    Background = false,
-                });
+            if (!sessionIdIndexExists)
+            {
+                var index = new BsonDocument {new BsonElement(fieldName, -1)};
+                await
+                    collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index),
+                        new CreateIndexOptions
+                        {
+                            Unique = false,
+                            Sparse = false,
+                            Background = false,
+                        });
             }
         }
     }
