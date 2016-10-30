@@ -397,6 +397,7 @@
     <Content Include="Views\Templates\NavigationBar.cshtml" />
     <Content Include="Views\Templates\Debts.cshtml" />
     <Content Include="Views\Templates\DebtsHeader.cshtml" />
+    <Content Include="Views\Templates\EditSession.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

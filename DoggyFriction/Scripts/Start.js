@@ -114,7 +114,7 @@ function InitSammy(app) {
 
     $app.get('#/Session/Create', function() {
         var model = new SessionModel({ Id: 0 }, true);
-        show('session', model);
+        show('session-edit', model);
     });
     $app.get('#/Session/:id', function(context) {
         var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
@@ -127,7 +127,7 @@ function InitSammy(app) {
     $app.get('#/Session/Edit/:id', function(context) {
         var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
             var model = new SessionModel(data, true);
-            show('session', model);
+            show('session-edit', model);
         }).promise();
         window.App.Functions.Process(operation);
     });
