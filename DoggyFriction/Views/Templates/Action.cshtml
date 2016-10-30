@@ -11,7 +11,6 @@
                                 <div class="wide-cell">Позиция</div>
                                 <div class="money-cell">Сумма</div>
                                 <div class="money-cell">Q</div>
-                                <div class="small-cell">Поровну</div>
                                 <!-- ko foreach: Session.Participants -->
                                 <div class="money-cell" data-bind="text: Name()"></div>
                                 <!-- /ko -->
@@ -23,7 +22,6 @@
                                         <th class="wide-cell">Позиция</th>
                                         <th class="money-cell">Сумма</th>
                                         <th class="small-cell">Q</th>
-                                        <th class="small-cell">Поровну</th>
                                         <!-- ko foreach: Session.Participants -->
                                         <!-- ko if: $root.IsEdit() -->
                                         <th class="money-cell consumer-header" data-bind="text: Name(), click: $parent.ToggleConsumer"></th>
@@ -68,16 +66,6 @@
                                             <span data-bind="text: Quantity"></span>
                                             <!-- /ko -->
                                         </td>
-                                        <td class="small-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <span class="checkbox">
-                                                <label><input type="checkbox" data-bind="checked: IsAuto" tabindex="-1" /></label>
-                                            </span>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: IsAuto() ? 'Да' : 'Нет'"></span>
-                                            <!-- /ko -->
-                                        </td>
                                         <!-- ko foreach: Consumers -->
                                         <td class="money-cell">
                                             <!-- ko if: $root.IsEdit() -->
@@ -120,7 +108,6 @@
                                     <tr>
                                         <td class="wide-cell">Итого</td>
                                         <td class="money-cell"><span data-bind="text: Amount().formatMoney()"></span></td>
-                                        <td class="small-cell"></td>
                                         <td class="small-cell"></td>
                                         <!-- ko foreach: ConsumerTotals -->
                                         <td class="money-cell"><span data-bind="text: $data.formatMoney()"></span></td>
