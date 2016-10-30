@@ -40,11 +40,11 @@ function ActionModel(actionData, sessionModel, isEdit) {
                 });
                 total += consumer.Amount();
             });
-            return total;
+            return { Name: participant.Name(), Total: total };
         });
     });
 
-    this.AddConsumption = function (current) {
+    this.AddConsumption = function () {
         _.each(_this.Consumptions(), function (c) { c.HasFocus(false); });
         var consumptionModel = new ConsumptionModel({}, _this.Session);
         _.forEach(consumptionModel.Consumers(), function (consumer) {

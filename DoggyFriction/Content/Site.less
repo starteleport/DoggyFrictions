@@ -1,0 +1,400 @@
+﻿body {
+	padding-bottom: 20px;
+	padding-top: 50px;
+	.container {
+		div.jumbotron {
+			padding: 30px 45px 30px 35px;
+		}
+		div.jumbotron>div {
+			overflow-x: auto;
+			overflow-y: visible;
+		}
+	}
+}
+#loading-screen {
+	.loading-screen-content {
+		height: 64px;
+		left: 50%;
+		margin-left: -64px;
+		margin-top: -32px;
+		position: fixed;
+		top: 40%;
+		width: 128px;
+		z-index: 1050;
+		img {
+			background-color: transparent;
+			width: 128px;
+		}
+	}
+}
+.loading-screen-small {
+	img {
+		background-color: transparent;
+		width: 64px;
+	}
+}
+.navbar {
+	height: 50px;
+	z-index: 999;
+	.navbar-header {
+		.navbar-brand {
+			padding-top: 2px;
+			img {
+				display: inline-block;
+				margin-right: 10px;
+				width: 43px;
+			}
+		}
+	}
+}
+input {
+	max-width: 280px;
+}
+select {
+	max-width: 280px;
+}
+textarea {
+	max-width: 280px;
+}
+a {
+	cursor: pointer;
+}
+footer {
+	text-align: center;
+}
+#main {
+	margin-top: 25px;
+}
+.page-head.container {
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+.breadcrumb.breadcrumb-default {
+	background: none;
+	margin: 0;
+}
+div.jumbotron {
+	h2 {
+		margin-top: 0;
+	}
+	.form-group {
+		margin: 0;
+	}
+}
+table>tbody>tr>td.row-details {
+	padding: 10px 25px;
+}
+div.inline-block {
+	display: inline-block;
+	margin-right: 20px;
+}
+.sticky-table-head {
+	color: #eeeeee;
+	display: inline-flex;
+	height: 0;
+	text-transform: uppercase;
+}
+.sticky-table-foot {
+	color: #eeeeee;
+	display: inline-flex;
+	height: 0;
+	text-transform: uppercase;
+}
+.sticky-table-head>div {
+	background-color: #00b9a8;
+	display: inline-block;
+	padding: 8px;
+}
+.sticky-table-foot>div {
+	background-color: #00b9a8;
+	display: inline-block;
+	padding: 8px;
+}
+.consumer-header {
+	color: #00b9a8;
+	cursor: pointer;
+}
+.really-wide-cell {
+	width: 450px;
+}
+table>tbody>tr>td.really-wide-cell {
+	input {
+		width: 450px;
+	}
+}
+.wide-cell {
+	width: 250px;
+}
+table>tbody>tr>td.wide-cell {
+	input {
+		width: 250px;
+	}
+}
+.small-cell {
+	text-align: center;
+	width: 30px;
+}
+table>tbody>tr>td.small-cell {
+	input {
+		text-align: center;
+		width: 30px;
+	}
+}
+.money-cell {
+	text-align: right;
+	width: 120px;
+}
+table>tbody>tr>td.money-cell {
+	input {
+		text-align: right;
+		width: 120px;
+	}
+}
+td.money-cell {
+	.input-group-addon {
+		margin: 0;
+		padding: 0 2px;
+	}
+}
+table.table>tr>td {
+	padding: 2px 8px;
+}
+table.table>tbody>tr>td {
+	.form-group {
+		padding-bottom: 0;
+		.form-control {
+			display: table-cell;
+			margin-bottom: 0;
+		}
+	}
+	&:not(.actions-cell) {
+		border: 1px solid #dddddd;
+		vertical-align: middle;
+	}
+}
+table>thead>tr>th.delete-row-cell {
+	width: 30px;
+}
+table>tbody>tr>td {
+	.checkbox {
+		padding-top: 0;
+	}
+}
+table.table>tfoot>tr, table.table>thead>tr, .sticky-table-head, .sticky-table-foot  {
+	font-weight: bold;
+}
+table.table>tfoot>tr>td {
+	border: none !important;
+}
+table.table>thead>tr>th {
+	border: none !important;
+}
+table.table>tbody>tr>td.actions-cell {
+	border: none;
+	padding: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+table.table {
+	td.actions-cell {
+		.btn {
+			margin: 0;
+			padding: 8px;
+		}
+	}
+	th.actions-cell {
+		.btn {
+			margin: 0;
+			padding: 8px;
+		}
+	}
+	td {
+		input {
+			width: 90px;
+		}
+		span.form-control {
+			width: 90px;
+		}
+	}
+}
+h2 {
+	.btn {
+		margin: 0;
+		padding: 8px;
+	}
+}
+table.table>tfoot {
+	td.actions-cell {
+		.btn {
+			margin: 0 3px;
+		}
+	}
+}
+.is-preview {
+	.table.table-clickable>tbody {
+		tr {
+			&:hover {
+				td {
+					&:not(.actions-cell) {
+						background-color: #f5f5f5;
+					}
+				}
+			}
+		}
+	}
+	.table.table-clickable>tbody>tr>td {
+		&:not(.actions-cell) {
+			cursor: pointer;
+		}
+	}
+}
+.navigation-back {
+	position: absolute !important;
+}
+.datepicker {
+	table {
+		tr {
+			td.active.active {
+				background-color: #009688 !important;
+				border-color: #009688 !important;
+			}
+		}
+	}
+	span.active {
+		background-color: #009688 !important;
+		border-color: #009688 !important;
+	}
+}
+.pages {
+	padding: 10px 65px 10px 0;
+	text-align: right;
+}
+.debt-block {
+	td {
+		background-color: #fdfbfb;
+		border-bottom: 1px solid #dddddd;
+		border-top: 1px solid #dddddd;
+		cursor: pointer;
+		padding: 3px 10px;
+	}
+	td.actions-cell {
+		padding: 0;
+	}
+	.actions-cell {
+		.btn {
+			font-size: smaller;
+			margin: 0;
+			padding-top: 5px;
+		}
+	}
+	&:hover {
+		td {
+			background-color: #f5f5f5;
+		}
+	}
+}
+.debt-details-block {
+	cursor: pointer;
+	padding-left: 20px;
+	td {
+		padding: 3px 10px;
+	}
+	tr {
+		&:hover {
+			background-color: #f5f5f5;
+		}
+	}
+}
+.modal-dialog {
+	.modal-content {
+		.modal-footer {
+			padding-bottom: 13px;
+		}
+	}
+}
+.snackbar.warning {
+	background-color: #f44336;
+}
+
+.mobile {
+    .checkbox {
+        display: inline-block;
+    }    
+    .item-block {
+        border-radius: 8px;
+        border: 1px solid #009688;
+        margin-top: 15px;
+        width: 760px;
+        .actions {
+            display: table-cell;
+            width: 80px;
+            border-left: 1px solid #009688;
+        }
+        .content {
+            padding: 20px 40px;
+            display: table-cell;
+            width: 680px;
+        }
+        button {
+            width: 80px;
+        }
+        input, select {
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            margin-right: 15px;
+        }
+    }
+    &.action {
+        width: 860px;
+        .jumbotron {
+            padding: 30px 50px;
+        }
+        .item-block {
+            .description-block {
+                .form-group {
+                    width: 350px;
+                }
+            }
+            .amount-block {         
+                display: inline-block;
+                margin-right: 35px;
+                .form-group {
+                    width: 100px;
+                }
+                input{                    
+                    text-align: right;
+                }
+            }
+            .payer-block {           
+                display: inline-block;
+                margin-right: 35px;
+                .form-group {
+                    width: 150px;
+                    margin-right: 25px;
+                }
+            }
+        }
+        .consumer-sum-edit-span {
+            margin-top: 15px;
+            margin-right: 25px;
+            min-width: 140px;
+            display: inline-block;
+        }
+        .consumer-sum-span {
+            margin-right: 25px;
+            min-width: 90px;
+            display: inline-block;
+        }
+        .totals-block {
+            margin-top: 30px;
+            &>div{
+                margin-left: 20px;
+            }
+        }
+        .sponsors-block {
+            margin-top: 30px;
+        }
+    }
+}

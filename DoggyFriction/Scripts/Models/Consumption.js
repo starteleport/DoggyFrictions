@@ -2,6 +2,7 @@
     var _this = this;
     this.ConsumptionModel = consumptionModel;
     this.Id = consumerData.Id || 0;
+    this.ParticipantName = consumerData.Name || "";
     this.ParticipantId = consumerData.ParticipantId;
     this.Amount = ko.observable(consumerData.Amount).extend({ required: true, min: 0, number: true });
     this.IsActive = ko.observable(consumerData.Amount > 0);
@@ -26,7 +27,9 @@ function ConsumptionModel(consumptionData, sessionModel) {
         var cd = _.find(consumptionData.Consumers || [], function (consumerData) {
             return consumerData.ParticipantId == participant.Id;
         });
-        return new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 }, _this);
+        var consumerModel = new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 }, _this);
+        consumerModel.ParticipantName = participant.Name();
+        return consumerModel;
     }));
     this.Amount = ko.observable(consumptionData.Amount || 0);
     this.Quantity = ko.observable(consumptionData.Quantity || 1);
