@@ -95,6 +95,11 @@ div.inline-block {
     background-color: #00b9a8;
 }
 
+.consumer-header {
+    color: #00b9a8;
+    cursor: pointer;
+}
+
 .really-wide-cell, table>tbody>tr>td.really-wide-cell input {
     width: 450px;
 }

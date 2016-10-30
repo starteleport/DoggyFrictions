@@ -79,6 +79,24 @@ function ActionModel(actionData, sessionModel, isEdit) {
         _this.Payers.remove(payerModel);
     }
 
+    this.ToggleConsumer = function (participant) {
+        if (!_this.IsEdit()) {
+            return;
+        }
+        var firstConsumption = (_this.Consumptions() || [])[0];
+        var consumer = _.find(firstConsumption.Consumers() || [], function(consumer) {
+            return consumer.ParticipantId == participant.Id;
+        });
+        var isCurrentlyActive = consumer && consumer.IsActive();
+        _.forEach(_this.Consumptions() || [], function (consumption) {
+            _.forEach(consumption.Consumers(), function (consumer) {
+                if (consumer.ParticipantId == participant.Id) {
+                    consumer.IsActive(!isCurrentlyActive);
+                }
+            });
+        });
+    }
+
     this.Save = function () {
         var serialized = {
             Id: _this.Id,

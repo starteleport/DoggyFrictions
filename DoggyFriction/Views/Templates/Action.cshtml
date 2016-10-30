@@ -25,7 +25,12 @@
                                         <th class="small-cell">Q</th>
                                         <th class="small-cell">Поровну</th>
                                         <!-- ko foreach: Session.Participants -->
+                                        <!-- ko if: $root.IsEdit() -->
+                                        <th class="money-cell consumer-header" data-bind="text: Name(), click: $parent.ToggleConsumer"></th>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
                                         <th class="money-cell" data-bind="text: Name()"></th>
+                                        <!-- /ko -->
                                         <!-- /ko -->
                                         <th class="delete-row-cell actions-cell"></th>
                                     </tr>
