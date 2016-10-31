@@ -2,6 +2,8 @@
 	padding-bottom: 20px;
 	padding-top: 50px;
 	.container {
+        padding-left: 0;
+        padding-right: 0;
 		div.jumbotron {
 			padding: 30px 45px 30px 35px;
 		}
@@ -34,11 +36,14 @@
 	}
 }
 .navbar {
-	height: 50px;
 	z-index: 999;
 	.navbar-header {
+        float:none;
+        border-bottom: 1px solid darkslategray;
 		.navbar-brand {
-			padding-top: 2px;
+			padding: 9px;
+            height: auto;
+            margin-left: 10%;
 			img {
 				display: inline-block;
 				margin-right: 10px;
@@ -68,6 +73,9 @@ footer {
 .page-head.container {
 	margin: 0 0 10px 0;
 	padding: 0;
+    label {
+        margin-right: 15px;
+    }
 }
 .breadcrumb.breadcrumb-default {
 	background: none;
@@ -317,26 +325,45 @@ table.table>tfoot {
 }
 
 .mobile {
+    min-width: 400px;
     .checkbox {
         display: inline-block;
-    }    
+    }
+    .page-head {
+        a.btn{
+            font-size: 22px;
+            padding: 5px 45px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .page-name {
+            display: block;
+            margin-top: 15px;
+        }
+        .breadcrumb.breadcrumb-default {
+            font-size: 18px;
+            padding-left: 0;
+        }
+    }
     .item-block {
         border-radius: 8px;
         border: 1px solid #009688;
         margin-top: 15px;
-        width: 760px;
         .actions {
-            display: table-cell;
-            width: 80px;
-            border-left: 1px solid #009688;
+            float: right;
+            border-radius: 0 8px 8px 0;
+            button {
+                padding: 40px 10px;
+                margin: 0;
+                color: whitesmoke;
+                border-bottom: 1px solid whitesmoke;
+                background: #009688;
+                border-radius: 0 8px 0 15px;
+                margin: -1px -1px 0 0;
+            }
         }
         .content {
             padding: 20px 40px;
-            display: table-cell;
-            width: 680px;
-        }
-        button {
-            width: 80px;
         }
         input, select {
             width: 100%;
@@ -347,48 +374,45 @@ table.table>tfoot {
         }
     }
     &.action {
-        width: 860px;
         .jumbotron {
-            padding: 30px 50px;
+            padding: 30px 20px;
+            margin-right: 10px;
+            margin-left: 10px;
         }
         .item-block {
             .description-block {
                 .form-group {
-                    width: 350px;
                 }
             }
             .amount-block {         
                 display: inline-block;
                 margin-right: 35px;
                 .form-group {
-                    width: 100px;
                 }
                 input{                    
-                    text-align: right;
                 }
             }
             .payer-block {           
                 display: inline-block;
                 margin-right: 35px;
                 .form-group {
-                    width: 150px;
                     margin-right: 25px;
                 }
             }
         }
-        .consumer-sum-edit-span {
+        .consumers-lable {            
             margin-top: 15px;
+        }
+        .consumer-sum-edit-span {
             margin-right: 25px;
-            min-width: 140px;
             display: inline-block;
         }
         .consumer-sum-span {
             margin-right: 25px;
-            min-width: 90px;
             display: inline-block;
         }
         .totals-block {
-            margin-top: 30px;
+            margin-top: 20px;
             &>div{
                 margin-left: 20px;
             }

@@ -2,6 +2,10 @@
   padding-bottom: 20px;
   padding-top: 50px;
 }
+body .container {
+  padding-left: 0;
+  padding-right: 0;
+}
 body .container div.jumbotron {
   padding: 30px 45px 30px 35px;
 }
@@ -28,11 +32,16 @@ body .container div.jumbotron > div {
   width: 64px;
 }
 .navbar {
-  height: 50px;
   z-index: 999;
 }
+.navbar .navbar-header {
+  float: none;
+  border-bottom: 1px solid darkslategray;
+}
 .navbar .navbar-header .navbar-brand {
-  padding-top: 2px;
+  padding: 9px;
+  height: auto;
+  margin-left: 10%;
 }
 .navbar .navbar-header .navbar-brand img {
   display: inline-block;
@@ -60,6 +69,9 @@ footer {
 .page-head.container {
   margin: 0 0 10px 0;
   padding: 0;
+}
+.page-head.container label {
+  margin-right: 15px;
 }
 .breadcrumb.breadcrumb-default {
   background: none;
@@ -250,27 +262,46 @@ table.table > tfoot td.actions-cell .btn {
 .snackbar.warning {
   background-color: #f44336;
 }
+.mobile {
+  min-width: 400px;
+}
 .mobile .checkbox {
   display: inline-block;
+}
+.mobile .page-head a.btn {
+  font-size: 22px;
+  padding: 5px 45px;
+  display: inline-block;
+  margin-top: 15px;
+}
+.mobile .page-head .page-name {
+  display: block;
+  margin-top: 15px;
+}
+.mobile .page-head .breadcrumb.breadcrumb-default {
+  font-size: 18px;
+  padding-left: 0;
 }
 .mobile .item-block {
   border-radius: 8px;
   border: 1px solid #009688;
   margin-top: 15px;
-  width: 760px;
 }
 .mobile .item-block .actions {
-  display: table-cell;
-  width: 80px;
-  border-left: 1px solid #009688;
+  float: right;
+  border-radius: 0 8px 8px 0;
+}
+.mobile .item-block .actions button {
+  padding: 40px 10px;
+  margin: 0;
+  color: whitesmoke;
+  border-bottom: 1px solid whitesmoke;
+  background: #009688;
+  border-radius: 0 8px 0 15px;
+  margin: -1px -1px 0 0;
 }
 .mobile .item-block .content {
   padding: 20px 40px;
-  display: table-cell;
-  width: 680px;
-}
-.mobile .item-block button {
-  width: 80px;
 }
 .mobile .item-block input,
 .mobile .item-block select {
@@ -280,46 +311,35 @@ table.table > tfoot td.actions-cell .btn {
 .mobile .item-block label {
   margin-right: 15px;
 }
-.mobile.action {
-  width: 860px;
-}
 .mobile.action .jumbotron {
-  padding: 30px 50px;
-}
-.mobile.action .item-block .description-block .form-group {
-  width: 350px;
+  padding: 30px 20px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .mobile.action .item-block .amount-block {
   display: inline-block;
   margin-right: 35px;
-}
-.mobile.action .item-block .amount-block .form-group {
-  width: 100px;
-}
-.mobile.action .item-block .amount-block input {
-  text-align: right;
 }
 .mobile.action .item-block .payer-block {
   display: inline-block;
   margin-right: 35px;
 }
 .mobile.action .item-block .payer-block .form-group {
-  width: 150px;
   margin-right: 25px;
 }
-.mobile.action .consumer-sum-edit-span {
+.mobile.action .consumers-lable {
   margin-top: 15px;
+}
+.mobile.action .consumer-sum-edit-span {
   margin-right: 25px;
-  min-width: 140px;
   display: inline-block;
 }
 .mobile.action .consumer-sum-span {
   margin-right: 25px;
-  min-width: 90px;
   display: inline-block;
 }
 .mobile.action .totals-block {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .mobile.action .totals-block > div {
   margin-left: 20px;

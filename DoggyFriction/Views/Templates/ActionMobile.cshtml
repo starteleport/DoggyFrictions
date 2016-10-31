@@ -8,9 +8,14 @@
                     <div data-bind="if: !Consumptions().length">Нет данных</div>
                     <!-- ko foreach: Consumptions -->
                     <div class="item-block">
+                        <!-- ko if: $root.IsEdit() -->
+                        <div class="actions">
+                            <button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <!-- /ko -->
                         <div class="content">
                             <div class="description-block">
-                                <label>Наименование</label>
+                                <label>Наименование:</label>
                                 <!-- ko if: $root.IsEdit() -->
                                 <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?"/>
                                 <!-- /ko -->
@@ -20,7 +25,7 @@
                             </div>
                             <div class="sum-block">
                                 <div class="amount-block">
-                                    <label>Кол-во</label>
+                                    <label>Кол-во:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <div class="form-group">
                                         <input type="text" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
@@ -31,7 +36,7 @@
                                     <!-- /ko -->
                                 </div>
                                 <div class="amount-block">
-                                    <label>Цена</label>
+                                    <label>Цена:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <div class="form-group">
                                         <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
@@ -42,25 +47,23 @@
                                     <!-- /ko -->
                                 </div>
                             </div>
+                            <label class="consumers-lable">Потребили:</label>
                             <div class="consumers-block">
                                 <!-- ko foreach: Consumers -->
+                                <!-- ko if: $root.IsEdit() || Amount() -->
                                 <span class="consumer-sum-edit-span">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <span class="checkbox">
-                                                <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
-                                            </span>
-                                            <!-- /ko -->
-                                            <span data-bind="text: ParticipantName"></span>
-                                            <b data-bind="text: Amount().formatMoney()" disabled></b>
-                                        </span>
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <span class="checkbox">
+                                        <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
+                                    </span>
+                                    <!-- /ko -->
+                                    <span data-bind="text: ParticipantName"></span>
+                                    <b data-bind="text: Amount().formatMoney()" disabled></b>
+                                </span>
+                                <!-- /ko -->
                                 <!-- /ko -->
                             </div>
                         </div>
-                        <!-- ko if: $root.IsEdit() -->
-                        <div class="actions">
-                            <button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        <!-- /ko -->
                     </div>
                     <!-- /ko -->
                     <!-- ko if: $root.IsEdit() -->
@@ -73,15 +76,17 @@
                         <h4>Итого потребили:</h4>
                         <div>
                             <!-- ko foreach: ConsumerTotals -->
+                            <!-- ko if: Total -->
                             <span class="consumer-sum-span">
                                 <span data-bind="text: Name + ': '"></span>
                                 <b data-bind="text: Total.formatMoney()"></b>
                             </span>
                             <!-- /ko -->
-                        </div>
-                        <div>
-                            <span class="">Итого:</span>
-                            <b data-bind="text: Amount().formatMoney()"></b>
+                            <!-- /ko -->
+                            <div>
+                                <b>Всего: </b>
+                                <b data-bind="text: Amount().formatMoney()"></b>
+                            </div>
                         </div>
                     </div>
 
@@ -90,9 +95,14 @@
                         <div data-bind="if: !Payers().length">Нет данных</div>
                         <!-- ko foreach: Payers -->
                         <div class="item-block">
+                            <!-- ko if: $root.IsEdit() -->
+                            <div class="actions">
+                                <button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
+                            <!-- /ko -->
                             <div class="content">
                                 <div class="payer-block">
-                                    <label>Имя спонсора</label>
+                                    <label>Имя спонсора:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <span>
                                         <select class="form-control" data-bind="options: $parent.Session.Participants,
@@ -104,7 +114,7 @@
                                     <!-- /ko -->
                                 </div>
                                 <div class="amount-block">
-                                    <label>Сумма</label>
+                                    <label>Сумма:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
                                     <!-- /ko -->
@@ -113,11 +123,6 @@
                                     <!-- /ko -->
                                 </div>
                             </div>
-                            <!-- ko if: $root.IsEdit() -->
-                            <div class="actions">
-                                <button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button>
-                            </div>
-                            <!-- /ko -->
                         </div>
                         <!-- /ko -->
                         <!-- ko if: $root.IsEdit() -->
