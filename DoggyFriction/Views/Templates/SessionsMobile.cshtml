@@ -1,0 +1,34 @@
+﻿<script type="text/html" id="sessions-mobile-template">
+    <div class="sessions mobile is-preview">
+        <div class="jumbotron">
+            <div class="page-head">
+                <h2 class="text-center">Тёрки</h2>
+            </div>
+            <!-- ko foreach: Sessions -->
+            <div class="item-block">
+                <div class="actions">
+                    <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+                <div class="content" data-bind="click: window.App.Functions.Move('#/Session/' + Id)">
+                    <div class="description-block">
+                        <label>Название:</label>
+                        <span data-bind="text: Name"></span>
+                    </div>
+                    <div class="description-block">
+                        <label>Собаки:</label>
+                        <span data-bind="text: ParticipantNames()"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+            <div class="confirm-buttons">
+                <a class="btn btn-raised btn-primary" data-bind="attr: {href: '#/Session/Create'}"><span class="glyphicon glyphicon-plus"></span> Начать тёрку</a>
+            </div>
+        </div>
+    </div>
+</script>

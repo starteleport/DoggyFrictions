@@ -98,6 +98,20 @@ function ActionModel(actionData, sessionModel, isEdit) {
     }
 
     this.Save = function () {
+        _this._createSaveOperation();
+        window.App.Functions.Process(operation);
+        $.when(operation).done(function (actionData) {
+                window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
+            });
+    }
+    this.SaveAndNew = function() {
+        var operation = _this._createSaveOperation();
+        window.App.Functions.Process(operation);
+        $.when(operation).done(function (actionData) {
+            window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/Create')();
+        });
+    }
+    this._createSaveOperation = function() {
         var serialized = {
             Id: _this.Id,
             SessionId: _this.Session.Id,
@@ -132,10 +146,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         var operation = (_this.Id == 0
             ? $.post('Api/Actions/' + _this.Session.Id, serialized)
             : $.put('Api/Actions/' + _this.Session.Id + '/' + _this.Id, serialized)).promise();
-        window.App.Functions.Process(operation);
-        $.when(operation).done(function (actionData) {
-                window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
-            });
+        return operation;
     }
 
     this.Delete = function() {

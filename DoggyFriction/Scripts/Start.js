@@ -48,7 +48,6 @@
                     });
                 });
                 $('.sticky-table-head').stickyHeader();
-                $('.sticky-table-foot').stickyFooter();
                 $('.confirm-dialog').each(function() {
                     $(this).data('bs.modal', null);
                 });
@@ -119,7 +118,8 @@ function InitSammy(app) {
     $app.get('#/Sessions', function() {
         var operation = $.when($.get('Api/Sessions')).then(function(data) {
             var model = new SessionsModel(data);
-            show('sessions', model);
+            var templateName = window.App.IsMobile ? 'sessions-mobile' : 'sessions';
+            show(templateName, model);
         }).promise();
         window.App.Functions.Process(operation);
     });
@@ -132,7 +132,8 @@ function InitSammy(app) {
         var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
             var model = new SessionModel(data, false);
             model.Actions.LoadPage();
-            show('session', model);
+            var templateName = window.App.IsMobile ? 'session-mobile' : 'session';
+            show(templateName, model);
         }).promise();
         window.App.Functions.Process(operation);
     });

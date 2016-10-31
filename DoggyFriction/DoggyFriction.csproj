@@ -409,6 +409,8 @@
     <Content Include="Views\Templates\DebtsHeader.cshtml" />
     <Content Include="Views\Templates\EditSession.cshtml" />
     <Content Include="Views\Templates\ActionMobile.cshtml" />
+    <Content Include="Views\Templates\SessionMobile.cshtml" />
+    <Content Include="Views\Templates\SessionsMobile.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -6,10 +6,10 @@ body .container {
   padding-left: 0;
   padding-right: 0;
 }
-body .container div.jumbotron {
+body .container .jumbotron {
   padding: 30px 45px 30px 35px;
 }
-body .container div.jumbotron > div {
+body .container .jumbotron > div {
   overflow-x: auto;
   overflow-y: visible;
 }
@@ -33,20 +33,21 @@ body .container div.jumbotron > div {
 }
 .navbar {
   z-index: 999;
+  min-height: initial;
 }
 .navbar .navbar-header {
   float: none;
   border-bottom: 1px solid darkslategray;
 }
 .navbar .navbar-header .navbar-brand {
-  padding: 9px;
+  padding: 5px;
   height: auto;
   margin-left: 10%;
 }
 .navbar .navbar-header .navbar-brand img {
   display: inline-block;
   margin-right: 10px;
-  width: 43px;
+  width: 28px;
 }
 input {
   max-width: 280px;
@@ -64,7 +65,7 @@ footer {
   text-align: center;
 }
 #main {
-  margin-top: 25px;
+  margin-top: 5px;
 }
 .page-head.container {
   margin: 0 0 10px 0;
@@ -265,8 +266,16 @@ table.table > tfoot td.actions-cell .btn {
 .mobile {
   min-width: 400px;
 }
+.mobile .btn {
+  margin: 3px;
+}
 .mobile .checkbox {
   display: inline-block;
+}
+.mobile .jumbotron {
+  padding: 30px 20px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .mobile .page-head a.btn {
   font-size: 22px;
@@ -282,6 +291,10 @@ table.table > tfoot td.actions-cell .btn {
   font-size: 18px;
   padding-left: 0;
 }
+.mobile .pages {
+  padding: 10px 0 10px 0;
+  font-size: 22px;
+}
 .mobile .item-block {
   border-radius: 8px;
   border: 1px solid #009688;
@@ -291,17 +304,36 @@ table.table > tfoot td.actions-cell .btn {
   float: right;
   border-radius: 0 8px 8px 0;
 }
-.mobile .item-block .actions button {
-  padding: 40px 10px;
+.mobile .item-block .actions button,
+.mobile .item-block .actions a {
+  padding: 2px 30px;
   margin: 0;
   color: whitesmoke;
-  border-bottom: 1px solid whitesmoke;
   background: #009688;
-  border-radius: 0 8px 0 15px;
-  margin: -1px -1px 0 0;
+  border-radius: 0;
+  margin-bottom: 10px;
+}
+.mobile .item-block .actions button:nth-child(1),
+.mobile .item-block .actions a:nth-child(1) {
+  border-bottom-left-radius: 15px;
+}
+.mobile .item-block .actions button:nth-last-child(1),
+.mobile .item-block .actions a:nth-last-child(1) {
+  border-top-right-radius: 5px;
 }
 .mobile .item-block .content {
   padding: 20px 40px;
+}
+.mobile .item-block .content .description-block {
+  display: inline-block;
+}
+.mobile .item-block .content .amount-block {
+  display: inline-block;
+  margin-right: 35px;
+}
+.mobile .item-block .content .date-block {
+  display: inline-block;
+  margin-right: 35px;
 }
 .mobile .item-block input,
 .mobile .item-block select {
@@ -311,15 +343,6 @@ table.table > tfoot td.actions-cell .btn {
 .mobile .item-block label {
   margin-right: 15px;
 }
-.mobile.action .jumbotron {
-  padding: 30px 20px;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-.mobile.action .item-block .amount-block {
-  display: inline-block;
-  margin-right: 35px;
-}
 .mobile.action .item-block .payer-block {
   display: inline-block;
   margin-right: 35px;
@@ -328,7 +351,7 @@ table.table > tfoot td.actions-cell .btn {
   margin-right: 25px;
 }
 .mobile.action .consumers-lable {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 .mobile.action .consumer-sum-edit-span {
   margin-right: 25px;
@@ -345,5 +368,8 @@ table.table > tfoot td.actions-cell .btn {
   margin-left: 20px;
 }
 .mobile.action .sponsors-block {
-  margin-top: 30px;
+  margin-top: 20px;
+}
+.mobile .confirm-buttons {
+  margin-top: 20px;
 }

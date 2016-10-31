@@ -1,0 +1,58 @@
+﻿<script type="text/html" id="session-mobile-template">
+    <div class="session mobile" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
+        <div class="jumbotron">
+            <div class="page-head">
+                @Html.Partial("NavigationBar")
+            </div>
+
+            <h2 data-bind="text: Name"></h2>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-random"></span>  Пояснить за долги</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}">
+                <span class="glyphicon glyphicon-pencil"></span> Редактировать
+            </a>
+            <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'">
+                <span class="glyphicon glyphicon-trash"></span> Удалить
+            </a>
+
+            <div>
+                <h4>Постановы:</h4>
+            </div>
+            <div class="loading-screen-small" data-bind="if: Actions.IsLoading()">
+                <img src='@Url.Content("../../Content/runningdog_transparent.gif")' alt="Загрузка . . .">
+            </div>
+            <!-- ko if: !Actions.IsLoading() -->
+            <div data-bind="with: Actions">
+                <span data-bind="if: !Rows().length">Пока всё тихо</span>
+                <!-- ko foreach: Rows -->
+                <div class="item-block">
+                    <div class="actions">
+                        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                    <div class="content" data-bind="click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)">
+                        <div class="description-block">
+                            <label>Суть: </label>
+                            <span data-bind="text: Description()"></span>
+                        </div>
+                        <div class="amount-block">
+                            <label>Сумма: </label>
+                            <span data-bind="text: Amount().formatMoney()"></span>
+                        </div>
+                        <div class="date-block">
+                            <label>Дата: </label>
+                            <span data-bind="text: Date().formatDate()"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <!-- /ko -->
+            <!-- ko if: !Actions.IsLoading() -->
+            <div data-bind="with: Actions">
+                @Html.Partial("Pages")
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</script>
