@@ -1,0 +1,25 @@
+﻿<script type="text/html" id="debts-mobile-template">
+    <div class="debts mobile is-preview">
+        <div class="jumbotron">
+            @Html.Partial("DebtsHeader")
+            <h4>Долговая яма:</h4>
+
+            <!-- ko foreach: Debts -->
+            <div class="item-block">
+                <div class="actions">
+                    <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
+                        <i class="glyphicon glyphicon-tint"></i></a>
+                </div>
+                <div class="content">
+                    <div class="description-block">
+                        <b data-bind="text: Debtor"></b>
+                        <span class="" data-bind="text: Amount.formatMoney()"></span>
+                        <i class="glyphicon text-success glyphicon-arrow-right"></i>
+                        <b data-bind="text: Creditor"></b>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->            
+        </div>
+    </div>
+</script>

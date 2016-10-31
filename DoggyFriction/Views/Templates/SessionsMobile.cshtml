@@ -7,6 +7,9 @@
             <!-- ko foreach: Sessions -->
             <div class="item-block">
                 <div class="actions">
+                    <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                    </a>
                     <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>

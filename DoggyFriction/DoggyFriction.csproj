@@ -411,6 +411,7 @@
     <Content Include="Views\Templates\ActionMobile.cshtml" />
     <Content Include="Views\Templates\SessionMobile.cshtml" />
     <Content Include="Views\Templates\SessionsMobile.cshtml" />
+    <Content Include="Views\Templates\DebtsMobile.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

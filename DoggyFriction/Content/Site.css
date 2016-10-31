@@ -306,11 +306,11 @@ table.table > tfoot td.actions-cell .btn {
 }
 .mobile .item-block .actions button,
 .mobile .item-block .actions a {
-  padding: 2px 30px;
+  padding: 2px 30px 1px 30px;
   margin: 0;
   color: whitesmoke;
   background: #009688;
-  border-radius: 0;
+  border-radius: 1px;
   margin-bottom: 10px;
 }
 .mobile .item-block .actions button:nth-child(1),

@@ -183,7 +183,8 @@ function InitSammy(app) {
             .then(function(sessionData, debtsData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new DebtsModel(debtsData[0], sessionModel);
-                show('debts', actionModel);
+                var templateName = window.App.IsMobile ? 'debts-mobile' : 'debts';
+                show(templateName, actionModel);
             }).promise();
         window.App.Functions.Process(operation);
     });
