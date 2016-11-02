@@ -94,7 +94,7 @@
                                     <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
-                                <!-- ko if: $root.IsEdit() && !Consumptions().length -->
+                                <!-- ko if: $root.IsEdit() -->
                                 <tr>
                                     <td class="actions-cell">
                                         <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
@@ -124,7 +124,7 @@
                     <div class="">
                         <h4>Кто платил:</h4>
                         <span data-bind="if: !Payers().length">Нет данных</span>
-                        <table class="table" data-bind="executeOnEnter: AddPayer">
+                        <table class="table">
                             <thead data-bind="if: Payers().length">
                             <tr>
                                 <th class="wide-cell">Имя</th>
@@ -139,7 +139,7 @@
                                     <!-- ko if: $root.IsEdit() -->
                                     <div>
                                         <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}, hasFocus: HasFocus"></select>
+                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}"></select>
                                     </div>
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
@@ -159,7 +159,7 @@
                                 <!-- /ko -->
                             </tr>
                             <!-- /ko -->
-                            <!-- ko if: $root.IsEdit() && !Payers().length -->
+                            <!-- ko if: $root.IsEdit() -->
                             <tr>
                                 <td class="actions-cell">
                                     <button type="button" class="btn btn-primary" data-bind="click: AddPayer">

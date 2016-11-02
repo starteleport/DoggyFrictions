@@ -50,7 +50,7 @@
                             <div class="description-block">
                                 <label>Наименование:</label>
                                 <!-- ko if: $root.IsEdit() -->
-                                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?"/>
+                                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Что делим?"/>
                                 <!-- /ko -->
                                 <!-- ko if: !$root.IsEdit() -->
                                 <span data-bind="text: Description()"></span>
@@ -139,7 +139,7 @@
                                     <!-- ko if: $root.IsEdit() -->
                                     <span>
                                         <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                            optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}, hasFocus: HasFocus"></select>
+                                            optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}"></select>
                                     </span>
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->

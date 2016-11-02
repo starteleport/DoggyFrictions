@@ -97,7 +97,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
         });
     }
 
-    this.Save = function () {
+    this.Save = function() {
         var operation = _this._createSaveOperation();
         window.App.Functions.Process(operation);
         $.when(operation).done(function(actionData) {
