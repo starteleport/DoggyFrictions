@@ -443,6 +443,42 @@ table.table>tfoot {
             margin-top: 20px;
         }
     }
+    &.debts {   
+        .debt-details {
+            margin-top: 5px;
+            .debt-details-row {
+                border-top: 1px dotted rgba(0, 96, 99, .8);
+                border-top-style: dotted;
+                padding: 3px 0 1px 0;
+            }
+            .debt-amount-span {
+                display: inline-block;
+                vertical-align: top;
+                margin-left: 5px;
+            }   
+            .debt-arrow {
+                display: inline-block;
+                vertical-align: top;
+                margin-left: 5px;
+            }   
+            .debt-date-span {
+                display: inline-block;
+                vertical-align: top;
+            }
+            .debt-description {
+                width: 80px;
+                display: inline-block;
+                word-wrap: break-word;
+                margin-left: 5px;
+            }
+
+            @media (orientation: landscape){                
+                .debt-description {
+                    width: 180px;
+                }
+            }
+        }
+    }
     .confirm-buttons {            
         margin-top: 20px;
     }

@@ -370,6 +370,39 @@ table.table > tfoot td.actions-cell .btn {
 .mobile.action .sponsors-block {
   margin-top: 20px;
 }
+.mobile.debts .debt-details {
+  margin-top: 5px;
+}
+.mobile.debts .debt-details .debt-details-row {
+  border-top: 1px dotted rgba(0, 96, 99, 0.8);
+  border-top-style: dotted;
+  padding: 3px 0 1px 0;
+}
+.mobile.debts .debt-details .debt-amount-span {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+}
+.mobile.debts .debt-details .debt-arrow {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+}
+.mobile.debts .debt-details .debt-date-span {
+  display: inline-block;
+  vertical-align: top;
+}
+.mobile.debts .debt-details .debt-description {
+  width: 80px;
+  display: inline-block;
+  word-wrap: break-word;
+  margin-left: 5px;
+}
+@media (orientation: landscape) {
+  .mobile.debts .debt-details .debt-description {
+    width: 180px;
+  }
+}
 .mobile .confirm-buttons {
   margin-top: 20px;
 }
