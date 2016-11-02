@@ -338,8 +338,7 @@ table.table > tfoot td.actions-cell .btn {
 }
 .mobile .item-block input,
 .mobile .item-block select {
-  width: 100%;
-  max-width: 400px;
+  width: 200px;
 }
 .mobile .item-block label {
   margin-right: 15px;

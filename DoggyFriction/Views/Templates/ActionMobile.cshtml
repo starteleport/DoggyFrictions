@@ -58,6 +58,17 @@
                             </div>
                             <div class="sum-block">
                                 <div class="amount-block">
+                                    <label>Цена:</label>
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Цена">
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: Amount().formatMoney()"></span>
+                                    <!-- /ko -->
+                                </div>
+                                <div class="amount-block">
                                     <label>Кол-во:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <div class="form-group">
@@ -66,17 +77,6 @@
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Quantity"></span>
-                                    <!-- /ko -->
-                                </div>
-                                <div class="amount-block">
-                                    <label>Цена:</label>
-                                    <!-- ko if: $root.IsEdit() -->
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
-                                    </div>
-                                    <!-- /ko -->
-                                    <!-- ko if: !$root.IsEdit() -->
-                                    <span data-bind="text: Amount().formatMoney()"></span>
                                     <!-- /ko -->
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                         <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
                                     </span>
                                     <!-- /ko -->
-                                    <span data-bind="text: ParticipantName"></span>
+                                    <span data-bind="text: ParticipantName + ': '"></span>
                                     <b data-bind="text: Amount().formatMoney()" disabled></b>
                                 </span>
                                 <!-- /ko -->
