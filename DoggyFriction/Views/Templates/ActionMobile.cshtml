@@ -61,7 +61,7 @@
                                     <label>Цена:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <div class="form-group">
-                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Цена">
+                                        <input type="number" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Цена">
                                     </div>
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
@@ -72,7 +72,7 @@
                                     <label>Кол-во:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <div class="form-group">
-                                        <input type="text" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
+                                        <input type="number" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
                                     </div>
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
@@ -149,7 +149,7 @@
                                 <div class="amount-block">
                                     <label>Сумма:</label>
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
+                                    <input type="number" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Amount().formatMoney()"></span>
