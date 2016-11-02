@@ -98,11 +98,11 @@ function ActionModel(actionData, sessionModel, isEdit) {
     }
 
     this.Save = function () {
-        _this._createSaveOperation();
+        var operation = _this._createSaveOperation();
         window.App.Functions.Process(operation);
-        $.when(operation).done(function (actionData) {
-                window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
-            });
+        $.when(operation).done(function(actionData) {
+            window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
+        });
     }
     this.SaveAndNew = function() {
         var operation = _this._createSaveOperation();
