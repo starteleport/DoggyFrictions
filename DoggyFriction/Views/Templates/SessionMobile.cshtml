@@ -15,9 +15,11 @@
                 <span class="glyphicon glyphicon-trash"></span> Удалить
             </a>
 
-            <div>
-                <h4>Постановы:</h4>
+            <!-- ko if: !Actions.IsLoading() -->
+            <div data-bind="with: Actions">
+                @Html.Partial("Pages")
             </div>
+            <!-- /ko -->
             <div class="loading-screen-small" data-bind="if: Actions.IsLoading()">
                 <img src='@Url.Content("../../Content/runningdog_transparent.gif")' alt="Загрузка . . .">
             </div>

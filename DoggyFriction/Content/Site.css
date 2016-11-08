@@ -295,6 +295,25 @@ table.table > tfoot td.actions-cell .btn {
   padding: 10px 0 10px 0;
   font-size: 22px;
 }
+.mobile .pages .pages-wrap {
+  display: inline-block;
+}
+.mobile .pages a {
+  color: #f5f5f5;
+  padding: 3px 15px 1px 15px;
+  background: #009688;
+  border-radius: 2px;
+  border: #009688 1px solid;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+}
+.mobile .pages .current-page {
+  color: #009688;
+  padding: 3px 15px 1px 15px;
+  background: #f5f5f5;
+  border-radius: 2px;
+  border: #009688 1px solid;
+  /*box-shadow: 1px 1px 4px 0 rgba(0,0,0,.4);*/
+}
 .mobile .item-block {
   border-radius: 8px;
   margin: 15px 5px 5px 5px;
