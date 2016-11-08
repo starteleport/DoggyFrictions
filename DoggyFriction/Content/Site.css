@@ -360,7 +360,8 @@ table.table > tfoot td.actions-cell .btn {
   width: 200px;
 }
 .mobile .item-block label {
-  margin-right: 15px;
+  margin-right: 10px;
+  min-width: 60px;
 }
 .mobile.action .item-block .payer-block {
   display: inline-block;
