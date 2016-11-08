@@ -179,6 +179,7 @@
     <Compile Include="App_Start\IocFactory.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructureMapResolver.cs" />
+    <Compile Include="App_Start\WarmupWorker.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ActionsController.cs" />
     <Compile Include="Controllers\ActionsFilter.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\DebtsController.cs" />
+    <Compile Include="Controllers\WarmupController.cs" />
     <Compile Include="Domain\Action.cs" />
     <Compile Include="Domain\Good.cs" />
     <Compile Include="Domain\Participation.cs" />
