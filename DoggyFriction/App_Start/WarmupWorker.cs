@@ -13,21 +13,21 @@ namespace DoggyFriction
 
         public static void Start()
         {
-            Action sendingAction = null;
-            sendingAction = () =>
+            Action sendingAction = () =>
             {
-                try
+                while (true)
                 {
-                    PingHosts();
-                }
-                catch (Exception e)
-                {
-                }
-                finally
-                {
-                    Task.Delay(_requestDelay)
-                        .ContinueWith(result => sendingAction)
-                        .Start();
+                    try
+                    {
+                        PingHosts();
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                    finally
+                    {
+                        Task.Delay(_requestDelay).Wait();
+                    }
                 }
             };
             Task.Run(sendingAction);
