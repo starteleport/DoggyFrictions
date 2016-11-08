@@ -15,6 +15,7 @@ namespace DoggyFriction
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ContainerConfig.ArrangeMvcDependencyResolver();
+            WarmupWorker.Start();
         }
     }
 }
