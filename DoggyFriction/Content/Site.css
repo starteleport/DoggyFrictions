@@ -101,6 +101,9 @@ div.inline-block {
   height: 0;
   text-transform: uppercase;
 }
+.sticky-table-head div {
+  overflow: hidden;
+}
 .sticky-table-foot {
   color: #eeeeee;
   display: inline-flex;
