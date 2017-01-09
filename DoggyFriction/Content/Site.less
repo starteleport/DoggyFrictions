@@ -1,11 +1,15 @@
 ﻿body {
 	padding-bottom: 20px;
 	padding-top: 50px;
-	.container {
+	.body-content {
         padding-left: 0;
         padding-right: 0;
+        margin: 0 15px;
 		.jumbotron {
 			padding: 30px 45px 30px 35px;
+            background-color: #fff;
+            -webkit-box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+            box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 		}
 		.jumbotron>div {
 			overflow-x: auto;
@@ -142,22 +146,18 @@ table>tbody>tr>td.wide-cell {
 .small-cell {
 	text-align: center;
 	width: 30px;
-}
-table>tbody>tr>td.small-cell {
-	input {
-		text-align: center;
-		width: 30px;
-	}
+    input[type=text] {
+	    text-align: center;
+        width: 30px !important;
+    }
 }
 .money-cell {
 	text-align: right;
-	width: 120px;
-}
-table>tbody>tr>td.money-cell {
-	input {
-		text-align: right;
-		width: 120px;
-	}
+	width: 60px;
+    input[type=text] {
+	    text-align: right;
+        width: 60px !important;
+    }
 }
 td.money-cell {
 	.input-group-addon {
@@ -295,7 +295,10 @@ table.table>tfoot {
 			margin: 0;
 			padding-top: 5px;
 		}
-	}
+	}    
+    .money-cell {
+	    width: 120px;
+    }
 	&:hover {
 		td {
 			background-color: #f5f5f5;

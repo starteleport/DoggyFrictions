@@ -66,7 +66,7 @@
             }
         }
     };
-
+    
     //Init sammy
     if ($("#main")[0]) {
         $.get('/Templates/Get').done(function (templates) {
