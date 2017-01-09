@@ -302,6 +302,19 @@ table.table>tfoot {
 		}
 	}
 }
+.debt-balances-block{
+    max-width: 400px;
+    .balance-span {
+        margin-right: 25px;
+        display: inline-block;
+    }
+    .totals-block {
+        margin-top: 20px;
+        &>div{
+            margin-left: 20px;
+        }
+    }
+}
 .debt-details-block {
 	cursor: pointer;
 	padding-left: 20px;
@@ -464,6 +477,16 @@ table.table>tfoot {
         }
     }
     &.debts {   
+        .balance-span {
+            margin-right: 25px;
+            display: inline-block;
+        }
+        .totals-block {
+            margin-top: 20px;
+            &>div{
+                margin-left: 20px;
+            }
+        }
         .debt-details {
             margin-top: 5px;
             .debt-details-row {

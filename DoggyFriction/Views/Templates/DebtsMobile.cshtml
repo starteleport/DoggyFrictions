@@ -2,8 +2,21 @@
     <div class="debts mobile is-preview">
         <div class="jumbotron">
             @Html.Partial("DebtsHeader")
-            <h4>Долговая яма:</h4>
+            <div class="totals-block" data-bind="if: Balances.length">
+                <h4>Балансы:</h4>
+                <div>
+                    <!-- ko foreach: Balances -->
+                    <!-- ko if: Balance -->
+                    <span class="balance-span">
+                        <span data-bind="text: Name + ': '"></span>
+                        <span data-bind="text: Balance.formatMoney(), css:{'text-danger':Balance < 0, 'text-success':Balance > 0}"></span>
+                    </span>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </div>
+            </div>
 
+            <h4>Долговая яма:</h4>
             <!-- ko foreach: Debts -->
             <div class="item-block">
                 <div class="actions">
