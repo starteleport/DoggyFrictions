@@ -2,7 +2,18 @@
     <div class="debts jumbotron is-preview">
         <div>
             @Html.Partial("DebtsHeader")
+            <h4>Балансы:</h4>
+            <!-- ko if: Balances.length -->
+            <div class="debt-balances-block" data-bind="foreach: Balances">
+                <span class="balance-span" data-bind="if: Balance">
+                    <span data-bind="text: Name + ': '"></span>
+                    <span data-bind="text: Balance.formatMoney(), css:{'text-danger':Balance < 0, 'text-success':Balance > 0}"></span>
+                </span>
+            </div>
+            <!-- /ko -->
+            <span data-bind="if: !Balances.length">Всё ровно</span>
             <h4>Долговая яма:</h4>
+            <!-- ko if: Debts.length -->
             <table>
                 <tbody data-bind="foreach: Debts">
                 <tr class="debt-block">
@@ -42,6 +53,8 @@
                 <!-- /ko -->
                 </tbody>
             </table>
+            <!-- /ko -->
+            <span data-bind="if: !Debts.length">Всё ровно</span>
         </div>
     </div>
 </script>
