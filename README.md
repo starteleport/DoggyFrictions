@@ -1,6 +1,4 @@
 # DoggyFrictions
 Accounting system for dogs d
--55678 d
-Merged
-changes
+$3
 uuu
