@@ -179,6 +179,7 @@
     <Compile Include="App_Start\IocFactory.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructureMapResolver.cs" />
+    <Compile Include="App_Start\WarmupWorker.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ActionsController.cs" />
     <Compile Include="Controllers\ActionsFilter.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\DebtsController.cs" />
+    <Compile Include="Controllers\WarmupController.cs" />
     <Compile Include="Domain\Action.cs" />
     <Compile Include="Domain\Good.cs" />
     <Compile Include="Domain\Participation.cs" />
@@ -239,6 +241,12 @@
     <Content Include="Content\Plugins\snackbar.min.css" />
     <Content Include="Content\Runningdog.gif" />
     <Content Include="Content\runningdog_transparent.gif" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -263,6 +271,11 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="Content\Site.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -375,7 +388,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -397,6 +409,11 @@
     <Content Include="Views\Templates\NavigationBar.cshtml" />
     <Content Include="Views\Templates\Debts.cshtml" />
     <Content Include="Views\Templates\DebtsHeader.cshtml" />
+    <Content Include="Views\Templates\EditSession.cshtml" />
+    <Content Include="Views\Templates\ActionMobile.cshtml" />
+    <Content Include="Views\Templates\SessionMobile.cshtml" />
+    <Content Include="Views\Templates\SessionsMobile.cshtml" />
+    <Content Include="Views\Templates\DebtsMobile.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

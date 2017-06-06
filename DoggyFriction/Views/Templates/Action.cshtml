@@ -1,17 +1,16 @@
 ﻿<script type="text/html" id="action-template">
     <div class="action" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div class="form-horizontal">
-            <div class="jumbotron container">
+            <div class="jumbotron">
                 <div>
-                    @Html.Partial("ActionHeader")
-                    <div class="">
+                    <div class="form-inline">
+                        @Html.Partial("ActionHeader")
                         <h4>Позиции:</h4>
                         <div>
                             <div class="sticky-table-head">
                                 <div class="wide-cell">Позиция</div>
                                 <div class="money-cell">Сумма</div>
                                 <div class="money-cell">Q</div>
-                                <div class="small-cell">Поровну</div>
                                 <!-- ko foreach: Session.Participants -->
                                 <div class="money-cell" data-bind="text: Name()"></div>
                                 <!-- /ko -->
@@ -19,111 +18,104 @@
                             <span data-bind="if: !Consumptions().length">Нет данных</span>
                             <table class="table" data-bind="executeOnEnter: AddConsumption">
                                 <thead data-bind="if: Consumptions().length">
-                                    <tr>
-                                        <th class="wide-cell">Позиция</th>
-                                        <th class="money-cell">Сумма</th>
-                                        <th class="small-cell">Q</th>
-                                        <th class="small-cell">Поровну</th>
-                                        <!-- ko foreach: Session.Participants -->
-                                        <th class="money-cell" data-bind="text: Name()"></th>
-                                        <!-- /ko -->
-                                        <th class="delete-row-cell actions-cell"></th>
-                                    </tr>
+                                <tr>
+                                    <th class="wide-cell">Позиция</th>
+                                    <th class="money-cell">Сумма</th>
+                                    <th class="small-cell">Q</th>
+                                    <!-- ko foreach: Session.Participants -->
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <th class="money-cell consumer-header" data-bind="text: Name(), click: $parent.ToggleConsumer"></th>
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <th class="money-cell" data-bind="text: Name()"></th>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <th class="delete-row-cell actions-cell"></th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- ko foreach: Consumptions -->
-                                    <tr>
-                                        <td class="wide-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?" />
-                                            </div>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: Description()"></span>
-                                            <!-- /ko -->
-                                        </td>
-                                        <td class="money-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
-                                            </div>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: Amount().formatMoney()"></span>
-                                            <!-- /ko -->
-                                        </td>
-                                        <td class="small-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
-                                            </div>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: Quantity"></span>
-                                            <!-- /ko -->
-                                        </td>
-                                        <td class="small-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <span class="checkbox">
-                                                <label><input type="checkbox" data-bind="checked: IsAuto" tabindex="-1" /></label>
-                                            </span>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() -->
-                                            <span data-bind="text: IsAuto() ? 'Да' : 'Нет'"></span>
-                                            <!-- /ko -->
-                                        </td>
-                                        <!-- ko foreach: Consumers -->
-                                        <td class="money-cell">
-                                            <!-- ko if: $root.IsEdit() -->
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">
+                                <!-- ko foreach: Consumptions -->
+                                <tr>
+                                    <td class="wide-cell">
+                                        <!-- ko if: $root.IsEdit() -->
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?"/>
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
+                                        <span data-bind="text: Description()"></span>
+                                        <!-- /ko -->
+                                    </td>
+                                    <td class="money-cell">
+                                        <!-- ko if: $root.IsEdit() -->
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
+                                        <span data-bind="text: Amount().formatMoney()"></span>
+                                        <!-- /ko -->
+                                    </td>
+                                    <td class="small-cell">
+                                        <!-- ko if: $root.IsEdit() -->
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: !$root.IsEdit() -->
+                                        <span data-bind="text: Quantity"></span>
+                                        <!-- /ko -->
+                                    </td>
+                                    <!-- ko foreach: Consumers -->
+                                    <td class="money-cell">
+                                        <!-- ko if: $root.IsEdit() -->
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
                                                         <span class="checkbox">
                                                             <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
                                                         </span>
                                                     </span><!-- ko if: $parent.IsAuto() || !IsActive() -->
-                                                    <span class="form-control form-control-highlight" data-bind="text: Amount().formatMoney()" disabled></span>
-                                                    <!-- /ko -->
-                                                    <!-- ko if: !$parent.IsAuto() && IsActive() -->
-                                                    <input type="text" class="form-control" data-bind="money: Amount" tabindex="-1" placeholder="Доля">
-                                                    <!-- /ko -->
-                                                </div>
+                                                <span class="form-control form-control-highlight" data-bind="text: Amount().formatMoney()" disabled></span>
+                                                <!-- /ko -->
+                                                <!-- ko if: !$parent.IsAuto() && IsActive() -->
+                                                <input type="text" class="form-control" data-bind="money: Amount" tabindex="-1" placeholder="Доля">
+                                                <!-- /ko -->
                                             </div>
-                                            <!-- /ko -->
-                                            <!-- ko if: !$root.IsEdit() && IsActive() -->
-                                            <span data-bind="text: Amount().formatMoney()"></span>
-                                            <!-- /ko -->
-                                        </td>
+                                        </div>
                                         <!-- /ko -->
-                                        <!-- ko if: $root.IsEdit() -->
-                                        <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <!-- ko if: !$root.IsEdit() && IsActive() -->
+                                        <span data-bind="text: Amount().formatMoney()"></span>
                                         <!-- /ko -->
-                                    </tr>
+                                    </td>
                                     <!-- /ko -->
-                                    <!-- ko if: $root.IsEdit() && !Consumptions().length -->
-                                    <tr>
-                                        <td class="actions-cell">
-                                            <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
-                                                <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     <!-- /ko -->
+                                </tr>
+                                <!-- /ko -->
+                                <!-- ko if: $root.IsEdit() -->
+                                <tr>
+                                    <td class="actions-cell">
+                                        <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
+                                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
                                 </tbody>
                                 <tfoot data-bind="if: Consumptions().length">
-                                    <tr>
-                                        <td class="wide-cell">Итого</td>
-                                        <td class="money-cell"><span data-bind="text: Amount().formatMoney()"></span></td>
-                                        <td class="small-cell"></td>
-                                        <td class="small-cell"></td>
-                                        <!-- ko foreach: ConsumerTotals -->
-                                        <td class="money-cell"><span data-bind="text: $data.formatMoney()"></span></td>
-                                        <!-- /ko -->
-                                        <!-- ko if: $root.IsEdit() -->
-                                        <td class="actions-cell"></td>
-                                        <!-- /ko -->
-                                    </tr>
+                                <tr>
+                                    <td class="wide-cell">Итого</td>
+                                    <td class="money-cell"><span data-bind="text: Amount().formatMoney()"></span></td>
+                                    <td class="small-cell"></td>
+                                    <!-- ko foreach: ConsumerTotals -->
+                                    <td class="money-cell"><span data-bind="text: Total.formatMoney()"></span></td>
+                                    <!-- /ko -->
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <td class="actions-cell"></td>
+                                    <!-- /ko -->
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -132,50 +124,50 @@
                     <div class="">
                         <h4>Кто платил:</h4>
                         <span data-bind="if: !Payers().length">Нет данных</span>
-                        <table class="table" data-bind="executeOnEnter: AddPayer">
+                        <table class="table">
                             <thead data-bind="if: Payers().length">
-                                <tr>
-                                    <th class="wide-cell">Имя</th>
-                                    <th class="money-cell">Сумма</th>
-                                    <th class="actions-cell"></th>
-                                </tr>
+                            <tr>
+                                <th class="wide-cell">Имя</th>
+                                <th class="money-cell">Сумма</th>
+                                <th class="actions-cell"></th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <!-- ko foreach: Payers -->
-                                <tr>
-                                    <td class="wide-cell">
-                                        <!-- ko if: $root.IsEdit() -->
-                                        <div>
-                                            <select class="form-control" data-bind="options: $parent.Session.Participants,
-                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}, hasFocus: HasFocus"></select>
-                                        </div>
-                                        <!-- /ko -->
-                                        <!-- ko if: !$root.IsEdit() -->
-                                        <span data-bind="text: $parent.Session.GetParticipant(ParticipantId()).Name()"></span>
-                                        <!-- /ko -->
-                                    </td>
-                                    <td class="money-cell">
-                                        <!-- ko if: $root.IsEdit() -->
-                                        <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
-                                        <!-- /ko -->
-                                        <!-- ko if: !$root.IsEdit() -->
-                                        <span data-bind="text: Amount().formatMoney()"></span>
-                                        <!-- /ko -->
-                                    </td>
+                            <!-- ko foreach: Payers -->
+                            <tr>
+                                <td class="wide-cell">
                                     <!-- ko if: $root.IsEdit() -->
-                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <div>
+                                        <select class="form-control" data-bind="options: $parent.Session.Participants,
+                                                optionsText: 'Name', optionsValue: 'Id', value: ParticipantId, attr: {tabindex: window.App.GlobalId.Next() + 1000}"></select>
+                                    </div>
                                     <!-- /ko -->
-                                </tr>
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: $parent.Session.GetParticipant(ParticipantId()).Name()"></span>
+                                    <!-- /ko -->
+                                </td>
+                                <td class="money-cell">
+                                    <!-- ko if: $root.IsEdit() -->
+                                    <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
+                                    <!-- /ko -->
+                                    <!-- ko if: !$root.IsEdit() -->
+                                    <span data-bind="text: Amount().formatMoney()"></span>
+                                    <!-- /ko -->
+                                </td>
+                                <!-- ko if: $root.IsEdit() -->
+                                <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 <!-- /ko -->
-                                <!-- ko if: $root.IsEdit() && !Payers().length -->
-                                <tr>
-                                    <td class="actions-cell">
-                                        <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
-                                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- /ko -->
+                            </tr>
+                            <!-- /ko -->
+                            <!-- ko if: $root.IsEdit() -->
+                            <tr>
+                                <td class="actions-cell">
+                                    <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
+                                        <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- /ko -->
                             </tbody>
                         </table>
                     </div>
@@ -185,6 +177,11 @@
                             <button type="button" class="btn btn-primary btn-raised" data-bind="click: Save">
                                 <span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову
                             </button>
+                            <!-- ko if: !$root.Id -->
+                            <button type="button" class="btn btn-primary btn-raised" data-bind="click: SaveAndNew">
+                                <span class="glyphicon glyphicon-floppy-save"></span> Сохранить и создать ещё
+                            </button>
+                            <!-- /ko -->
                             <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
                                 cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">
                                 Отмена

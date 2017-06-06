@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="sessions-template">
     <div class="sessions jumbotron is-preview">
         <div>
-            <div class="page-head container">
+            <div class="page-head">
                 <h2 class="text-center">Главная</h2>
             </div>
             <h4>Тёрки:</h4>
@@ -18,7 +18,7 @@
                         <td class="really-wide-cell" data-bind="text: Name, click: window.App.Functions.Move('#/Session/' + Id)"></td>
                         <td class="really-wide-cell" data-bind="text: ParticipantNames(), click: window.App.Functions.Move('#/Session/' + Id)"></td>
                         <td class="actions-cell">
-                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
+                            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span></a><a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
                                     cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>

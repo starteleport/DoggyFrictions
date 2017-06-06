@@ -1,32 +1,34 @@
 ﻿<!-- ko if: TotalPages() > 1 -->
 <div class="pages">
     Страница:
-    <!-- ko if: Page() >= 3 -->
-    <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>
-    <span data-bind="if: Page() != 3"> . . . </span>
-    <!-- /ko -->
-    <!-- ko if: Page() - 10 > 2 -->
-    <a data-bind="text: Page() - 10, click: function() { LoadPage(Page() - 10); }, clickBubble: false"></a>
-    <span> . . . </span>
-    <!-- /ko -->
-    <!-- ko if: Page() - 100 > 2 -->
-    <a data-bind="text: Page() - 100, click: function() { LoadPage(Page() - 100); }, clickBubble: false"></a>
-    <span> . . . </span>
-    <!-- /ko -->
-    <a data-bind="text: Page() - 1, visible: Page() > 1, click: function() { LoadPage(Page() - 1); }, clickBubble: false"></a>
-    <span data-bind="text: Page()"></span>
-    <a data-bind="text: Page() + 1, visible: Page() < TotalPages(), click: function() { LoadPage(Page() + 1); }, clickBubble: false"></a>
-    <!-- ko if: Page() + 10 < TotalPages() - 1 -->
-    <span> . . . </span>
-    <a data-bind="text: Page() + 10, click: function() { LoadPage(Page() + 10); }, clickBubble: false"></a>
-    <!-- /ko -->
-    <!-- ko if: Page() + 100 < TotalPages() - 1 -->
-    <span> . . . </span>
-    <a data-bind="text: Page() + 100, click: function() { LoadPage(Page() + 100); }, clickBubble: false"></a>
-    <!-- /ko -->
-    <!-- ko if: Page() <= TotalPages() - 2 -->
-    <span data-bind="if: Page() != TotalPages() - 2"> . . . </span>
-    <a data-bind="text: TotalPages(), click: function() { LoadPage(TotalPages()); }, clickBubble: false"></a>
-    <!-- /ko -->
+    <span class="pages-wrap">
+        <!-- ko if: Page() >= 3 -->
+        <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>
+        <span data-bind="if: Page() != 3"> . . . </span>
+        <!-- /ko -->
+        <!-- ko if: Page() - 10 > 2 -->
+        <a data-bind="text: Page() - 10, click: function() { LoadPage(Page() - 10); }, clickBubble: false"></a>
+        <span> . . . </span>
+        <!-- /ko -->
+        <!-- ko if: Page() - 100 > 2 -->
+        <a data-bind="text: Page() - 100, click: function() { LoadPage(Page() - 100); }, clickBubble: false"></a>
+        <span> . . . </span>
+        <!-- /ko -->
+        <a data-bind="text: Page() - 1, visible: Page() > 1, click: function() { LoadPage(Page() - 1); }, clickBubble: false"></a>
+        <span class="current-page" data-bind="text: Page()"></span>
+        <a data-bind="text: Page() + 1, visible: Page() < TotalPages(), click: function() { LoadPage(Page() + 1); }, clickBubble: false"></a>
+        <!-- ko if: Page() + 10 < TotalPages() - 1 -->
+        <span> . . . </span>
+        <a data-bind="text: Page() + 10, click: function() { LoadPage(Page() + 10); }, clickBubble: false"></a>
+        <!-- /ko -->
+        <!-- ko if: Page() + 100 < TotalPages() - 1 -->
+        <span> . . . </span>
+        <a data-bind="text: Page() + 100, click: function() { LoadPage(Page() + 100); }, clickBubble: false"></a>
+        <!-- /ko -->
+        <!-- ko if: Page() <= TotalPages() - 2 -->
+        <span data-bind="if: Page() != TotalPages() - 2"> . . . </span>
+        <a data-bind="text: TotalPages(), click: function() { LoadPage(TotalPages()); }, clickBubble: false"></a>
+        <!-- /ko -->
+    </span>
 </div>
 <!-- /ko -->

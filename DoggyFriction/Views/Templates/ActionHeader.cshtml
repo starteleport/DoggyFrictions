@@ -1,23 +1,24 @@
-﻿<div class="page-head container">
+﻿<div class="page-head">
     <div class="col-lg-3">
         @Html.Partial("NavigationBar")
     </div>
     <h2 class="col col-lg-9">
-        <span class="form-inline">
-            <span data-bind="text: Amount().formatMoney()"></span> -
+        <span class="page-name">
             <!-- ko if: $root.IsEdit() -->
+            <label>Название</label>
             <span class="input-group">
+                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">,
             </span>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
-            <span data-bind="text: (Description() || '')"></span>,
+            <span data-bind="text: (Description() || '')"></span>
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
+            <label>Дата</label>
             <span class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </span>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
