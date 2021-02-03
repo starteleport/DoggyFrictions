@@ -20,7 +20,8 @@ namespace DoggyFriction.Tests.Services.Repository
         {
             fixture = new Fixture();
             fixture.Customize<decimal>(c => c.FromFactory<int>(i => Math.Round(Math.Abs(i) * 1.33m, 2)));
-            client = new MongoClient(MongoUrl.Create("mongodb://svsokrat:qwedsa@ds027165.mlab.com:27165/doggyfrictions-test"));
+            var connectionString = "mongodb+srv://mngAppUser:MSrtO5mnxAXcyWjP@appharbor-8175tg8z.6mc0f.mongodb.net/appharbor-8175tg8z?retryWrites=true&w=majority";
+            client = new MongoClient(connectionString);
         }
 
         [Test, Explicit]
