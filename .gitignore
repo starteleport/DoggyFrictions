@@ -10,6 +10,9 @@
 /packages/
 /.settings/
 
+# Ignore node_modules
+**/node_modules/
+
 # Ignore .orig files (original revisions written by Git on merge conflicts)
 *.orig
 

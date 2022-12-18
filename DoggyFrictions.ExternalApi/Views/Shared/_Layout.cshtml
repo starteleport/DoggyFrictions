@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/imageedit_6_8030490022.png")" />
+    <environment names="Development">
+      <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/ripples.css" />
+      <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" />
+      <link rel="stylesheet" href="~/lib/snackbarjs/dist/snackbar.css" />
+      <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"
+            asp-fallback-href="~/lib/bootstrap-material-design/dist/css/ripples.min.css"
+            asp-fallback-test-class="ripple"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"
+            integrity="sha512-JI4Ql+OHJNGbYYanZurOJBGn/XdWYI7Q+zfO5pAOCRczJeiMd4E//7cCrSh3vRZQl8VkmrgvrVwMRuPZhwtwXw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"
+            asp-fallback-href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.min.css"
+            asp-fallback-test-class="btn"
+            asp-fallback-test-property="border-radius"
+            asp-fallback-test-value="2px"
+            integrity="sha512-7R7YV//LsPb5bp19x1ZT18eeQRqZWYABQ9vQ+eNVdLdKqVonQu7kAurHMp7ckEkCwF11fhtqGHckk4ebJXVQUQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+      <link rel="stylesheet"
+            href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"
+            integrity="Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css"
+            asp-fallback-href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css"
+            asp-fallback-test-class="datepicker"
+            asp-fallback-test-property="border-radius"
+            asp-fallback-test-value="4px"
+            integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/snackbarjs/1.1.0/snackbar.min.css"
+            asp-fallback-href="~/lib/snackbarjs/dist/snackbar.min.css"
+            asp-fallback-test-class="datepicker"
+            asp-fallback-test-property="border-radius"
+            asp-fallback-test-value="4px"
+            integrity="sha512-ZubYj+rC7zgkWTuAVwkm17rin+FmWcEgDhM3xG1WSDDPFF756pTSVqZ0/cPhIZkLUHwcMRvNUv2OreI1kww5yg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+      <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <title>Doggy Frictions</title>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-primary navbar-fixed-top">
+    <div class="">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/Sessions"><img src="~/Content/imageedit_6_8030490022.png"/>Doggy Frictions</a>
+        </div>
+    </div>
+</div>
+<div class="body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Doggy Inc</p>
+    </footer>
+</div>
+
+<environment names="Staging,Production">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js"
+        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+        asp-fallback-test="window.jQuery"
+        integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="~/lib/jquery/dist/jquery-dateformat.min.js">
+</script>
+<!-- node_modules does not have minified Modernizr, integrity check will break on fallback -->
+<!-- TODO: minify ourselves-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+        asp-fallback-src="~/lib/npm-modernizr/modernizr.js"
+        asp-fallback-test="window.Modernizr"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/bootstrap.min.js"
+        asp-fallback-src="~/lib/bootstrap/dist/bootstrap.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+        integrity="sha512-oBTprMeNEKCnqfuqKd6sbvFzmFQtlXS3e0C/RGFV0hD6QzhHV+ODfaQbAlmY6/q0ubbwlAM/nCJjkrgA3waLzg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<!-- There is a difference between CDN and NPM versions, integrity hashes do not match -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"
+        asp-fallback-src="~/lib/respond.js/dest/js/respond.min.js"
+        asp-fallback-test="window.respond"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"
+        asp-fallback-src="~/lib/bootstrap-material-design/dist/js/material.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.material"
+        integrity="sha512-DX/0hNbgcHPIScNWXW2+O7HDABPPXWvZpR+pq/1iKzRaAp9D7VUFySja7DIx2I1v+amYM0tWI8+IjjurPVIA9Q=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"
+        asp-fallback-src="~/lib/bootstrap-material-design/dist/js/ripples.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.ripples"
+        integrity="sha512-0GHGzq3KbbzUN1B+Vv0GFkvgEMYECMbMYH2MRpJYFTOBVi6w9qK6JvzND3AUf1k3lw8rQ/BX6XToXn12a5n8wg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"
+        asp-fallback-src="~/lib/knockout/build/output/knockout-latest.js"
+        asp-fallback-test="window.ko"
+        integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout-validation/2.0.4/knoc
+kout.validation.min.js"
+        asp-fallback-src="~/lib/knockout.validation/dist/knockout.validation.min.js"
+        asp-fallback-test="window.ko && window.ko.validation"
+        integrity="sha512-b99MDNv5TqiZtPKH2UeHzDAVydmgrOJEPtaPPEF8AgV86eYyqINFI/K7/7f0+R4WNTAVv8KvvpjwfOYHv5rd5g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<!-- node_modules does not have minified moment.js, integrity check will break on fallback -->
+<!-- TODO: minify ourselves-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"
+        asp-fallback-src="~/lib/moment/moment.js"
+        asp-fallback-test="window.Moment">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+        asp-fallback-src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.datepicker"
+        integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSG B2GvjeoMAJJImBG12TiaQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"
+        asp-fallback-src="~/lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.datepicker"
+        integrity="sha512-tPXUMumrKam4J6sFLWF/06wvl+Qyn27gMfmynldU730ZwqYkhT2dFUmttn2PuVoVRgzvzDicZ/KgOhWD+KAYQQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/snackbarjs/1.1.0/snackbar.min.js"
+        asp-fallback-src="~/lib/snackbarjs/dist/snackbar.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.snackbar"
+        integrity="sha512-Knad2JJvcddGNKm03ySDgeTKXQfBjH0XPrFqUyzM0BuJhKkVfLzoOK5Ii9jsLmbZTXM8YNqn42suHyIEbQXboQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.6/sammy.min.js"
+        asp-fallback-src="~/lib/sammy/lib/min/sammy-latest.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.sammy"
+        integrity="sha512-P0qL6322HXDfrw8EsI8yQVGGc1+SSAZm5AWOYjPTrlZDQLX229heMa1XTOloWwynwxwWh2ElN3/GNoG1wT5r8Q=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js"
+        asp-fallback-src="~/lib/underscore/underscore-min.js"
+        asp-fallback-test="window._"
+        integrity="sha512-2V49R8ndaagCOnwmj8QnbT1Gz/rie17UouD9Re5WxbzRVUGoftCu5IuqqtAM9+UC3fwfHCSJR1hkzNQh/2wdtg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+<!-- node_modules does not have minified jquery.sticky, integrity check will break on fallback -->
+<!-- TODO: minify ourselves-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.4/jquery.sticky.min.js"
+        asp-fallback-src="~/lib/jquery-sticky/jquery.sticky.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.sticky">
+</script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
