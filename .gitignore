@@ -69,3 +69,6 @@ _ReSharper*/
 
 # Mac-related stuff
 .DS_Store
+
+# Rider files
+.idea
