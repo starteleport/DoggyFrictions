@@ -23,7 +23,7 @@
     "bootstrap-datepicker": "1.9.0",
     "knockout": "3.5.1",
     "knockout.validation": "2.0.4",
-    "moment": "2.29.4",
+    "moment": "2.29.3",
     "moment-with-locales-es6": "1.0.1",
     "npm-modernizr": "2.8.3",
     "respond.js": "1.4.2",

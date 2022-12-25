@@ -1,8 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿<div id="main">
+    <div class="jumbotron text-center">
+        Who let the dogs out?!
+    </div>
+</div>
+<div id="loading-screen" class="modal" style="display: none">
+    <div class="text-center loading-screen-content">
+        <img src='@Url.Content("~/runningdog_transparent.gif")' alt="Загрузка . . .">
+    </div>
+    <div class="modal-backdrop"></div>
 </div>
