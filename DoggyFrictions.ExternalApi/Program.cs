@@ -1,7 +1,22 @@
+using DoggyFrictions.ExternalApi.Services.Repository;
+using MongoDB.Driver;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .AddEnvironmentVariables("ASPNETCORE_")
+    .Build();
+
+var configuration = builder.Configuration;
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+builder.Services.AddSingleton<IRepository, MongoRepository>(_ =>
+    new MongoRepository(new MongoClient(configuration.GetConnectionString("mongo"))));
 
 var app = builder.Build();
 
@@ -15,6 +30,7 @@ if (!app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UsePathBase("/api");
 
 app.UseRouting();
 

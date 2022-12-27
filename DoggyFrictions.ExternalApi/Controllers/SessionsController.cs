@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoggyFrictions.ExternalApi.Controllers;
 
+[Route("[controller]")]
 public class SessionsController : Controller
 {
     private readonly IRepository _repository;
@@ -14,16 +15,19 @@ public class SessionsController : Controller
     }
 
     // GET: api/Sessions
-    public async Task<IEnumerable<Session>> Get()
+    [HttpGet]
+    public async Task<IEnumerable<Session>> Index()
     {
         return (await _repository.GetSessions()).OrderBy(s => s.Name);
     }
 
     // GET: api/Sessions/5
+    [HttpGet("{id}")]
     public async Task<Session> Get(string id) => await _repository.GetSession(id);
 
     // POST: api/Sessions
-    public async Task<IActionResult> Post([FromBody] Session session)
+    [HttpPost("")]
+    public async Task<IActionResult> Post([FromForm] Session session)
     {
         if (session.Id != "0")
         {
@@ -34,6 +38,7 @@ public class SessionsController : Controller
     }
 
     // PUT: api/Sessions/5
+    [HttpPut("{id}")]
     public async Task<IActionResult> Put(string id, [FromBody] Session session)
     {
         if (session.Id == "0")
@@ -45,6 +50,7 @@ public class SessionsController : Controller
     }
 
     // DELETE: api/Sessions/5
+    [HttpDelete("{id}")]
     public async Task<Session> Delete(string id)
     {
         return await _repository.DeleteSession(id);
