@@ -11,6 +11,7 @@ import { deleteAsync } from 'del';
 const { src, dest, series } = gulp;
 const nodeRoot = './node_modules/';
 const cssTargetPath = './wwwroot/css/';
+const lessPath = './Styles/';
 const vendorScriptsTargetPath = './wwwroot/lib/';
 
 function copy_vendor(cb) {
@@ -69,7 +70,7 @@ async function clean(cb) {
 }
 
 function compile_less(cb) {
-    src(cssTargetPath + "Site.less").pipe(less()).pipe(dest(cssTargetPath));
+    src(lessPath + "Site.less").pipe(less()).pipe(dest(cssTargetPath));
     cb();
 }
 
