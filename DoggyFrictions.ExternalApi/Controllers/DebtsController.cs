@@ -5,6 +5,7 @@ using DoggyFrictions.ExternalApi.Services.Repository;
 
 namespace DoggyFrictions.ExternalApi.Controllers;
 
+[Route("[controller]")]
 public class DebtsController : Controller
 {
     private readonly IRepository _repository;
@@ -19,6 +20,7 @@ public class DebtsController : Controller
     }
 
     // GET api/debts
+    [HttpGet("{id}")]
     public async Task<IEnumerable<Debt>> Get(string id)
     {
         var sessionModel = await _repository.GetSession(id);

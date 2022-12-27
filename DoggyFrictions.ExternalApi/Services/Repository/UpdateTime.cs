@@ -1,5 +1,3 @@
-using System;
-
 namespace DoggyFrictions.ExternalApi.Services.Repository
 {
     public class UpdateTime

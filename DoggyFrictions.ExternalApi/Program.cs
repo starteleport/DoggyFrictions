@@ -1,4 +1,6 @@
 using DoggyFrictions.ExternalApi.Controllers;
+using DoggyFrictions.ExternalApi.Domain;
+using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using MongoDB.Driver;
 
@@ -19,6 +21,8 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddSingleton<IRepository, MongoRepository>(_ =>
     new MongoRepository(new MongoClient(configuration.GetConnectionString("mongo"))));
 builder.Services.AddTransient<IMoneyMoverService, MoneyMoverService>();
+builder.Services.AddTransient<IDebtService, DebtService>();
+builder.Services.AddTransient<SessionActionsProvider>();
 
 var app = builder.Build();
 
