@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace DoggyFrictions.ExternalApi.Services
+namespace DoggyFrictions.ExternalApi.Services.Cache
 {
     public interface ICacheService<T>
     {

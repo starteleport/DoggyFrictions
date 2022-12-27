@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DoggyFrictions.ExternalApi.Domain;
+using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 

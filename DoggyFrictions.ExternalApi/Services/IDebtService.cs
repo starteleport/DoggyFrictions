@@ -1,4 +1,6 @@
-﻿namespace DoggyFrictions.ExternalApi.Services;
+﻿using DoggyFrictions.ExternalApi.Models;
+
+namespace DoggyFrictions.ExternalApi.Services;
 
 public interface IDebtService
 {

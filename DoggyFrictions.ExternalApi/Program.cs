@@ -1,4 +1,3 @@
-using DoggyFrictions.ExternalApi.Controllers;
 using DoggyFrictions.ExternalApi.Domain;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;

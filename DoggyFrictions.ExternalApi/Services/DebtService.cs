@@ -1,4 +1,5 @@
-﻿using Action = DoggyFrictions.ExternalApi.Domain.Action;
+﻿using DoggyFrictions.ExternalApi.Models;
+using Action = DoggyFrictions.ExternalApi.Domain.Action;
 
 namespace DoggyFrictions.ExternalApi.Services;
 

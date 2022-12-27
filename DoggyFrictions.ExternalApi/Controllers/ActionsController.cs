@@ -1,4 +1,5 @@
 ﻿using DoggyFrictions.ExternalApi.Models;
+using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Action = DoggyFrictions.ExternalApi.Models.Action;
@@ -64,7 +65,7 @@ public class ActionsController : Controller
         return Ok(await _repository.UpdateAction(sessionId, action));
     }
 
-    [HttpPut("/Actions/{sessionId}/MoveMoney")]
+    [HttpPost("/Actions/{sessionId}/MoveMoney")]
     public async Task<IActionResult> Post(string sessionId, [FromForm] MoveMoneyTransaction moveMoneyTransaction)
     {
         if (!ModelState.IsValid)

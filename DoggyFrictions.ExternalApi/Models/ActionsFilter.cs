@@ -1,4 +1,4 @@
-﻿namespace DoggyFrictions.ExternalApi.Controllers
+﻿namespace DoggyFrictions.ExternalApi.Models
 {
     public class ActionsFilter
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DoggyFrictions.ExternalApi.Models;
-
-namespace DoggyFrictions.ExternalApi.Models;
+﻿namespace DoggyFrictions.ExternalApi.Models;
 
 public class Action
 {

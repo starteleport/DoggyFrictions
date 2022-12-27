@@ -1,7 +1,7 @@
 using DoggyFrictions.ExternalApi.Models;
 using Action = DoggyFrictions.ExternalApi.Models.Action;
 
-namespace DoggyFrictions.ExternalApi.Controllers;
+namespace DoggyFrictions.ExternalApi.Services;
 
 public class MoneyMoverService : IMoneyMoverService
 {
