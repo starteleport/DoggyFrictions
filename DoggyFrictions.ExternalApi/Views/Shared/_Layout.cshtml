@@ -94,7 +94,7 @@
     <!-- node_modules does not have minified Modernizr, integrity check will break on fallback -->
     <!-- TODO: minify ourselves-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-      asp-fallback-src="~/lib/npm-modernizr/modernizr.js"
+      asp-fallback-src="~/lib/npm-modernizr/modernizr.min.js"
       asp-fallback-test="window.Modernizr"
       crossorigin="anonymous"
       referrerpolicy="no-referrer">
@@ -183,22 +183,21 @@
       referrerpolicy="no-referrer">
     </script>
       <!-- node_modules does not have minified jquery.sticky, integrity check will break on fallback -->
-      <!-- TODO: minify ourselves-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.4/jquery.sticky.min.js"
-      asp-fallback-src="~/lib/jquery-sticky/jquery.sticky.js"
+      asp-fallback-src="~/lib/jquery-sticky/jquery.sticky.min.js"
       asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.sticky">
     </script>
     <environment names="Development">
-      <script src="~/js/Util.js"></script>
+      <script src="~/js/util.js"></script>
       <script src="~/js/ko-extensions.js"></script>
       <script src="~/js/sticky-header.js"></script>
-      <script src="~/js/PagedGridModel.js"></script>
-      <script src="~/js/Start.js"></script>
-      <script src="~/js/Action.js"></script>
-      <script src="~/js/Consumption.js"></script>
-      <script src="~/js/Debt.js"></script>
-      <script src="~/js/Navigation.js"></script>
-      <script src="~/js/Session.js"></script>
+      <script src="~/js/pagedGridModel.js"></script>
+      <script src="~/js/start.js"></script>
+      <script src="~/js/action.js"></script>
+      <script src="~/js/consumption.js"></script>
+      <script src="~/js/debt.js"></script>
+      <script src="~/js/navigation.js"></script>
+      <script src="~/js/session.js"></script>
     </environment>
     <environment names="Staging,Production">
       <script src="~/js/site.min.js" asp-append-version="true"></script>
