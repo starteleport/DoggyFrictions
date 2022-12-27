@@ -1,11 +1,11 @@
-﻿using System.Net;
-using DoggyFrictions.ExternalApi.Models;
+﻿using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Controllers;
 
+[Route("[controller]")]
 public class ActionsController : Controller
 {
     private readonly IRepository _repository;
@@ -18,7 +18,7 @@ public class ActionsController : Controller
     }
 
     // GET: api/Actions/5
-    [Route("api/Actions/{sessionId}")]
+    [HttpGet("/Actions/{sessionId}")]
     public async Task<PagedCollection<Action>> Get(string sessionId, [FromQuery] ActionsFilter? filter = null)
     {
         var actions = await _repository.GetSessionActions(sessionId);
@@ -34,15 +34,15 @@ public class ActionsController : Controller
     }
 
     // GET: api/Actions/5/5
-    [Route("api/Actions/{sessionId}/{id}")]
+    [HttpGet("/Actions/{sessionId}/{id}")]
     public async Task<Action> Get(string sessionId, string id)
     {
         return await _repository.GetAction(sessionId, id);
     }
 
     // POST: api/Actions/5
-    [Route("api/Actions/{sessionId}")]
-    public async Task<IActionResult> Post(string sessionId, [FromBody] Action action)
+    [HttpPost("/Actions/{sessionId}")]
+    public async Task<IActionResult> Post(string sessionId, [FromForm] Action action)
     {
         if (action.Id != "0")
         {
@@ -53,8 +53,8 @@ public class ActionsController : Controller
     }
 
     // PUT: api/Actions/5/5
-    [Route("api/Actions/{sessionId}/{id}")]
-    public async Task<IActionResult> Put(string sessionId, string id, [FromBody] Action action)
+    [HttpPut("/Actions/{sessionId}/{id}")]
+    public async Task<IActionResult> Put(string sessionId, string id, [FromForm] Action action)
     {
         if (action.Id == "0")
         {
@@ -64,8 +64,8 @@ public class ActionsController : Controller
         return Ok(await _repository.UpdateAction(sessionId, action));
     }
 
-    [Route("api/Actions/{sessionId}/MoveMoney")]
-    public async Task<IActionResult> Post(string sessionId, [FromBody] MoveMoneyTransaction moveMoneyTransaction)
+    [HttpPut("/Actions/{sessionId}/MoveMoney")]
+    public async Task<IActionResult> Post(string sessionId, [FromForm] MoveMoneyTransaction moveMoneyTransaction)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +79,7 @@ public class ActionsController : Controller
     }
 
     // DELETE: api/Actions/5/5
-    [Route("api/Actions/{sessionId}/{id}")]
+    [HttpDelete("/Actions/{sessionId}/{id}")]
     public async Task<Action> Delete(string sessionId, string id)
     {
         return await _repository.DeleteAction(sessionId, id);

@@ -39,7 +39,7 @@ public class SessionsController : Controller
 
     // PUT: api/Sessions/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(string id, [FromBody] Session session)
+    public async Task<IActionResult> Put(string id, [FromForm] Session session)
     {
         if (session.Id == "0")
         {
