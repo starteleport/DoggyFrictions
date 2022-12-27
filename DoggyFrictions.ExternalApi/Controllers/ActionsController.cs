@@ -2,7 +2,6 @@
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Controllers;
 
@@ -20,13 +19,13 @@ public class ActionsController : Controller
 
     // GET: api/Actions/5
     [HttpGet("/Actions/{sessionId}")]
-    public async Task<PagedCollection<Action>> Get(string sessionId, [FromQuery] ActionsFilter? filter = null)
+    public async Task<PagedCollection<ActionObject>> Get(string sessionId, [FromQuery] ActionsFilter? filter = null)
     {
         var actions = await _repository.GetSessionActions(sessionId);
         var page = filter?.Page ?? 1;
         var pageSize = filter?.PageSize ?? 10;
 
-        return new PagedCollection<Action>
+        return new PagedCollection<ActionObject>
         {
             TotalPages = (actions.Count() / pageSize) + 1,
             Page = page,
@@ -36,33 +35,33 @@ public class ActionsController : Controller
 
     // GET: api/Actions/5/5
     [HttpGet("/Actions/{sessionId}/{id}")]
-    public async Task<Action> Get(string sessionId, string id)
+    public async Task<ActionObject> Get(string sessionId, string id)
     {
         return await _repository.GetAction(sessionId, id);
     }
 
     // POST: api/Actions/5
     [HttpPost("/Actions/{sessionId}")]
-    public async Task<IActionResult> Post(string sessionId, [FromForm] Action action)
+    public async Task<IActionResult> Post(string sessionId, [FromForm] ActionObject actionObject)
     {
-        if (action.Id != "0")
+        if (actionObject.Id != "0")
         {
             return BadRequest();
         }
 
-        return Ok(await _repository.UpdateAction(sessionId, action));
+        return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
 
     // PUT: api/Actions/5/5
     [HttpPut("/Actions/{sessionId}/{id}")]
-    public async Task<IActionResult> Put(string sessionId, string id, [FromForm] Action action)
+    public async Task<IActionResult> Put(string sessionId, string id, [FromForm] ActionObject actionObject)
     {
-        if (action.Id == "0")
+        if (actionObject.Id == "0")
         {
             return BadRequest();
         }
 
-        return Ok(await _repository.UpdateAction(sessionId, action));
+        return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
 
     [HttpPost("/Actions/{sessionId}/MoveMoney")]
@@ -81,7 +80,7 @@ public class ActionsController : Controller
 
     // DELETE: api/Actions/5/5
     [HttpDelete("/Actions/{sessionId}/{id}")]
-    public async Task<Action> Delete(string sessionId, string id)
+    public async Task<ActionObject> Delete(string sessionId, string id)
     {
         return await _repository.DeleteAction(sessionId, id);
     }

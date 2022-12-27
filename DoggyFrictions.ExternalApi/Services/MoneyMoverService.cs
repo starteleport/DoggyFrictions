@@ -1,11 +1,10 @@
 using DoggyFrictions.ExternalApi.Models;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services;
 
 public class MoneyMoverService : IMoneyMoverService
 {
-    public Action CreateMoveMoneyTransaction(Session session, MoveMoneyTransaction moveMoneyTransaction)
+    public ActionObject CreateMoveMoneyTransaction(Session session, MoveMoneyTransaction moveMoneyTransaction)
     {
         var fromParticipant = session.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.From);
         var toParticipant = session.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.To);
@@ -27,14 +26,14 @@ public class MoneyMoverService : IMoneyMoverService
         return actionModel;
     }
 
-    private static Action BuildActionModel(
+    private static ActionObject BuildActionModel(
         string sessionId,
         MoveMoneyTransaction moveMoneyTransaction,
         string description,
         Participant fromParticipant,
         Participant toParticipant)
     {
-        return new Action
+        return new ActionObject
         {
             SessionId = sessionId,
             Date = moveMoneyTransaction.Date ?? DateTime.Now,

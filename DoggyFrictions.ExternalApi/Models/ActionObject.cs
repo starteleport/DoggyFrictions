@@ -1,6 +1,6 @@
 ﻿namespace DoggyFrictions.ExternalApi.Models;
 
-public class Action
+public class ActionObject
 {
     public string Id { get; set; }
     public DateTime Date { get; set; }

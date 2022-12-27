@@ -1,5 +1,4 @@
 ﻿using DoggyFrictions.ExternalApi.Models;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services.Repository;
 
@@ -11,10 +10,10 @@ public interface IRepository
     Task<Session> DeleteSession(string id);
     Task<DateTime> GetLastSessionsUpdateTime();
 
-    Task<IEnumerable<Action>> GetActions();
-    Task<IEnumerable<Action>> GetSessionActions(string sessionId);
-    Task<Action> GetAction(string sessionId, string id);
-    Task<Action> UpdateAction(string sessionId, Action model);
-    Task<Action> DeleteAction(string sessionId, string id);
+    Task<IEnumerable<ActionObject>> GetActions();
+    Task<IEnumerable<ActionObject>> GetSessionActions(string sessionId);
+    Task<ActionObject> GetAction(string sessionId, string id);
+    Task<ActionObject> UpdateAction(string sessionId, ActionObject model);
+    Task<ActionObject> DeleteAction(string sessionId, string id);
     Task<DateTime> GetLastActionsUpdateTime();
 }

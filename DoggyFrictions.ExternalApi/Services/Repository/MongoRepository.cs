@@ -2,7 +2,6 @@
 using DoggyFrictions.ExternalApi.Services.Repository.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services.Repository;
 
@@ -82,14 +81,14 @@ public class MongoRepository : IRepository
             .FirstOrDefaultAsync())?.UpdatedOn ?? DateTime.Now.AddDays(-1);
     }
 
-    public async Task<IEnumerable<Action>> GetActions()
+    public async Task<IEnumerable<ActionObject>> GetActions()
     {
         var db = GetDatabase();
         var actions = await GetActions(db).AsQueryable().ToListAsync();
         return actions.Select(action => action.FromModel());
     }
 
-    public async Task<IEnumerable<Action>> GetSessionActions(string sessionId)
+    public async Task<IEnumerable<ActionObject>> GetSessionActions(string sessionId)
     {
         var db = GetDatabase();
         var actions = await GetActions(db)
@@ -98,7 +97,7 @@ public class MongoRepository : IRepository
         return actions.Select(action => action.FromModel());
     }
 
-    public async Task<Action> GetAction(string sessionId, string id)
+    public async Task<ActionObject> GetAction(string sessionId, string id)
     {
         var db = GetDatabase();
         var action = await GetActions(db)
@@ -107,7 +106,7 @@ public class MongoRepository : IRepository
         return action.FromModel();
     }
 
-    public async Task<Action> UpdateAction(string sessionId, Action model)
+    public async Task<ActionObject> UpdateAction(string sessionId, ActionObject model)
     {
         var db = GetDatabase();
         ActionModel action;
@@ -128,7 +127,7 @@ public class MongoRepository : IRepository
         return action.FromModel();
     }
 
-    public async Task<Action> DeleteAction(string sessionId, string id)
+    public async Task<ActionObject> DeleteAction(string sessionId, string id)
     {
         var db = GetDatabase();
         var action = await GetActions(db)

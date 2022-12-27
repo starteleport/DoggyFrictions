@@ -6,7 +6,7 @@ public class SessionActionsProvider
 {
     public IEnumerable<Action> GetSessionActions(
         Session session,
-        IEnumerable<Models.Action> actions)
+        IEnumerable<Models.ActionObject> actions)
     {
         var participantIdNames = session.Participants.ToDictionary(p => p.Id, p => p.Name);
         return actions.Select(

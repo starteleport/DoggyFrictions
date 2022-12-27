@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Repository;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services.Cache
 {
-    public class ActionsCache : CacheBase<Action>
+    public class ActionsCache : CacheBase<ActionObject>
     {
         private DateTime cacheUpdateTime = DateTime.MinValue;
         private readonly IRepository _repository;
@@ -16,9 +16,9 @@ namespace DoggyFrictions.ExternalApi.Services.Cache
             _repository = repository;
         }
 
-        protected override string GetKey(Action item) => item.Id;
+        protected override string GetKey(ActionObject item) => item.Id;
 
-        protected override IEnumerable<Action> Fetch()
+        protected override IEnumerable<ActionObject> Fetch()
         {
             cacheUpdateTime = DateTime.UtcNow;
             return _repository.GetActions().Result;
