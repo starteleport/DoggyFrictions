@@ -45,7 +45,8 @@ function copy_vendor(cb) {
 
     src(nodeRoot + "npm-modernizr/modernizr.js").pipe(dest(vendorScriptsTargetPath + "/npm-modernizr"));
 
-    src(nodeRoot + "moment/dist/moment.js").pipe(dest(vendorScriptsTargetPath + "/moment/dist"));
+    src(nodeRoot + "moment/min/moment.min.js").pipe(dest(vendorScriptsTargetPath + "/moment/min"));
+    src(nodeRoot + "moment/min/moment.min.js.map").pipe(dest(vendorScriptsTargetPath + "/moment/min"));
     src(nodeRoot + "moment/dist/locale/*.js").pipe(dest(vendorScriptsTargetPath + "/moment/dist/locale"));
 
     src(nodeRoot + "respond.js/dest/*.js").pipe(dest(vendorScriptsTargetPath + "/respond.js/dest"));
@@ -70,6 +71,12 @@ async function clean(cb) {
 function compile_less(cb) {
     src(cssTargetPath + "Site.less").pipe(less()).pipe(dest(cssTargetPath));
     cb();
+}
+
+function min_js(cb) {
+}
+
+function min_css(cb) {
 }
 
 const build = series(copy_vendor, compile_less);

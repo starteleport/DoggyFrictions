@@ -6,10 +6,16 @@
 # Ignore new VS2015 user settings folder
 /.vs/
 
+# JetBrains IDEs cache/options directory
+.idea/
+
 # Ignore NuGet packages folder
 /packages/
 /.settings/
 
+# Ignore vim backup/swap files
+*.*~
+*.swp
 # Ignore node_modules
 **/node_modules/
 
@@ -64,11 +70,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .sass-cache/
 
-# Visual Studio 2015 cache/options directory
-.vs/
-
 # Mac-related stuff
 .DS_Store
 
-# Rider files
-.idea
+# Repository-specific
+DoggyFrictions.ExternalApi/wwwroot/lib/
+DoggyFrictions.ExternalApi/wwwroot/css/Site.css
