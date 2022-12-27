@@ -3,4 +3,4 @@ Accounting system for dogs
 
 # Building
 
-`npm install && gulp`
+Execute the following inside `DoggyFrictions.ExternalApi` directory: `npm install && gulp`.
