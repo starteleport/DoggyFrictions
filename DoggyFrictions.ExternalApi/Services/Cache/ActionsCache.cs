@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DoggyFrictions.ExternalApi.Models;
+﻿using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Repository;
 
 namespace DoggyFrictions.ExternalApi.Services.Cache

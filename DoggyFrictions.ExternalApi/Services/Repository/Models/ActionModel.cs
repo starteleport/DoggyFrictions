@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DoggyFrictions.ExternalApi.Services.Repository.Models
+﻿namespace DoggyFrictions.ExternalApi.Services.Repository.Models
 {
     public class ActionModel
     {

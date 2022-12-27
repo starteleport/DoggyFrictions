@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DoggyFrictions.ExternalApi.Models
+﻿namespace DoggyFrictions.ExternalApi.Models
 {
     public class Session
     {
