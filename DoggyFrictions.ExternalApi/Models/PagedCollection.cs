@@ -1,9 +1,8 @@
-namespace DoggyFrictions.ExternalApi.Models
+namespace DoggyFrictions.ExternalApi.Models;
+
+public class PagedCollection<T>
 {
-    public class PagedCollection<T>
-    {
-        public int Page { get; set; }
-        public int TotalPages { get; set; }
-        public IEnumerable<T> Rows { get; set; }
-    }
+    public int Page { get; set; }
+    public int TotalPages { get; set; }
+    public IEnumerable<T> Rows { get; set; }
 }

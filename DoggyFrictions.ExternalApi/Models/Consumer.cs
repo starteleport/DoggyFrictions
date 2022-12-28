@@ -1,8 +1,7 @@
-namespace DoggyFrictions.ExternalApi.Models
+namespace DoggyFrictions.ExternalApi.Models;
+
+public class Consumer
 {
-    public class Consumer
-    {
-        public string ParticipantId { get; set; }
-        public decimal Amount { get; set; }
-    }
+    public string ParticipantId { get; set; }
+    public decimal Amount { get; set; }
 }
