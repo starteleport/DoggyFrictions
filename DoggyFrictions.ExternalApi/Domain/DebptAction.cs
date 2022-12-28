@@ -1,6 +1,6 @@
 ﻿namespace DoggyFrictions.ExternalApi.Domain;
 
-public class Action
+public class DebptAction
 {
     public DateTime Date { get; set; }
     public string Description { get; set; }

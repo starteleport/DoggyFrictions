@@ -1,11 +1,11 @@
-﻿using DoggyFrictions.ExternalApi.Models;
-using Action = DoggyFrictions.ExternalApi.Domain.Action;
+﻿using DoggyFrictions.ExternalApi.Domain;
+using DoggyFrictions.ExternalApi.Models;
 
 namespace DoggyFrictions.ExternalApi.Services;
 
 public class DebtService : IDebtService
 {
-    public IEnumerable<Debt> GetDebts(IEnumerable<Action> actions)
+    public IEnumerable<Debt> GetDebts(IEnumerable<DebptAction> actions)
     {
         if (actions?.Any() != true)
         {
