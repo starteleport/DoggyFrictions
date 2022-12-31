@@ -1,13 +1,10 @@
-using System.Collections.Generic;
+namespace DoggyFrictions.ExternalApi.Models;
 
-namespace DoggyFrictions.ExternalApi.Models
+public class Consumption
 {
-    public class Consumption
-    {
-        public string Description { get; set; }
-        public IEnumerable<Consumer> Consumers { get; set; }
-        public decimal Amount { get; set; }
-        public double Quantity { get; set; }
-        public bool SplittedEqually { get; set; }
-    }
+    public string Description { get; set; }
+    public IEnumerable<Consumer> Consumers { get; set; }
+    public decimal Amount { get; set; }
+    public double Quantity { get; set; }
+    public bool SplittedEqually { get; set; }
 }

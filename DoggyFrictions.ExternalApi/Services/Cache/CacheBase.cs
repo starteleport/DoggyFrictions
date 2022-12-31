@@ -1,61 +1,57 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DoggyFrictions.ExternalApi.Services.Cache
+namespace DoggyFrictions.ExternalApi.Services.Cache;
+
+public abstract class CacheBase<T> : ICacheService<T> where T : class
 {
-    public abstract class CacheBase<T> : ICacheService<T> where T : class
+    private readonly object lockObject = new object();
+    private Task reloadTask;
+    private ConcurrentDictionary<string, T> items;
+
+    public async Task<T> GetItem(string id)
     {
-        private readonly object lockObject = new object();
-        private Task reloadTask;
-        private ConcurrentDictionary<string, T> items;
+        await UpdateCache();
+        T value = null;
+        items?.TryGetValue(id, out value);
+        return value;
+    }
 
-        public async Task<T> GetItem(string id)
+    public async Task<IEnumerable<T>> GetItems()
+    {
+        await UpdateCache();
+        return items?.Values.ToList() ?? new List<T>();
+    }
+
+    private async Task UpdateCache()
+    {
+        if (reloadTask != null)
         {
-            await UpdateCache();
-            T value = null;
-            items?.TryGetValue(id, out value);
-            return value;
+            await reloadTask;
+            return;
         }
-
-        public async Task<IEnumerable<T>> GetItems()
+        if (items == null || !await IsActual())
         {
-            await UpdateCache();
-            return items?.Values.ToList() ?? new List<T>();
-        }
-
-        private async Task UpdateCache()
-        {
-            if (reloadTask != null)
+            lock (lockObject)
             {
-                await reloadTask;
-                return;
-            }
-            if (items == null || !await IsActual())
-            {
-                lock (lockObject)
+                if (reloadTask == null)
                 {
-                    if (reloadTask == null)
-                    {
-                        reloadTask =
-                            Task.Run(
+                    reloadTask =
+                        Task.Run(
                                 () =>
                                 {
                                     items =
                                         new ConcurrentDictionary<string, T>(
                                             Fetch().Select(i => new KeyValuePair<string, T>(GetKey(i), i)));
                                 })
-                                .ContinueWith(t => reloadTask = null);
-                    }
+                            .ContinueWith(t => reloadTask = null);
                 }
             }
-            if (reloadTask != null)
-                await reloadTask;
         }
-
-        protected abstract string GetKey(T item);
-        protected abstract IEnumerable<T> Fetch();
-        protected abstract Task<bool> IsActual();
+        if (reloadTask != null)
+            await reloadTask;
     }
+
+    protected abstract string GetKey(T item);
+    protected abstract IEnumerable<T> Fetch();
+    protected abstract Task<bool> IsActual();
 }

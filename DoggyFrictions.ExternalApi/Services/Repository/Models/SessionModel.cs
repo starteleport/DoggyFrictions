@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿namespace DoggyFrictions.ExternalApi.Services.Repository.Models;
 
-namespace DoggyFrictions.ExternalApi.Services.Repository.Models
+public class SessionModel
 {
-    public class SessionModel
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<ParticipantModel> Participants { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public IEnumerable<ParticipantModel> Participants { get; set; }
+}
 
-    public class ParticipantModel
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
+public class ParticipantModel
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DoggyFrictions.ExternalApi.Domain;
+﻿using DoggyFrictions.ExternalApi.Domain;
+using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DoggyFrictions.ExternalApi.Controllers;
 
+[Route("[controller]")]
 public class DebtsController : Controller
 {
     private readonly IRepository _repository;
@@ -19,6 +21,7 @@ public class DebtsController : Controller
     }
 
     // GET api/debts
+    [HttpGet("{id}")]
     public async Task<IEnumerable<Debt>> Get(string id)
     {
         var sessionModel = await _repository.GetSession(id);

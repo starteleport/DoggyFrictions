@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using DoggyFrictions.ExternalApi.Models;
+﻿namespace DoggyFrictions.ExternalApi.Models;
 
-namespace DoggyFrictions.ExternalApi.Models;
-
-public class Action
+public class ActionObject
 {
     public string Id { get; set; }
     public DateTime Date { get; set; }

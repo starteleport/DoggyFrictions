@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DoggyFrictions.ExternalApi.Models
+namespace DoggyFrictions.ExternalApi.Models;
+
+public class MoveMoneyTransaction
 {
-    public class MoveMoneyTransaction
-    {
-        [Required]
-        [Range(0.01, double.MaxValue)]
-        public decimal Amount { get; set; }
+    [Required]
+    [Range(0.01, double.MaxValue)]
+    public decimal Amount { get; set; }
 
-        [Required]
-        public string From { get; set; }
+    [Required]
+    public string From { get; set; }
 
-        [Required]
-        public string To { get; set; }
+    [Required]
+    public string To { get; set; }
 
-        public string Reason { get; set; }
-        public DateTime? Date { get; set; }
-    }
+    public string? Reason { get; set; }
+    public DateTime? Date { get; set; }
 }

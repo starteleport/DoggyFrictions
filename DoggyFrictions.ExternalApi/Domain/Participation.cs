@@ -1,8 +1,7 @@
-namespace DoggyFrictions.ExternalApi.Domain
+namespace DoggyFrictions.ExternalApi.Domain;
+
+public class Participation
 {
-    public class Participation
-    {
-        public decimal Amount { get; set; }
-        public string Participant { get; set; }
-    }
+    public decimal Amount { get; set; }
+    public string Participant { get; set; }
 }

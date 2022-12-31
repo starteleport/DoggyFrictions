@@ -1,4 +1,4 @@
-﻿namespace DoggyFrictions.ExternalApi.Services;
+﻿namespace DoggyFrictions.ExternalApi.Models;
 
 public class Debt
 {

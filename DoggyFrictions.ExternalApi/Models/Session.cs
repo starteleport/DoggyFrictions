@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
+﻿namespace DoggyFrictions.ExternalApi.Models;
 
-namespace DoggyFrictions.ExternalApi.Models
+public class Session
 {
-    public class Session
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<Participant> Participants { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public IEnumerable<Participant> Participants { get; set; }
 }

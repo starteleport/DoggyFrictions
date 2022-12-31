@@ -1,3 +1,5 @@
+using DoggyFrictions.ExternalApi.Models;
+
 namespace DoggyFrictions.ExternalApi.Services;
 
 public class DebtAggregator

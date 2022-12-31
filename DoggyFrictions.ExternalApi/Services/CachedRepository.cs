@@ -1,7 +1,6 @@
 ﻿using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Cache;
 using DoggyFrictions.ExternalApi.Services.Repository;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services;
 
@@ -29,17 +28,17 @@ public class CachedRepository : IRepository
         return await sessionsCache.GetItem(id);
     }
 
-    public async Task<IEnumerable<Action>> GetActions()
+    public async Task<IEnumerable<ActionObject>> GetActions()
     {
         return await actionsCache.GetItems();
     }
 
-    public async Task<IEnumerable<Action>> GetSessionActions(string sessionId)
+    public async Task<IEnumerable<ActionObject>> GetSessionActions(string sessionId)
     {
         return (await actionsCache.GetItems()).Where(a => a.SessionId == sessionId).ToList();
     }
 
-    public async Task<Action> GetAction(string sessionId, string id)
+    public async Task<ActionObject> GetAction(string sessionId, string id)
     {
         return await actionsCache.GetItem(id);
     }
@@ -60,12 +59,12 @@ public class CachedRepository : IRepository
         return await _repository.GetLastSessionsUpdateTime();
     }
 
-    public async Task<Action> UpdateAction(string sessionId, Action model)
+    public async Task<ActionObject> UpdateAction(string sessionId, ActionObject model)
     {
         return await _repository.UpdateAction(sessionId, model);
     }
 
-    public async Task<Action> DeleteAction(string sessionId, string id)
+    public async Task<ActionObject> DeleteAction(string sessionId, string id)
     {
         return await _repository.DeleteAction(sessionId, id);
     }

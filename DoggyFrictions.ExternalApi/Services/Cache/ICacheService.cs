@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace DoggyFrictions.ExternalApi.Services.Cache;
 
-namespace DoggyFrictions.ExternalApi.Services
+public interface ICacheService<T>
 {
-    public interface ICacheService<T>
-    {
-        Task<T> GetItem(string id);
-        Task<IEnumerable<T>> GetItems();
-    }
+    Task<T> GetItem(string id);
+    Task<IEnumerable<T>> GetItems();
 }

@@ -1,6 +1,5 @@
 using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Repository.Models;
-using Action = DoggyFrictions.ExternalApi.Models.Action;
 
 namespace DoggyFrictions.ExternalApi.Services.Repository;
 
@@ -49,9 +48,9 @@ internal static class MongoContractMapping
         };
     }
 
-    public static Action FromModel(this ActionModel model)
+    public static ActionObject FromModel(this ActionModel model)
     {
-        return new Action
+        return new ActionObject
         {
             Id = model.Id,
             SessionId = model.SessionId,
@@ -62,7 +61,7 @@ internal static class MongoContractMapping
         };
     }
 
-    public static ActionModel ToModel(this Action model)
+    public static ActionModel ToModel(this ActionObject model)
     {
         return new ActionModel
         {
