@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoggyFrictions.ExternalApi", "DoggyFrictions.ExternalApi\DoggyFrictions.ExternalApi.csproj", "{7BC3AF47-7573-437A-8EAE-FD40CDA328CB}"
+#
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoggyFrictions.ExternalApi", "src\DoggyFrictions.ExternalApi\DoggyFrictions.ExternalApi.csproj", "{7BC3AF47-7573-437A-8EAE-FD40CDA328CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoggyFrictions.ExternalApi.Tests", "DoggyFrictions.ExternalApi.Tests\DoggyFrictions.ExternalApi.Tests.csproj", "{B155B27B-E8EE-41EE-A519-C6267052ACEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoggyFrictions.ExternalApi.Tests", "tests\DoggyFrictions.ExternalApi.Tests\DoggyFrictions.ExternalApi.Tests.csproj", "{B155B27B-E8EE-41EE-A519-C6267052ACEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
