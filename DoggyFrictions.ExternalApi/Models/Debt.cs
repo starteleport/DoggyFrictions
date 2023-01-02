@@ -2,8 +2,8 @@
 
 public class Debt
 {
-    public string Debtor { get; set; }
-    public string Creditor { get; set; }
+    public string Debtor { get; set; } = null!;
+    public string Creditor { get; set; } = null!;
     public IList<DebtTransaction> Transactions { get; set; } = new List<DebtTransaction>();
     public decimal Amount => Math.Round(Transactions.Sum(t => t.Amount), 2);
 

@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="session-edit-template">
     <div class="session jumbotron" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div>
-            @Html.Partial("SessionHeader")
+            @await Html.PartialAsync("SessionHeader")
 
             <h4>Собаки:</h4>
             <span data-bind="if: !Participants().length">Собак нет</span>
@@ -29,7 +29,7 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>   
+            </table>
             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
             <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
                 cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">

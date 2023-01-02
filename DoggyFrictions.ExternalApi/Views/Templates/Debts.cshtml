@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="debts-template">
     <div class="debts jumbotron is-preview">
         <div>
-            @Html.Partial("DebtsHeader")
+            @await Html.PartialAsync("DebtsHeader")
             <h4>Балансы:</h4>
             <!-- ko if: Balances.length -->
             <div class="debt-balances-block" data-bind="foreach: Balances">

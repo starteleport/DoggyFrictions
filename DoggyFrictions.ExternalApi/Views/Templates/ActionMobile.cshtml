@@ -3,7 +3,7 @@
         <div class="jumbotron">
             <div>
                 <div class="page-head">
-                    @Html.Partial("NavigationBar")
+                    @await Html.PartialAsync("NavigationBar")
                 </div>
                 <h2 class="page-name">
                     <!-- ko if: $root.IsEdit() -->

@@ -4,5 +4,5 @@ namespace DoggyFrictions.ExternalApi.Services;
 
 public interface IDebtService
 {
-    IEnumerable<Debt> GetDebts(IEnumerable<Domain.DebptAction> actions);
+    IEnumerable<Debt> GetDebts(IEnumerable<Domain.DebtAction> actions);
 }

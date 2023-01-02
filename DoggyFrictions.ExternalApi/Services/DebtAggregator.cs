@@ -14,8 +14,13 @@ public class DebtAggregator
             return Creditor.GetHashCode() + Debtor.GetHashCode();
         }
 
-        public bool Equals(DebtAggregatorKey other)
+        public bool Equals(DebtAggregatorKey? other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             return (Creditor == other.Creditor && Debtor == other.Debtor)
                    || (Creditor == other.Debtor && Debtor == other.Creditor);
         }
@@ -43,7 +48,7 @@ public class DebtAggregator
 
     public void AddTransaction(string creditor, string debtor, DebtTransaction transaction)
     {
-        if ((transaction?.Amount ?? 0m) < 0m)
+        if (transaction.Amount < 0m)
         {
             throw new ArgumentException($"Cannot add transaction: amount must be > 0 but was {transaction?.Amount}.");
         }
@@ -51,7 +56,7 @@ public class DebtAggregator
         {
             throw new ArgumentException($"Cannot add transaction: creditor = [{creditor}], debtor = [{debtor}].");
         }
-        if ((transaction?.Amount ?? 0m) == 0m)
+        if (transaction.Amount == 0m)
         {
             return;
         }

@@ -5,13 +5,13 @@ namespace DoggyFrictions.ExternalApi.Services.Cache;
 public abstract class CacheBase<T> : ICacheService<T> where T : class
 {
     private readonly object lockObject = new object();
-    private Task reloadTask;
-    private ConcurrentDictionary<string, T> items;
+    private Task? reloadTask;
+    private ConcurrentDictionary<string, T>? items;
 
-    public async Task<T> GetItem(string id)
+    public async Task<T?> GetItem(string id)
     {
         await UpdateCache();
-        T value = null;
+        T? value = default;
         items?.TryGetValue(id, out value);
         return value;
     }
@@ -48,7 +48,9 @@ public abstract class CacheBase<T> : ICacheService<T> where T : class
             }
         }
         if (reloadTask != null)
+        {
             await reloadTask;
+        }
     }
 
     protected abstract string GetKey(T item);

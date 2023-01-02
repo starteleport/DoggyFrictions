@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="debts-mobile-template">
     <div class="debts mobile is-preview">
         <div class="jumbotron">
-            @Html.Partial("DebtsHeader")
+            @await Html.PartialAsync("DebtsHeader")
             <div class="totals-block" data-bind="if: Balances.length">
                 <h4>Балансы:</h4>
                 <div>
@@ -21,7 +21,7 @@
             <div class="item-block">
                 <div class="actions">
                     <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
-                        <i class="glyphicon 
+                        <i class="glyphicon
                            glyphicon-tint"></i></a>
                 </div>
                 <div class="content" data-bind="click: function() { IsExpanded(!IsExpanded()); }">
@@ -50,7 +50,7 @@
                     <!-- /ko -->
                 </div>
             </div>
-            <!-- /ko -->            
+            <!-- /ko -->
         </div>
     </div>
 </script>

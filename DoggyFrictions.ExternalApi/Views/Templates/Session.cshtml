@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="session-template">
     <div class="session jumbotron" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div>
-            @Html.Partial("SessionHeader")
+            @await Html.PartialAsync("SessionHeader")
 
             <h4>Собаки:</h4>
             <div data-bind="if: !Participants().length">Собак нет</div>
@@ -17,7 +17,7 @@
                 <div class="col-lg-1 pull-right"></div>
                 <!-- ko if: !Actions.IsLoading() -->
                 <span class="pull-right" data-bind="with: Actions">
-                    @Html.Partial("Pages")
+                    @await Html.PartialAsync("Pages")
                 </span>
                 <!-- /ko -->
             </div>

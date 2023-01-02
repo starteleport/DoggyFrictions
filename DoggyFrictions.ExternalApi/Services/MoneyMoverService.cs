@@ -36,10 +36,10 @@ public class MoneyMoverService : IMoneyMoverService
         return new ActionObject
         {
             SessionId = sessionId,
-            Date = moveMoneyTransaction.Date ?? DateTime.Now,
+            Date = moveMoneyTransaction.Date ?? DateTime.UtcNow,
             Description = description,
             Payers = new[]
-                {
+            {
                 new Payer
                 {
                     Amount = moveMoneyTransaction.Amount,
@@ -47,7 +47,7 @@ public class MoneyMoverService : IMoneyMoverService
                 }
             },
             Consumptions = new[]
-                {
+            {
                 new Consumption
                 {
                     Amount = moveMoneyTransaction.Amount,

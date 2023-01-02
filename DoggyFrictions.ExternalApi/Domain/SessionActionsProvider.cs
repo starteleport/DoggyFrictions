@@ -4,14 +4,14 @@ namespace DoggyFrictions.ExternalApi.Domain;
 
 public class SessionActionsProvider
 {
-    public IEnumerable<DebptAction> GetSessionActions(
+    public IEnumerable<DebtAction> GetSessionActions(
         Session session,
-        IEnumerable<Models.ActionObject> actions)
+        IEnumerable<ActionObject> actions)
     {
         var participantIdNames = session.Participants.ToDictionary(p => p.Id, p => p.Name);
         return actions.Select(
             a =>
-                new DebptAction
+                new DebtAction
                 {
                     Date = a.Date,
                     Description = a.Description,
