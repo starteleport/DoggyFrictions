@@ -14,12 +14,12 @@ RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS nodejs
 RUN apt-get update
 RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
     apt-get install -y nodejs
 
-FROM base as restore
+FROM nodejs as restore
 WORKDIR /src
 
 COPY ["src/DoggyFrictions.ExternalApi/package.json", "src/DoggyFrictions.ExternalApi/"]
