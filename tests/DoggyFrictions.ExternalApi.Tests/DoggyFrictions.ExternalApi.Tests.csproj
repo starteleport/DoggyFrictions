@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoggyFrictions.ExternalApi\DoggyFrictions.ExternalApi.csproj" />
+    <ProjectReference Include="..\..\src\DoggyFrictions.ExternalApi\DoggyFrictions.ExternalApi.csproj" />
   </ItemGroup>
 
 </Project>

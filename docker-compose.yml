@@ -10,4 +10,4 @@ services:
       context: .
       target: final
     ports:
-    - "5190:80"
+    - "5190:5000"

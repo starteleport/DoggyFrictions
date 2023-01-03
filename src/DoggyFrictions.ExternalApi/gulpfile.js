@@ -112,22 +112,25 @@ function clean(cb) {
 }
 
 function compile_less(cb) {
-  src(paths.less + "site.less").pipe(less()).pipe(dest(paths.stylesOut));
-  cb();
+  return src(paths.less + "site.less").pipe(less()).pipe(dest(paths.stylesOut));
 }
 
 function min_app_js(cb) {
-  return gulp.src([paths.appJsOut, "!" + paths.appJsOutMin], { base: "." })
-    .pipe(concat(paths.appJsOut))
+  return gulp.src([paths.appJsOut + "*"], { base: "." })
+    .pipe(concat(paths.appJsOutMin + "site.min.js"))
     .pipe(uglify())
-    .pipe(gulp.dest(paths.appJsOutMin));
+    .pipe(gulp.dest("."));
 }
 
 function min_css(cb) {
-  src(paths.stylesOut + "site.css").pipe(cssmin()).pipe(dest(paths.stylesOutMin + "site.min.css"))
+  return gulp.src([paths.stylesOut + "*"], { base: "." })
+    .pipe(concat(paths.stylesOutMin + "site.min.css"))
+    .pipe(cssmin())
+    .pipe(gulp.dest("."));
 }
 
 const build = series(copy_vendor, compile_less);
+const prod = series(build, min_css, min_app_js);
 
 export default series(clean, build)
-export { clean, build, compile_less }
+export { clean, build, compile_less, prod }

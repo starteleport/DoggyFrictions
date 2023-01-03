@@ -14,17 +14,30 @@ RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+RUN apt-get update
+RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
+    apt-get install -y nodejs
+
+FROM base as restore
 WORKDIR /src
+
+COPY ["src/DoggyFrictions.ExternalApi/package.json", "src/DoggyFrictions.ExternalApi/"]
+COPY ["src/DoggyFrictions.ExternalApi/package-lock.json", "src/DoggyFrictions.ExternalApi/"]
+RUN npm install src/DoggyFrictions.ExternalApi/
+
 COPY ["src/DoggyFrictions.ExternalApi/DoggyFrictions.ExternalApi.csproj", "src/DoggyFrictions.ExternalApi/"]
 COPY ["tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.csproj", "tests/DoggyFrictions.ExternalApi.Tests/"]
-COPY ["DoggyFrictions.sln", "DoggyFrictions.sln"]
+COPY ["DoggyFrictions.sln", "."]
 RUN dotnet restore
+
+FROM restore AS build
+WORKDIR /src
 COPY . .
-WORKDIR "/src/src/DoggyFrictions.ExternalApi"
-RUN dotnet build "DoggyFrictions.ExternalApi.csproj" -c Release -o /app/build
+RUN dotnet build -c Release
 
 FROM build AS publish
+WORKDIr /src/src/DoggyFrictions.ExternalApi
 RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" -c Release -o /app/publish
 
 FROM base AS final

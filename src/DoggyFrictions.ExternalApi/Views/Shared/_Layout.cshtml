@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/min/site.min.css" asp-append-version="true" />
     </environment>
     <link rel="stylesheet"
           href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -200,7 +200,7 @@
     <script src="~/js/session.js"></script>
 </environment>
 <environment names="Staging,Production">
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/js/min/site.min.js" asp-append-version="true"></script>
 </environment>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
