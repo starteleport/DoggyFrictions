@@ -130,7 +130,7 @@ function min_css(cb) {
 }
 
 const build = series(copy_vendor, compile_less);
-const prod = series(build, min_css, min_app_js);
+const prod = series(clean, build, min_css, min_app_js);
 
 export default series(clean, build)
 export { clean, build, compile_less, prod }

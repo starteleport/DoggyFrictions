@@ -74,5 +74,6 @@ _ReSharper*/
 .DS_Store
 
 # Repository-specific
-DoggyFrictions.ExternalApi/wwwroot/lib/
-DoggyFrictions.ExternalApi/wwwroot/css/Site.css
+**/wwwroot/lib/
+**/wwwroot/js/min/
+**/wwwroot/css/min/
