@@ -1,0 +1,56 @@
+﻿<script type="text/html" id="session-template">
+    <div class="session jumbotron" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
+        <div>
+            @await Html.PartialAsync("SessionHeader")
+
+            <h4>Собаки:</h4>
+            <div data-bind="if: !Participants().length">Собак нет</div>
+            <!-- ko if: Participants().length -->
+            <div data-bind="text: _.reduce(Participants(), function(memo, p) { return (memo.Name ? memo.Name() : memo) + ', ' + p.Name() })"></div>
+            <!-- /ko -->
+
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
+
+            <div>
+                <h4 class="pull-left">Постановы:</h4>
+                <div class="col-lg-1 pull-right"></div>
+                <!-- ko if: !Actions.IsLoading() -->
+                <span class="pull-right" data-bind="with: Actions">
+                    @await Html.PartialAsync("Pages")
+                </span>
+                <!-- /ko -->
+            </div>
+            <div class="loading-screen-small" data-bind="if: Actions.IsLoading()">
+                <img src='@Url.Content("../../img/runningdog_transparent.gif")' alt="Загрузка . . .">
+            </div>
+            <!-- ko if: !Actions.IsLoading() -->
+            <div data-bind="with: Actions">
+                <span data-bind="if: !Rows().length">Пока всё тихо</span>
+                <table class="table table-clickable" data-bind="if: Rows().length">
+                    <thead>
+                        <tr>
+                            <th class="small-cell">Дата</th>
+                            <th class="really-wide-cell">Суть</th>
+                            <th class="wide-cell">Спонсор(ы)</th>
+                            <th class="money-cell">Сумма</th>
+                            <th class="actions-cell"></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: Rows">
+                        <tr>
+                            <td class="small-cell" data-bind="text: Date().formatDate(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="really-wide-cell" data-bind="text: Description(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="wide-cell" data-bind="text: PayerNames(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
+                            <td class="actions-cell">
+                                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
+                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</script>

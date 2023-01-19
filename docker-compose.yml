@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  external-api:
+    build:
+      context: .
+      target: final
+    ports:
+      - "5190:80"
+    environment:
+      - "ConnectionStrings__mongo=mongodb://mongo/"

@@ -1,0 +1,56 @@
+﻿<script type="text/html" id="debts-mobile-template">
+    <div class="debts mobile is-preview">
+        <div class="jumbotron">
+            @await Html.PartialAsync("DebtsHeader")
+            <div class="totals-block" data-bind="if: Balances.length">
+                <h4>Балансы:</h4>
+                <div>
+                    <!-- ko foreach: Balances -->
+                    <!-- ko if: Balance -->
+                    <span class="balance-span">
+                        <span data-bind="text: Name + ': '"></span>
+                        <span data-bind="text: Balance.formatMoney(), css:{'text-danger':Balance < 0, 'text-success':Balance > 0}"></span>
+                    </span>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </div>
+            </div>
+
+            <h4>Долговая яма:</h4>
+            <!-- ko foreach: Debts -->
+            <div class="item-block">
+                <div class="actions">
+                    <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
+                        <i class="glyphicon
+                           glyphicon-tint"></i></a>
+                </div>
+                <div class="content" data-bind="click: function() { IsExpanded(!IsExpanded()); }">
+                    <div class="description-block">
+                        <b data-bind="text: Debtor"></b>
+                        <span class="" data-bind="text: Amount.formatMoney()"></span>
+                        <i class="glyphicon text-success glyphicon-arrow-right"></i>
+                        <b data-bind="text: Creditor"></b>
+                    </div>
+                    <!-- ko if: IsExpanded -->
+                    <div class="debt-details">
+                        <!-- ko foreach: Transactions-->
+                        <div class="debt-details-row">
+                            <span class="debt-date-span" data-bind="text: Date.formatDate()"></span>
+                            <!-- ko if: Amount > 0 -->
+                            <span class="debt-arrow"><i class="glyphicon text-success glyphicon-arrow-right"></i></span>
+                            <!-- /ko -->
+                            <!-- ko if: Amount < 0 -->
+                            <span class="debt-arrow"><i class="glyphicon text-danger glyphicon-arrow-left"></i></span>
+                            <!-- /ko -->
+                            <span class="debt-description" data-bind="text: Action"></span>
+                            <span class="debt-amount-span" data-bind="text: Math.abs(Amount).formatMoney()"></span>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</script>

@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "name": "doggy-frictions",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "del": "7.0.0",
+    "gulp": "4.0.2",
+    "gulp-less": "5.0.0",
+    "gulp-cssmin": "0.2.0",
+    "gulp-uglify": "3.0.2",
+    "gulp-concat": "2.6.1",
+    "merge-stream": "2.0.0"
+  },
+  "dependencies": {
+    "jquery": "3.6.2",
+    "jquery-dateformat": "1.0.4",
+    "jquery-sticky": "1.0.4",
+    "jquery-validation": "1.19.5",
+    "jquery-validation-unobtrusive": "3.2.10",
+    "bootstrap": "3.4.1",
+    "bootstrap-material-design": "0.5.10",
+    "bootstrap-datepicker": "1.9.0",
+    "knockout": "3.5.1",
+    "knockout.validation": "2.0.4",
+    "moment": "2.29.3",
+    "moment-with-locales-es6": "1.0.1",
+    "npm-modernizr": "2.8.3",
+    "respond.js": "1.4.2",
+    "sammy": "0.7.6",
+    "snackbarjs": "1.1.0",
+    "underscore": "1.13.6"
+  }
+}
