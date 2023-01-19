@@ -51,7 +51,7 @@ RUN dotnet build -c Release
 
 FROM build AS publish
 WORKDIr /build/src/DoggyFrictions.ExternalApi
-COPY --from=gulp-prod /build/src/DoggyFrictions.ExternalApi/wwwroot .
+COPY --from=gulp-prod /build/src/DoggyFrictions.ExternalApi/wwwroot wwwroot
 RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
