@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoggyFrictions.ExternalApi.Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class ActionsController : Controller
 {
     private readonly IRepository _repository;
@@ -48,6 +49,12 @@ public class ActionsController : Controller
         {
             return BadRequest();
         }
+        
+        var totalSpent = actionObject.Consumptions.Sum(consumption => consumption.Amount);
+        var totalPayed = actionObject.Payers.Sum(payer => payer.Amount);
+
+        if (totalSpent != totalPayed)
+            return BadRequest("The amount paid does not match the price of the order");
 
         return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
@@ -60,6 +67,12 @@ public class ActionsController : Controller
         {
             return BadRequest();
         }
+        
+        var totalSpent = actionObject.Consumptions.Sum(consumption => consumption.Amount);
+        var totalPayed = actionObject.Payers.Sum(payer => payer.Amount);
+
+        if (totalSpent != totalPayed)
+            return BadRequest("The amount paid does not match the price of the order");
 
         return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
@@ -67,11 +80,6 @@ public class ActionsController : Controller
     [HttpPost("/Actions/{sessionId}/MoveMoney")]
     public async Task<IActionResult> Post(string sessionId, [FromForm] MoveMoneyTransaction moveMoneyTransaction)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
         var sessionModel = await _repository.GetSession(sessionId);
         var actionModel = _moneyMover.CreateMoveMoneyTransaction(sessionModel, moveMoneyTransaction);
 
