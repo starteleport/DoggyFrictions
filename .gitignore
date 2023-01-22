@@ -77,3 +77,4 @@ _ReSharper*/
 **/wwwroot/lib/
 **/wwwroot/js/min/
 **/wwwroot/css/min/
+/artifacts/**/*
