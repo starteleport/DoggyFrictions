@@ -49,12 +49,6 @@ public class ActionsController : Controller
         {
             return BadRequest();
         }
-        
-        var totalSpent = actionObject.Consumptions.Sum(consumption => consumption.Amount);
-        var totalPayed = actionObject.Payers.Sum(payer => payer.Amount);
-
-        if (totalSpent != totalPayed)
-            return BadRequest("The amount paid does not match the price of the order");
 
         return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
@@ -67,12 +61,6 @@ public class ActionsController : Controller
         {
             return BadRequest();
         }
-        
-        var totalSpent = actionObject.Consumptions.Sum(consumption => consumption.Amount);
-        var totalPayed = actionObject.Payers.Sum(payer => payer.Amount);
-
-        if (totalSpent != totalPayed)
-            return BadRequest("The amount paid does not match the price of the order");
 
         return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
