@@ -55,4 +55,4 @@ jobs:
       - name: dotnet test
         shell: bash --noprofile --norc {0}
         id: tests
-        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests
+        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix
