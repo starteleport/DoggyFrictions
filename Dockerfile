@@ -34,6 +34,7 @@ FROM sdk AS restore-dotnet
 WORKDIR /build
 COPY ["src/DoggyFrictions.ExternalApi/DoggyFrictions.ExternalApi.csproj", "src/DoggyFrictions.ExternalApi/"]
 COPY ["tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.csproj", "tests/DoggyFrictions.ExternalApi.Tests/"]
+COPY ["Directory.Build.props", "."]
 COPY ["DoggyFrictions.sln", "."]
 RUN dotnet restore
 

@@ -1,0 +1,58 @@
+name: Tests
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.ref || github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+permissions: write-all
+defaults:
+  run:
+    shell: bash
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+        description: ref to checkout and to link annotations to
+        default: ""
+  pull_request:
+    branches:
+      - "master"
+      - "release/v*"
+env:
+  DOCKER_BUILDKIT: 1
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: "true"
+  DOTNET_CLI_UI_LANGUAGE: en-US
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: 1
+  DOTNET_SVCUTIL_TELEMETRY_OPTOUT: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+  POWERSHELL_TELEMETRY_OPTOUT: 1
+  POWERSHELL_UPDATECHECK_OPTOUT: 1
+  NUGET_CERT_REVOCATION_MODE: offline
+  MSBUILDDISABLENODEREUSE: 1
+jobs:
+  unit-tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout / on 'workflow_call'
+        if: ${{ inputs.ref != '' }}
+        uses: actions/checkout@v3
+        with:
+          clean: false
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - name: git checkout / on non-'workflow_call'
+        if: ${{ inputs.ref == '' }}
+        uses: actions/checkout@v3
+        with:
+          clean: false
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: dotnet test
+        shell: bash --noprofile --norc {0}
+        id: tests
+        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests

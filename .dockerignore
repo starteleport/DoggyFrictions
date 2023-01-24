@@ -24,3 +24,7 @@
 LICENSE
 README.md
 **/*.*~
+artifacts
+packages
+*.DotSettings.user
+**/.DS_Store

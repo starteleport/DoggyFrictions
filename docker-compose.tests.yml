@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  tests:
+    build:
+      context: .
+      target: build
+    command: >-
+      dotnet test --nologo --runtime alpine-x64 --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"
