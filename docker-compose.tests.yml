@@ -5,4 +5,4 @@ services:
       context: .
       target: build
     command: >-
-      dotnet test --nologo --runtime alpine-x64 --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"
+      dotnet test --nologo --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"

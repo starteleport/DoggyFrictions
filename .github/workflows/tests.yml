@@ -7,13 +7,6 @@ defaults:
   run:
     shell: bash
 on:
-  workflow_call:
-    inputs:
-      ref:
-        required: true
-        type: string
-        description: ref to checkout and to link annotations to
-        default: ""
   pull_request:
     branches:
       - "master"
@@ -36,23 +29,19 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-      - name: git checkout / on 'workflow_call'
-        if: ${{ inputs.ref != '' }}
-        uses: actions/checkout@v3
-        with:
-          clean: false
-          ref: ${{ inputs.ref }}
-          fetch-depth: 0
-
-      - name: git checkout / on non-'workflow_call'
-        if: ${{ inputs.ref == '' }}
+      - name: git checkout
         uses: actions/checkout@v3
         with:
           clean: false
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
+      - uses: dotnet/nbgv@master
+        id: nbgv
+        with:
+          setAllVars: true
+      - run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+
       - name: dotnet test
-        shell: bash --noprofile --norc {0}
         id: tests
-        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix
+        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color

@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.17 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_CLI_UI_LANGUAGE=en-US \
     DOTNET_SVCUTIL_TELEMETRY_OPTOUT=1 \
@@ -14,12 +14,10 @@ RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS sdk
 
 FROM sdk AS nodejs
-RUN apt-get update
-RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
-    apt-get install -y nodejs
+RUN apk add --update npm
 
 FROM nodejs as restore-npm
 WORKDIR /build
