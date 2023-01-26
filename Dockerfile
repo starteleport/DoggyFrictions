@@ -46,12 +46,12 @@ RUN ./node_modules/gulp-cli/bin/gulp.js prod
 FROM restore-dotnet AS build
 WORKDIR /build
 COPY . .
-RUN dotnet build -c Release
+RUN dotnet build -c Release --no-restore
 
 FROM build AS publish
 WORKDIr /build/src/DoggyFrictions.ExternalApi
 COPY --from=gulp-prod /build/src/DoggyFrictions.ExternalApi/wwwroot wwwroot
-RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" --no-build -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

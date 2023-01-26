@@ -5,4 +5,4 @@ services:
       context: .
       target: build
     command: >-
-      dotnet test --nologo --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"
+      dotnet test --no-build --nologo --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"
