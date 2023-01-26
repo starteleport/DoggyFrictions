@@ -3,6 +3,6 @@ services:
   tests:
     build:
       context: .
-      target: build
+      target: copy-all
     command: >-
-      dotnet test --no-build --nologo --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"
+      dotnet test --nologo --blame-hang --blame-hang-timeout 60s --logger:"console;verbosity=detailed"

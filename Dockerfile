@@ -43,9 +43,12 @@ COPY ["src/DoggyFrictions.ExternalApi/wwwroot", "wwwroot"]
 COPY ["src/DoggyFrictions.ExternalApi/Styles", "Styles"]
 RUN ./node_modules/gulp-cli/bin/gulp.js prod
 
-FROM restore-dotnet AS build
+FROM restore-dotnet AS copy-all
 WORKDIR /build
 COPY . .
+
+FROM copy-all AS build
+WORKDIR /build
 RUN dotnet build -c Release --no-restore
 
 FROM build AS publish
