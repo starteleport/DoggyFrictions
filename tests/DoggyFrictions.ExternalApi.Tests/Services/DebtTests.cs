@@ -26,10 +26,4 @@ public class DebtTests
         Assert.That(actual.Amount, Is.EqualTo(-debt.Amount));
         Assert.That(actual.Transactions.Single().Amount, Is.EqualTo(-transaction.Amount));
     }
-
-    [Test]
-    public void AlwaysFail()
-    {
-        Assert.Fail();
-    }
 }
