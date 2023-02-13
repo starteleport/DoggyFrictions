@@ -92,6 +92,7 @@ jobs:
         id: publish
         run: |
             docker build . --target final -t doggy-frictions:${{ steps.nbgv.outputs.SemVer2 }} -t ${{ vars.CONTAINER_REGISTRY }}/doggy-frictions:${{ steps.nbgv.outputs.SemVer2 }} --compress
+            echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u starteleport --password-stdin
             docker push ${{ vars.CONTAINER_REGISTRY }}/doggy-frictions:${{ steps.nbgv.outputs.SemVer2 }}
 
       - name: Create tag
