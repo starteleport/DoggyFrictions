@@ -1,6 +1,8 @@
+using System.Globalization;
 using DoggyFrictions.ExternalApi.Domain;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
+using Microsoft.AspNetCore.Localization;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,20 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
+// Configure the localization options
+var supportedCultures = new[]
+{
+    CultureInfo.InvariantCulture
+};
+
+app.UseRequestLocalization(
+    new RequestLocalizationOptions
+    {
+        DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture),
+        SupportedCultures = supportedCultures,
+        SupportedUICultures = supportedCultures
+    });
 
 app.UseStaticFiles();
 app.UsePathBase("/api");

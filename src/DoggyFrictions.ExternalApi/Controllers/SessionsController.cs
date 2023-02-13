@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoggyFrictions.ExternalApi.Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class SessionsController : Controller
 {
     private readonly IRepository _repository;

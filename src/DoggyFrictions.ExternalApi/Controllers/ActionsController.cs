@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoggyFrictions.ExternalApi.Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class ActionsController : Controller
 {
     private readonly IRepository _repository;
@@ -67,11 +68,6 @@ public class ActionsController : Controller
     [HttpPost("/Actions/{sessionId}/MoveMoney")]
     public async Task<IActionResult> Post(string sessionId, [FromForm] MoveMoneyTransaction moveMoneyTransaction)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
         var sessionModel = await _repository.GetSession(sessionId);
         var actionModel = _moneyMover.CreateMoveMoneyTransaction(sessionModel, moveMoneyTransaction);
 
