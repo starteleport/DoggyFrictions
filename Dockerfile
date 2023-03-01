@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.17 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_CLI_UI_LANGUAGE=en-US \
     DOTNET_SVCUTIL_TELEMETRY_OPTOUT=1 \
@@ -14,12 +14,10 @@ RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS sdk
 
 FROM sdk AS nodejs
-RUN apt-get update
-RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
-    apt-get install -y nodejs
+RUN apk add --update npm
 
 FROM nodejs as restore-npm
 WORKDIR /build
@@ -34,6 +32,7 @@ FROM sdk AS restore-dotnet
 WORKDIR /build
 COPY ["src/DoggyFrictions.ExternalApi/DoggyFrictions.ExternalApi.csproj", "src/DoggyFrictions.ExternalApi/"]
 COPY ["tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.csproj", "tests/DoggyFrictions.ExternalApi.Tests/"]
+COPY ["Directory.Build.props", "."]
 COPY ["DoggyFrictions.sln", "."]
 RUN dotnet restore
 
@@ -44,15 +43,18 @@ COPY ["src/DoggyFrictions.ExternalApi/wwwroot", "wwwroot"]
 COPY ["src/DoggyFrictions.ExternalApi/Styles", "Styles"]
 RUN ./node_modules/gulp-cli/bin/gulp.js prod
 
-FROM restore-dotnet AS build
+FROM restore-dotnet AS copy-all
 WORKDIR /build
 COPY . .
-RUN dotnet build -c Release
+
+FROM copy-all AS build
+WORKDIR /build
+RUN dotnet build -c Release --no-restore
 
 FROM build AS publish
 WORKDIr /build/src/DoggyFrictions.ExternalApi
 COPY --from=gulp-prod /build/src/DoggyFrictions.ExternalApi/wwwroot wwwroot
-RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" --no-build -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

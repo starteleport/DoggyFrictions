@@ -1,0 +1,47 @@
+name: Tests
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.ref || github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+permissions: write-all
+defaults:
+  run:
+    shell: bash
+on:
+  pull_request:
+    branches:
+      - "master"
+      - "release/v*"
+env:
+  DOCKER_BUILDKIT: 1
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: "true"
+  DOTNET_CLI_UI_LANGUAGE: en-US
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: 1
+  DOTNET_SVCUTIL_TELEMETRY_OPTOUT: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+  POWERSHELL_TELEMETRY_OPTOUT: 1
+  POWERSHELL_UPDATECHECK_OPTOUT: 1
+  NUGET_CERT_REVOCATION_MODE: offline
+  MSBUILDDISABLENODEREUSE: 1
+jobs:
+  unit-tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+        with:
+          clean: false
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - uses: dotnet/nbgv@master
+        id: nbgv
+        with:
+          setAllVars: true
+      - run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+
+      - name: dotnet test
+        id: tests
+        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color
