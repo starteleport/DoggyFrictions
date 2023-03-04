@@ -21,7 +21,6 @@ on:
     branches:
       - master
       - release/v*
-      - gh-workflows
 env:
   DOCKER_BUILDKIT: 1
   DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: "true"
