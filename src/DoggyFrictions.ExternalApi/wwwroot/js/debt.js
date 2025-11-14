@@ -45,9 +45,7 @@
 }
 function DebtModel(debtData) {
     var _this = this;
-    this.Transactions = debtData.Transactions;
     this.Amount = debtData.Amount;
     this.Creditor = debtData.Creditor;
     this.Debtor = debtData.Debtor;
-    this.IsExpanded = ko.observable(false);
 }

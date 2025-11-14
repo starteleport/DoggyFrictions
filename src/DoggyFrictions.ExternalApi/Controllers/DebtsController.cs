@@ -28,13 +28,7 @@ public class DebtsController : Controller
         var actionModels = await _repository.GetSessionActions(id);
         var actions = _actionsProvider.GetSessionActions(sessionModel, actionModels);
 
-        return _debtService.GetDebts(actions).Select(d =>
-            new Debt
-            {
-                Debtor = d.Debtor,
-                Creditor = d.Creditor,
-                Transactions = d.Transactions.OrderByDescending(t => t.Date).ToList()
-            })
+        return _debtService.GetDebts(actions)
             .OrderBy(d => d.Debtor)
             .ThenBy(d => d.Creditor);
     }
