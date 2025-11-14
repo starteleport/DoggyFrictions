@@ -18,12 +18,7 @@
 
             <h4>Долговая яма:</h4>
             <!-- ko foreach: Debts -->
-            <div class="item-block">
-                <div class="actions">
-                    <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
-                        <i class="glyphicon
-                           glyphicon-tint"></i></a>
-                </div>
+            <div class="item-block" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
                 <div class="content">
                     <div class="description-block">
                         <b data-bind="text: Debtor"></b>
