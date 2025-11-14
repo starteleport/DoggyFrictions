@@ -7,7 +7,7 @@
             <!-- ko if: $root.IsEdit() -->
             <label>Название</label>
             <span class="input-group">
-                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
+                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Что пилим?">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
             </span>
             <!-- /ko -->
@@ -27,7 +27,7 @@
         </span>
         <!-- ko if: !$root.IsEdit() -->
         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
-                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
+                                    cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
         <!-- /ko -->
     </h2>
 </div>

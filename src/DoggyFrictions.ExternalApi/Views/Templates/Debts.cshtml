@@ -25,7 +25,7 @@
                     <td class="wide-cell text-right" data-bind="text: Creditor, click: function() { IsExpanded(!IsExpanded()); }"></td>
                     <td class="actions-cell">
                         <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff,
-                           cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">Погасить</a>
+                           cdTitle: 'Погасить долг', cdMessage: 'Будет создан чек для полного погашения долга между ' + Creditor + ' и ' + Debtor">Погасить</a>
                     </td>
                 </tr>
                 <!-- ko if: IsExpanded -->

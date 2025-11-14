@@ -35,7 +35,7 @@
             .done(function(actionModel) {
                 $.snackbar({
                     content: "Успешно погашен долг между " + moveMoneyModel.From + " и " + moveMoneyModel.To
-                        + ". Постанова <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
+                        + ". Чек <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
                     htmlAllowed: true,
                     timeout: 0
                 });

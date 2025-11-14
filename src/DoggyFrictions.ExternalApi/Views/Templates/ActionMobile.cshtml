@@ -9,7 +9,7 @@
                     <!-- ko if: $root.IsEdit() -->
                     <label>Название</label>
                     <span class="input-group">
-                        <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
+                        <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Что пилим?">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                     </span>
                     <!-- /ko -->
@@ -31,7 +31,7 @@
                 <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}">
                     <span class="glyphicon glyphicon-pencil"></span> Редактировать
                 </a>
-                <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'">
+                <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'">
                     <span class="glyphicon glyphicon-trash"></span> Удалить
                 </a>
                 <!-- /ko -->
@@ -135,7 +135,7 @@
                             <!-- /ko -->
                             <div class="content">
                                 <div class="payer-block">
-                                    <label>Имя спонсора:</label>
+                                    <label>Имя:</label>
                                     <!-- ko if: $root.IsEdit() -->
                                     <span>
                                         <select class="form-control" data-bind="options: $parent.Session.Participants,

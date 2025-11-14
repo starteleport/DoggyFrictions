@@ -164,7 +164,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
             });
     }
 
-    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая постанова') : 'Постанова';
+    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новый чек') : 'Чек';
     var navigation = new NavigationModel(currentPlace);
     navigation.AddHistory('Тёрки', '#/Sessions');
     navigation.AddHistory('Тёрка', '#/Session/' + _this.Session.Id);

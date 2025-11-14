@@ -9,11 +9,11 @@
             <div data-bind="text: _.reduce(Participants(), function(memo, p) { return (memo.Name ? memo.Name() : memo) + ', ' + p.Name() })"></div>
             <!-- /ko -->
 
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести чек</a>
             <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
 
             <div>
-                <h4 class="pull-left">Постановы:</h4>
+                <h4 class="pull-left">Чеки:</h4>
                 <div class="col-lg-1 pull-right"></div>
                 <!-- ko if: !Actions.IsLoading() -->
                 <span class="pull-right" data-bind="with: Actions">
@@ -31,8 +31,8 @@
                     <thead>
                         <tr>
                             <th class="small-cell">Дата</th>
-                            <th class="really-wide-cell">Суть</th>
-                            <th class="wide-cell">Спонсор(ы)</th>
+                            <th class="really-wide-cell">Название</th>
+                            <th class="wide-cell">Платил(и)</th>
                             <th class="money-cell">Сумма</th>
                             <th class="actions-cell"></th>
                         </tr>
@@ -45,7 +45,7 @@
                             <td class="money-cell" data-bind="text: Amount().formatMoney(),click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)"></td>
                             <td class="actions-cell">
                                 <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
-                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>
