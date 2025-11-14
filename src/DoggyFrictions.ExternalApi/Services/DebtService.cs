@@ -64,10 +64,7 @@ public class DebtService : IDebtService
                 aggregatedDebts.Add(new Debt {
                     Creditor = creditor.ParticipantId,
                     Debtor = debitor.ParticipantId,
-                    Transactions = new List<DebtTransaction>()
-                    {
-                        new DebtTransaction(appliedAmount)
-                    }
+                    Amount = appliedAmount,
                 });
 
                 creditor.Balance -= appliedAmount;
