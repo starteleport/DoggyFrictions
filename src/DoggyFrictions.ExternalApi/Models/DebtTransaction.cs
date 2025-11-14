@@ -3,15 +3,11 @@
 public class DebtTransaction
 {
     public decimal Amount { get; }
-    public string Action { get; }
-    public DateTime Date { get; }
 
-    public DebtTransaction Reverse() => new DebtTransaction(-Amount, Action, Date);
+    public DebtTransaction Reverse() => new DebtTransaction(-Amount);
 
-    public DebtTransaction(decimal amount, string action, DateTime date)
+    public DebtTransaction(decimal amount)
     {
         Amount = amount;
-        Action = action;
-        Date = date;
     }
 }

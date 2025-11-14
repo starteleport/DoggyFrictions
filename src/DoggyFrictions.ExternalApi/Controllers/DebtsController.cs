@@ -33,7 +33,7 @@ public class DebtsController : Controller
             {
                 Debtor = d.Debtor,
                 Creditor = d.Creditor,
-                Transactions = d.Transactions.OrderByDescending(t => t.Date).ToList()
+                Transactions = d.Transactions
             })
             .OrderBy(d => d.Debtor)
             .ThenBy(d => d.Creditor);

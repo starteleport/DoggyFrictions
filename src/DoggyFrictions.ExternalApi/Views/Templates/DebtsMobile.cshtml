@@ -24,30 +24,13 @@
                         <i class="glyphicon
                            glyphicon-tint"></i></a>
                 </div>
-                <div class="content" data-bind="click: function() { IsExpanded(!IsExpanded()); }">
+                <div class="content">
                     <div class="description-block">
                         <b data-bind="text: Debtor"></b>
                         <span class="" data-bind="text: Amount.formatMoney()"></span>
                         <i class="glyphicon text-success glyphicon-arrow-right"></i>
                         <b data-bind="text: Creditor"></b>
                     </div>
-                    <!-- ko if: IsExpanded -->
-                    <div class="debt-details">
-                        <!-- ko foreach: Transactions-->
-                        <div class="debt-details-row">
-                            <span class="debt-date-span" data-bind="text: Date.formatDate()"></span>
-                            <!-- ko if: Amount > 0 -->
-                            <span class="debt-arrow"><i class="glyphicon text-success glyphicon-arrow-right"></i></span>
-                            <!-- /ko -->
-                            <!-- ko if: Amount < 0 -->
-                            <span class="debt-arrow"><i class="glyphicon text-danger glyphicon-arrow-left"></i></span>
-                            <!-- /ko -->
-                            <span class="debt-description" data-bind="text: Action"></span>
-                            <span class="debt-amount-span" data-bind="text: Math.abs(Amount).formatMoney()"></span>
-                        </div>
-                        <!-- /ko -->
-                    </div>
-                    <!-- /ko -->
                 </div>
             </div>
             <!-- /ko -->

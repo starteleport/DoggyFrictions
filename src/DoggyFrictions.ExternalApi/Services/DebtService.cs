@@ -47,8 +47,6 @@ public class DebtService : IDebtService
         var aggregatedDebts = new List<Debt>();
         var creditors = balancePerPerson.Where(b => b.Value > 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = c.Value }).OrderByDescending(c => c.Balance).ToList();
         var debitors = balancePerPerson.Where(b => b.Value < 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = -c.Value }).OrderBy(c => c.Balance).ToList();
-        var date = actions.Max(a => a.Date); // This algorithm loses details about individual action dates
-        var description = "Aggregated debt pay"; // This algorithm loses details about individual action names
         foreach (var debitor in debitors)
         {
             foreach(var creditor in creditors)
@@ -68,7 +66,7 @@ public class DebtService : IDebtService
                     Debtor = debitor.ParticipantId,
                     Transactions = new List<DebtTransaction>()
                     {
-                        new DebtTransaction(Math.Min(debitor.Balance, creditor.Balance), description, date)
+                        new DebtTransaction(appliedAmount)
                     }
                 });
 
