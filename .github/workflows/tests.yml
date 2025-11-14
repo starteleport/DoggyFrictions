@@ -42,6 +42,12 @@ jobs:
           setAllVars: true
       - run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
 
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: dotnet test
         id: tests
         run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color
