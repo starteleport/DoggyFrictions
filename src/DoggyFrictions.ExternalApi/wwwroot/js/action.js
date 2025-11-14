@@ -169,7 +169,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
     navigation.AddHistory('Тёрки', '#/Sessions');
     navigation.AddHistory('Тёрка', '#/Session/' + _this.Session.Id);
     if (_this.IsEdit() && _this.Id) {
-        navigation.AddHistory('Пастанова', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
+        navigation.AddHistory('Чек', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
     }
     this.Navigation = navigation;
 }
