@@ -4,7 +4,7 @@ using DoggyFrictions.ExternalApi.Models;
 namespace DoggyFrictions.ExternalApi.Services;
 
 public class DebtService : IDebtService
-{    
+{
     public IEnumerable<Debt> GetDebts(IEnumerable<DebtAction> actions)
     {
         if (actions?.Any() != true)
