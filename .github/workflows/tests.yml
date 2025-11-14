@@ -50,4 +50,4 @@ jobs:
 
       - name: dotnet test
         id: tests
-        run: docker-compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color
+        run: docker compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color
