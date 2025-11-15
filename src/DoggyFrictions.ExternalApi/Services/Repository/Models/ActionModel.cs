@@ -10,12 +10,11 @@ public class ActionModel
     public IEnumerable<ConsumptionModel> Consumptions { get; set; } = null!;
 }
 
+[MongoDB.Bson.Serialization.Attributes.BsonIgnoreExtraElements]
 public class ConsumptionModel
 {
-    public string Description { get; set; } = null!;
     public IEnumerable<ConsumerModel> Consumers { get; set; } = null!;
     public decimal Amount { get; set; }
-    public double Quantity { get; set; }
     public bool SplittedEqually { get; set; }
 }
 

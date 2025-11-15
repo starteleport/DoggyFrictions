@@ -17,6 +17,12 @@ function SessionModel(data, isEdit) {
     this.Participants = ko.observableArray(_.map(data.Participants || [], function (participantData) {
         return new ParticipantModel(participantData);
     }));
+
+    // Ensure at least one participant when creating a new session
+    if (isEdit && this.Participants().length === 0) {
+        this.Participants.push(new ParticipantModel({ Id: 0 }));
+    }
+
     this.Actions = new PagedGridModel('Api/Actions/' + data.Id, 25, function (actionData) {
         return new ActionModel(actionData, _this);
     });
@@ -39,6 +45,10 @@ function SessionModel(data, isEdit) {
         window.App.Functions.ReapplyJQuerryStuff();
     };
     this.DeleteParticipant = function (participantModel) {
+        if (_this.Participants().length <= 1) {
+            alert('Должна остаться хотя бы одна собака.');
+            return;
+        }
         if (participantModel.Id != 0) {
             alert('Невозможно удалить собаку, которая уже есть в системе.');
         } else {
@@ -77,13 +87,12 @@ function SessionModel(data, isEdit) {
         }).promise();
         window.App.Functions.Process(operation)
             .done(function() {
-                window.App.Functions.Move('#/Sessions')();
+                window.App.Functions.Move('#/Session/Create')();
             });
     }
 
-    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая тёрка') : 'Тёрка';
+    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Создать Тёрку') : 'Тёрка';
     var navigation = new NavigationModel(currentPlace);
-    navigation.AddHistory('Тёрки', '#/Sessions');
     if (_this.IsEdit() && _this.Id) {
         navigation.AddHistory('Тёркa', '#/Session/' + _this.Id);
     }

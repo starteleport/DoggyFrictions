@@ -133,8 +133,7 @@ public class DebtServiceTests
     {
         return fixture.Build<Good>()
             .With(g => g.Consumers, consumers)
-            .With(g => g.PricePerUnit, total)
-            .With(g => g.Quantity, 1)
+            .With(g => g.Amount, total)
             .Create();
     }
 }

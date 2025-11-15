@@ -14,15 +14,29 @@ function ActionModel(actionData, sessionModel, isEdit) {
     _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
         return new PayerModel(payerData);
     }));
-    _this.Consumptions = ko.observableArray(_.map(actionData.Consumptions || [], function (consumptionData) {
-        return new ConsumptionModel(consumptionData, _this.Session);
-    }));
+
+    // Always ensure we have exactly one consumption
+    var consumptionsData = actionData.Consumptions || [];
+    if (consumptionsData.length === 0) {
+        consumptionsData = [{ Amount: 0 }];
+    }
+    var consumption = new ConsumptionModel(consumptionsData[0], _this.Session);
+
+    // For new actions, activate all consumers by default
+    if (_this.Id === 0 && (!actionData.Consumptions || actionData.Consumptions.length === 0)) {
+        _.forEach(consumption.Consumers(), function (consumer) {
+            consumer.IsActive(true);
+        });
+    }
+
+    _this.Consumptions = ko.observableArray([consumption]);
+
     _this.Description = ko.observable(actionData.Description);
     _this.IsEdit = ko.observable(isEdit || false);
 
     _this.Amount = ko.computed(function () {
         return _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount()) * Number(next.Quantity());
+            return current + Number(next.Amount());
         }, 0);
     });
     _this.PayerNames = ko.computed(function () {
@@ -31,33 +45,6 @@ function ActionModel(actionData, sessionModel, isEdit) {
             return (current.length ? (current + ', ') : '') + participantName;
         }, '');
     });
-    _this.ConsumerTotals = _.map(_this.Session.Participants(), function (participant) {
-        return ko.computed(function () {
-            var total = 0;
-            _.forEach(_this.Consumptions(), function (consumption) {
-                var consumer = _.find(consumption.Consumers(), function (consumer) {
-                    return consumer.ParticipantId == participant.Id;
-                });
-                total += consumer.Amount();
-            });
-            return { Name: participant.Name(), Total: total };
-        });
-    });
-
-    this.AddConsumption = function () {
-        _.each(_this.Consumptions(), function (c) { c.HasFocus(false); });
-        var consumptionModel = new ConsumptionModel({}, _this.Session);
-        _.forEach(consumptionModel.Consumers(), function (consumer) {
-            consumer.IsActive(true);
-        });
-        _this.Consumptions.push(consumptionModel);
-
-        consumptionModel.HasFocus(true);
-        window.App.Functions.ReapplyJQuerryStuff();
-    }
-    this.DeleteConsumption = function (consumptionModel) {
-        _this.Consumptions.remove(consumptionModel);
-    }
     this.AddPayer = function () {
         _.each(_this.Payers(), function (c) { c.HasFocus(false); });
         var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id });
@@ -66,7 +53,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
 
         // Calculate unpaid rest
         var consumedAmount = _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount() * next.Quantity() || 0);
+            return current + Number(next.Amount() || 0);
         }, 0);
         var paidAmount = _.reduce(_this.Payers(), function (current, next) {
             return current + Number(next.Amount() || 0);
@@ -83,25 +70,23 @@ function ActionModel(actionData, sessionModel, isEdit) {
         if (!_this.IsEdit()) {
             return;
         }
-        var firstConsumption = (_this.Consumptions() || [])[0];
-        var consumer = _.find(firstConsumption.Consumers() || [], function(consumer) {
+        var consumption = _this.Consumptions()[0];
+        if (!consumption) {
+            return;
+        }
+        var consumer = _.find(consumption.Consumers() || [], function(consumer) {
             return consumer.ParticipantId == participant.Id;
         });
-        var isCurrentlyActive = consumer && consumer.IsActive();
-        _.forEach(_this.Consumptions() || [], function (consumption) {
-            _.forEach(consumption.Consumers(), function (consumer) {
-                if (consumer.ParticipantId == participant.Id) {
-                    consumer.IsActive(!isCurrentlyActive);
-                }
-            });
-        });
+        if (consumer) {
+            consumer.IsActive(!consumer.IsActive());
+        }
     }
 
     this.Save = function() {
         var operation = _this._createSaveOperation();
         window.App.Functions.Process(operation);
         $.when(operation).done(function(actionData) {
-            window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/' + actionData.Id)();
+            window.App.Functions.Move('#/Session/' + _this.Session.Id)();
         });
     }
     this.SaveAndNew = function() {
@@ -128,9 +113,7 @@ function ActionModel(actionData, sessionModel, isEdit) {
                 return {
                     Id: consumptonModel.Id,
                     Amount: consumptonModel.Amount(),
-                    Quantity: consumptonModel.Quantity(),
                     SplittedEqually: consumptonModel.IsAuto(),
-                    Description: consumptonModel.Description(),
                     Consumers: _.map(_.filter(consumptonModel.Consumers(), function (consumerModel) {
                         return consumerModel.IsActive();
                     }), function (consumerModel) {
@@ -164,12 +147,11 @@ function ActionModel(actionData, sessionModel, isEdit) {
             });
     }
 
-    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая постанова') : 'Постанова';
+    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новый чек') : 'Чек';
     var navigation = new NavigationModel(currentPlace);
-    navigation.AddHistory('Тёрки', '#/Sessions');
     navigation.AddHistory('Тёрка', '#/Session/' + _this.Session.Id);
     if (_this.IsEdit() && _this.Id) {
-        navigation.AddHistory('Пастанова', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
+        navigation.AddHistory('Чек', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
     }
     this.Navigation = navigation;
 }

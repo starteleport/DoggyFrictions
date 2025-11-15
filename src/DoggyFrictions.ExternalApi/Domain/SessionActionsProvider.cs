@@ -42,9 +42,7 @@ public class SessionActionsProvider
     {
         return new Good
         {
-            Description = consumption.Description,
-            PricePerUnit = consumption.Amount,
-            Quantity = consumption.Quantity,
+            Amount = consumption.Amount,
             SplittedEqually = consumption.SplittedEqually,
             Consumers = consumption.Consumers.Select(c => MapConsumer(c, participants))
         };

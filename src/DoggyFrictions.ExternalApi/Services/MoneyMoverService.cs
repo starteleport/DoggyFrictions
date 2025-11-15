@@ -51,8 +51,6 @@ public class MoneyMoverService : IMoneyMoverService
                 new Consumption
                 {
                     Amount = moveMoneyTransaction.Amount,
-                    Description = description,
-                    Quantity = 1,
                     SplittedEqually = false,
                     Consumers = new[]
                     {

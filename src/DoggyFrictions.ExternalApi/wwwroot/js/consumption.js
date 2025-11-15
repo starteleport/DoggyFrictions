@@ -22,7 +22,6 @@ function ConsumptionModel(consumptionData, sessionModel) {
     var _this = this;
     _this.Session = sessionModel;
     this.Id = consumptionData.Id || 0;
-    this.Description = ko.observable(consumptionData.Description);
     this.Consumers = ko.observableArray(_.map(_this.Session.Participants(), function (participant) {
         var cd = _.find(consumptionData.Consumers || [], function (consumerData) {
             return consumerData.ParticipantId == participant.Id;
@@ -32,7 +31,6 @@ function ConsumptionModel(consumptionData, sessionModel) {
         return consumerModel;
     }));
     this.Amount = ko.observable(consumptionData.Amount || 0);
-    this.Quantity = ko.observable(consumptionData.Quantity || 1);
     this.IsAuto = ko.observable(consumptionData.SplittedEqually !== false);
     this.HasFocus = ko.observable(false);
 
@@ -41,7 +39,7 @@ function ConsumptionModel(consumptionData, sessionModel) {
             return;
         }
 
-        var amount = Number(_this.Amount()) * Number(_this.Quantity());
+        var amount = Number(_this.Amount());
         var activeConsumers = _.filter(_this.Consumers(), function (consumerModel) {
             return consumerModel.IsActive();
         });
@@ -58,6 +56,5 @@ function ConsumptionModel(consumptionData, sessionModel) {
         });
     }
     _this.Amount.subscribe(_this.SplitAmount);
-    _this.Quantity.subscribe(_this.SplitAmount);
     _this.IsAuto.subscribe(_this.SplitAmount);
 }

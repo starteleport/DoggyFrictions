@@ -3,38 +3,31 @@
         <div>
             @await Html.PartialAsync("SessionHeader")
 
-            <h4>Собаки:</h4>
-            <span data-bind="if: !Participants().length">Собак нет</span>
+            <p>Собаки:</p>
             <table class="table">
-                <thead data-bind="if: Participants().length">
-                <tr>
-                    <th class="wide-cell">Имя</th>
-                    <th class="actions-cell"></th>
-                </tr>
-                </thead>
                 <tbody>
                 <!-- ko foreach: Participants-->
                 <tr>
                     <td class="wide-cell">
                         <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
                     </td>
-                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant, visible: $parent.Participants().length > 1">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
                 </tr>
                 <!-- /ko -->
                 <tr>
                     <td class="actions-cell">
                         <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                            <span><span class="glyphicon glyphicon-plus"></span> Добавить Собаку</span>
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
-            <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
-                cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">
-                Отмена
-            </button>
         </div>
     </div>
 </script>
