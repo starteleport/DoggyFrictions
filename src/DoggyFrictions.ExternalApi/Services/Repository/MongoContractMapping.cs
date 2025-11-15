@@ -97,8 +97,6 @@ internal static class MongoContractMapping
         return new ConsumptionModel
         {
             Amount = model.Amount,
-            Description = model.Description,
-            Quantity = model.Quantity,
             SplittedEqually = model.SplittedEqually,
             Consumers = model.Consumers.Select(ToModel)
         };
@@ -109,8 +107,6 @@ internal static class MongoContractMapping
         return new Consumption
         {
             Amount = model.Amount,
-            Description = model.Description,
-            Quantity = model.Quantity,
             SplittedEqually = model.SplittedEqually,
             Consumers = model.Consumers.Select(FromModel)
         };

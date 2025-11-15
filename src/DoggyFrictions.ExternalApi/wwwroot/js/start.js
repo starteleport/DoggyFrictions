@@ -115,15 +115,6 @@ function InitSammy(app) {
         window.App.Functions.ReapplyJQuerryStuff();
     };
 
-    $app.get('#/Sessions', function() {
-        var operation = $.when($.get('Api/Sessions')).then(function(data) {
-            var model = new SessionsModel(data);
-            var templateName = window.App.IsMobile ? 'sessions-mobile' : 'sessions';
-            show(templateName, model);
-        }).promise();
-        window.App.Functions.Process(operation);
-    });
-
     $app.get('#/Session/Create', function() {
         var model = new SessionModel({ Id: 0 }, true);
         show('session-edit', model);
@@ -132,8 +123,7 @@ function InitSammy(app) {
         var operation = $.when($.get('Api/Sessions/' + context.params.id)).then(function(data) {
             var model = new SessionModel(data, false);
             model.Actions.LoadPage();
-            var templateName = window.App.IsMobile ? 'session-mobile' : 'session';
-            show(templateName, model);
+            show('session-mobile', model);
         }).promise();
         window.App.Functions.Process(operation);
     });
@@ -150,8 +140,7 @@ function InitSammy(app) {
             .then(function(sessionData) {
                 var sessionModel = new SessionModel(sessionData);
                 var actionModel = new ActionModel({}, sessionModel, true);
-                var templateName = window.App.IsMobile ? 'action-mobile' : 'action';
-                show(templateName, actionModel);
+                show('action-mobile', actionModel);
             }).promise();
         window.App.Functions.Process(operation);
     });
@@ -161,8 +150,7 @@ function InitSammy(app) {
             .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new ActionModel(actionData[0], sessionModel, true);
-                var templateName = window.App.IsMobile ? 'action-mobile' : 'action';
-                show(templateName, actionModel);
+                show('action-mobile', actionModel);
             }).promise();
         window.App.Functions.Process(operation);
     });
@@ -172,8 +160,7 @@ function InitSammy(app) {
             .then(function(sessionData, actionData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new ActionModel(actionData[0], sessionModel, false);
-                var templateName = window.App.IsMobile ? 'action-mobile' : 'action';
-                show(templateName, actionModel);
+                show('action-mobile', actionModel);
             }).promise();
         window.App.Functions.Process(operation);
     });
@@ -183,11 +170,10 @@ function InitSammy(app) {
             .then(function(sessionData, debtsData) {
                 var sessionModel = new SessionModel(sessionData[0]);
                 var actionModel = new DebtsModel(debtsData[0], sessionModel);
-                var templateName = window.App.IsMobile ? 'debts-mobile' : 'debts';
-                show(templateName, actionModel);
+                show('debts-mobile', actionModel);
             }).promise();
         window.App.Functions.Process(operation);
     });
 
-    window.App.SammyApp = $app.run('#/Sessions');
+    window.App.SammyApp = $app.run('#/Session/Create');
 }

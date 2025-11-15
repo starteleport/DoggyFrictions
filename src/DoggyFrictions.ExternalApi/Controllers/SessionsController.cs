@@ -15,13 +15,6 @@ public class SessionsController : Controller
         _repository = repository;
     }
 
-    // GET: api/Sessions
-    [HttpGet]
-    public async Task<IEnumerable<Session>> Index()
-    {
-        return (await _repository.GetSessions()).OrderBy(s => s.Name);
-    }
-
     // GET: api/Sessions/5
     [HttpGet("{id}")]
     public async Task<Session> Get(string id) => await _repository.GetSession(id);
