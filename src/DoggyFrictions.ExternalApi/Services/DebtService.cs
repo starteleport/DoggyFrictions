@@ -12,29 +12,71 @@ public class DebtService : IDebtService
             return Enumerable.Empty<Debt>();
         }
 
-        var debtAggregator = new DebtAggregator();
-        foreach (var action in actions.OrderBy(a => a.Date))
+        var balancePerPerson = new Dictionary<string, decimal>();
+
+        foreach (var action in actions)
         {
-            var totalAmountPaid = action.Sponsors.Sum(s => s.Amount);
-            var payersDict = action.Goods
-                .SelectMany(good => good.Consumers)
-                .ToLookup(consumer => consumer.Participant)
-                .ToDictionary(p => p.Key, p => p.Sum(consumer => consumer.Amount));
-
-            foreach (var sponsor in action.Sponsors)
+            foreach(var credit in action.Sponsors)
             {
-                var sponsorRate = sponsor.Amount / totalAmountPaid;
-
-                foreach (var pair in payersDict.Where(pair => pair.Key != sponsor.Participant))
+                var creditorId = credit.Participant;
+                if (!balancePerPerson.ContainsKey(creditorId))
                 {
-                    var consumer = pair.Key;
-                    var amount = pair.Value;
-                    var debtAmount = Math.Round(amount * sponsorRate, 2);
-                    var debtTransaction = new DebtTransaction(debtAmount, action.Description, action.Date);
-                    debtAggregator.AddTransaction(sponsor.Participant, consumer, debtTransaction);
+                    balancePerPerson[creditorId] = credit.Amount;
+                }
+                else
+                {
+                    balancePerPerson[creditorId] += credit.Amount;
+                }
+            }
+            
+            foreach(var debit in action.Goods.SelectMany(g => g.Consumers))
+            {
+                var debitorId = debit.Participant;
+                if (!balancePerPerson.ContainsKey(debitorId))
+                {
+                    balancePerPerson[debitorId] = -debit.Amount;
+                }
+                else
+                {
+                    balancePerPerson[debitorId] -= debit.Amount;
                 }
             }
         }
-        return debtAggregator.GetDebts().Where(totalDebt => totalDebt.Amount != 0);
+
+        // Now we try to resolve the debt in minimal number of transactions. One simple way to do it is for small debtors to pay to the highest creditors first.
+        var aggregatedDebts = new List<Debt>();
+        var creditors = balancePerPerson.Where(b => b.Value > 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = c.Value }).OrderByDescending(c => c.Balance).ToList();
+        var debitors = balancePerPerson.Where(b => b.Value < 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = -c.Value }).OrderBy(c => c.Balance).ToList();
+        foreach (var debitor in debitors)
+        {
+            foreach(var creditor in creditors)
+            {
+                if(debitor.Balance == 0)
+                {
+                    break;
+                }
+                if(creditor.Balance == 0)
+                {
+                    continue;
+                }
+
+                var appliedAmount = Math.Min(debitor.Balance, creditor.Balance);
+                aggregatedDebts.Add(new Debt {
+                    Creditor = creditor.ParticipantId,
+                    Debtor = debitor.ParticipantId,
+                    Amount = appliedAmount,
+                });
+
+                creditor.Balance -= appliedAmount;
+                debitor.Balance -= appliedAmount;
+            }
+        }
+        return aggregatedDebts;
+    }
+
+    private class PersonAndBalance
+    {
+        internal string ParticipantId { get; set; }
+        internal decimal Balance { get; set; }
     }
 }
