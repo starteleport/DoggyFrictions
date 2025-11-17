@@ -3,7 +3,7 @@
         <div class="jumbotron">
             @await Html.PartialAsync("DebtsHeader")
             <div class="totals-block" data-bind="if: Balances.length">
-                <h4>Балансы:</h4>
+                <p>Балансы:</p>
                 <div>
                     <!-- ko foreach: Balances -->
                     <!-- ko if: Balance -->
@@ -16,9 +16,13 @@
                 </div>
             </div>
 
-            <h4>Долговая яма:</h4>
+            <br />
+            <p>Долговая яма:</p>
+            <!-- ko if: !Debts.length -->
+            <p>Всё ровно, как полагается.</p>
+            <!-- /ko -->
             <!-- ko foreach: Debts -->
-            <div class="item-block" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">
+            <div class="item-block" data-bind="ifConfirmed: $parent.PayOff, cdTitle: 'Погасить долг', cdMessage: 'Будет создан чек для полного погашения долга между ' + Creditor + ' и ' + Debtor">
                 <div class="content">
                     <div class="description-block">
                         <b data-bind="text: Debtor"></b>

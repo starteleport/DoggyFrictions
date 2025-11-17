@@ -24,13 +24,13 @@ public class ActionsController : Controller
     {
         var actions = await _repository.GetSessionActions(sessionId);
         var page = filter?.Page ?? 1;
-        var pageSize = filter?.PageSize ?? 10;
+        var pageSize = filter?.PageSize ?? 50;
 
         return new PagedCollection<ActionObject>
         {
             TotalPages = (actions.Count() / pageSize) + 1,
             Page = page,
-            Rows = actions.OrderByDescending(a => a.Date).Skip((page - 1) * pageSize).Take(pageSize)
+            Rows = actions.Reverse().Skip((page - 1) * pageSize).Take(pageSize)
         };
     }
 
@@ -49,7 +49,6 @@ public class ActionsController : Controller
         {
             return BadRequest();
         }
-
         return Ok(await _repository.UpdateAction(sessionId, actionObject));
     }
 

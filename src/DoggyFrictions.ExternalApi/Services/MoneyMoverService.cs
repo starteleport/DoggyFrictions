@@ -38,32 +38,16 @@ public class MoneyMoverService : IMoneyMoverService
             SessionId = sessionId,
             Date = moveMoneyTransaction.Date ?? DateTime.UtcNow,
             Description = description,
-            Payers = new[]
+            PayerId = fromParticipant.Id,
+            Amount = moveMoneyTransaction.Amount,
+            Consumers = new[]
             {
-                new Payer
+                new Consumer
                 {
                     Amount = moveMoneyTransaction.Amount,
-                    ParticipantId = fromParticipant.Id
+                    ParticipantId = toParticipant.Id
                 }
             },
-            Consumptions = new[]
-            {
-                new Consumption
-                {
-                    Amount = moveMoneyTransaction.Amount,
-                    Description = description,
-                    Quantity = 1,
-                    SplittedEqually = false,
-                    Consumers = new[]
-                    {
-                        new Consumer
-                        {
-                            Amount = moveMoneyTransaction.Amount,
-                            ParticipantId = toParticipant.Id
-                        }
-                    }
-                }
-            }
         };
     }
 }

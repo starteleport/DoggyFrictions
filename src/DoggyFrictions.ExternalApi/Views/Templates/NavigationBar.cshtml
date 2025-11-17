@@ -1,14 +1,7 @@
 ﻿<ul class="breadcrumb breadcrumb-default" data-bind="with: Navigation">
     <!-- ko foreach: History -->
     <li>
-        <!-- ko if: $root.IsEdit() -->
-        <a data-bind="ifConfirmed: window.App.Functions.Move(Url),
-               cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?',
-               text: Name"></a>
-        <!-- /ko -->
-        <!-- ko ifnot: $root.IsEdit() -->
         <a data-bind="attr: {href: Url}, text: Name"></a>
-        <!-- /ko -->
     </li>
     <!-- /ko -->
     <li class="active" data-bind="text: CurrentPlace"></li>

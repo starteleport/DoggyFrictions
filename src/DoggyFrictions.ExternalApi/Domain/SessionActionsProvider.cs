@@ -15,8 +15,16 @@ public class SessionActionsProvider
                 {
                     Date = a.Date,
                     Description = a.Description,
-                    Goods = a.Consumptions.Select(c => MapConsumption(c, participantIdNames)),
-                    Sponsors = a.Payers.Select(p => MapPayer(p, participantIdNames))
+                    Goods = new List<Good> {
+                        new Good{
+                            Amount = a.Amount,
+                            Consumers = a.Consumers.Select(c => MapConsumer(c, participantIdNames))
+                        }
+                    },
+                    Sponsors = new List<Participation>{MapPayer(new Payer() {
+                        Amount = a.Amount,
+                        ParticipantId = a.PayerId,
+                    }, participantIdNames)}
                 });
     }
 
@@ -35,18 +43,6 @@ public class SessionActionsProvider
         {
             Amount = payer.Amount,
             Participant = participants[payer.ParticipantId]
-        };
-    }
-
-    private Good MapConsumption(Consumption consumption, Dictionary<string, string> participants)
-    {
-        return new Good
-        {
-            Description = consumption.Description,
-            PricePerUnit = consumption.Amount,
-            Quantity = consumption.Quantity,
-            SplittedEqually = consumption.SplittedEqually,
-            Consumers = consumption.Consumers.Select(c => MapConsumer(c, participants))
         };
     }
 }

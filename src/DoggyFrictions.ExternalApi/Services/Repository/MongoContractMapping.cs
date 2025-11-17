@@ -55,9 +55,9 @@ internal static class MongoContractMapping
             Id = model.Id,
             SessionId = model.SessionId,
             Description = model.Description,
-            Date = model.Date,
-            Payers = model.Payers.Select(FromModel),
-            Consumptions = model.Consumptions.Select(FromModel)
+            PayerId = model.PayerId,
+            Amount = model.Amount,
+            Consumers = model.Consumers.Select(FromModel),
         };
     }
 
@@ -68,9 +68,9 @@ internal static class MongoContractMapping
             Id = GetOrCreateId(model.Id),
             SessionId = model.SessionId,
             Description = model.Description,
-            Date = model.Date,
-            Payers = model.Payers.Select(ToModel),
-            Consumptions = model.Consumptions.Select(ToModel)
+            PayerId = model.PayerId,
+            Amount = model.Amount,
+            Consumers = model.Consumers.Select(ToModel),
         };
     }
 
@@ -89,30 +89,6 @@ internal static class MongoContractMapping
         {
             Amount = model.Amount,
             ParticipantId = model.ParticipantId
-        };
-    }
-
-    public static ConsumptionModel ToModel(this Consumption model)
-    {
-        return new ConsumptionModel
-        {
-            Amount = model.Amount,
-            Description = model.Description,
-            Quantity = model.Quantity,
-            SplittedEqually = model.SplittedEqually,
-            Consumers = model.Consumers.Select(ToModel)
-        };
-    }
-
-    public static Consumption FromModel(this ConsumptionModel model)
-    {
-        return new Consumption
-        {
-            Amount = model.Amount,
-            Description = model.Description,
-            Quantity = model.Quantity,
-            SplittedEqually = model.SplittedEqually,
-            Consumers = model.Consumers.Select(FromModel)
         };
     }
 

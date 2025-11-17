@@ -5,15 +5,17 @@
                 @await Html.PartialAsync("NavigationBar")
             </div>
 
-            <h2 data-bind="text: Name"></h2>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}">
-                <span class="glyphicon glyphicon-pencil"></span> Редактировать
-            </a>
-            <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'">
-                <span class="glyphicon glyphicon-trash"></span> Удалить
-            </a>
+            <div>
+                <p data-bind="text: Name" style="display: inline;"></p>
+                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}" style="padding: 3px 10px;">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'" style="padding: 3px 10px;">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </div>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}" style="padding: 8px;"><span class="glyphicon glyphicon-plus"></span> Внести чек</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}" style="padding: 8px;"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
 
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">
@@ -30,20 +32,12 @@
                 <div class="item-block">
                     <div class="actions">
                         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
                     </div>
                     <div class="content" data-bind="click: window.App.Functions.Move('#/Session/' + Session.Id + '/Action/' + Id)">
-                        <div class="description-block">
-                            <label>Суть: </label>
-                            <span data-bind="text: Description()"></span>
-                        </div>
                         <div class="amount-block">
-                            <label>Сумма: </label>
-                            <span data-bind="text: Amount().formatMoney()"></span>
-                        </div>
-                        <div class="date-block">
-                            <label>Дата: </label>
-                            <span data-bind="text: Date().formatDate()"></span>
+                            <div><label data-bind="text: Description()"></label></div>
+                            <span data-bind="text: `${Amount().formatMoney()} (${PayerName()})`"></span>
                         </div>
                     </div>
                 </div>

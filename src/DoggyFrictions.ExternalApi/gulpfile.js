@@ -6,7 +6,7 @@ Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
 
 import gulp from 'gulp';
 import less from 'gulp-less';
-import uglify from 'gulp-uglify';
+import terser from 'gulp-terser';
 import concat from 'gulp-concat';
 import cssmin from 'gulp-cssmin';
 import { deleteSync } from 'del';
@@ -49,7 +49,7 @@ function copy_vendor(cb) {
     .pipe(dest(paths.vendorJsOut + "/jquery-dateformat/dist"));
 
   src(paths.packages + "jquery-sticky/jquery.sticky.js")
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(dest(paths.vendorJsOut + "/jquery-sticky/jquery-sticky.min.js"));
 
   src(paths.packages + "bootstrap-material-design/dist/js/*.min.js")
@@ -75,7 +75,7 @@ function copy_vendor(cb) {
     .pipe(dest(paths.vendorJsOut + "/knockout.validation/dist"));
 
   src(paths.packages + "npm-modernizr/modernizr.js")
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(dest(paths.vendorJsOut + "/npm-modernizr/modernizr.min.js"));
 
   src(paths.packages + "moment/min/moment.min.js")
@@ -118,7 +118,7 @@ function compile_less(cb) {
 function min_app_js(cb) {
   return gulp.src([paths.appJsOut + "*"], { base: "." })
     .pipe(concat(paths.appJsOutMin + "site.min.js"))
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(gulp.dest("."));
 }
 

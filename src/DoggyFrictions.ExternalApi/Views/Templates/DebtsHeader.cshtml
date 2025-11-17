@@ -1,10 +1,7 @@
 ﻿<div class="page-head">
-    <ul class="breadcrumb breadcrumb-default col-lg-4">
-        <li><a data-bind="attr: {href: '#/Sessions'}">Тёрки</a></li>
-        <li><a data-bind="attr: {href: '#/Session/' + Session.Id}">Тёрка</a></li>
-        <li class="active">Долги</li>
+    <ul class="breadcrumb breadcrumb-default col-lg-12">
+       <li><a data-bind="attr: {href: '#/Session/' + Session.Id}">Тёрка</a></li>
+       <li class="active">Долги</li>
     </ul>
-    <h2 class="col col-lg-8 form-inline">
-        <span data-bind="text: Session.Name || ''"></span>
-    </h2>
+    <p data-bind="text: Session.Name || ''"></p>
 </div>
