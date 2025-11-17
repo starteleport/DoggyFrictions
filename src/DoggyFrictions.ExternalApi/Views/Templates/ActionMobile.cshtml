@@ -6,25 +6,22 @@
             </div>
             <div>
                 <!-- ko if: !$root.IsEdit() -->
-                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}">
-                    <span class="glyphicon glyphicon-pencil"></span> Редактировать
+                <p data-bind="text: ($root.Description() || '')" style="display: inline;"></p>
+                <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}" style="padding: 3px 10px;">
+                    <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'">
-                    <span class="glyphicon glyphicon-trash"></span> Удалить
+                <a class="btn btn-primary" data-bind="ifConfirmed: Delete, cdTitle: 'Удаление чека', cdMessage: 'Вы уверены, что ходите удалить чек \'' + Description() + '\'?'" style="padding: 3px 10px;">
+                    <span class="glyphicon glyphicon-trash"></span>
                 </a>
                 <!-- /ko -->
 
                 <div class="form" style="margin-top: 15px">
                     <div class="content">
                         <div class="sum-block">
-                            <label style="min-width: 80px;">Описание:</label>
                             <!-- ko if: $root.IsEdit() -->
                             <span>
                                 <input type="text" class="form-control" data-bind="value: $root.Description, attr: {tabindex: window.App.GlobalId.Next()}">
                             </span>
-                            <!-- /ko -->
-                            <!-- ko if: !$root.IsEdit() -->
-                            <span data-bind="text: ($root.Description() || '')"></span>
                             <!-- /ko -->
                         </div>
                         <div class="consumers-block">
@@ -44,7 +41,7 @@
                                 <label style="min-width: 80px;">Сумма:</label>
                                 <!-- ko if: $root.IsEdit() -->
                                 <div class="form-group">
-                                    <input type="number" class="form-control" data-bind="money: $root.Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
+                                    <input type="text" class="form-control" data-bind="money: $root.Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
                                 </div>
                                 <!-- /ko -->
                                 <!-- ko if: !$root.IsEdit() -->

@@ -58,15 +58,6 @@ div.navbar .navbar-header .navbar-brand img {
   margin-right: 10px;
   width: 28px;
 }
-input {
-  max-width: 280px;
-}
-select {
-  max-width: 280px;
-}
-textarea {
-  max-width: 280px;
-}
 a {
   cursor: pointer;
 }

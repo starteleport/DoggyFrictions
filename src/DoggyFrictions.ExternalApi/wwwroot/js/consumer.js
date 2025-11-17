@@ -5,7 +5,7 @@
     this.ParticipantName = consumerData.Name || "";
     this.ParticipantId = consumerData.ParticipantId;
     this.Amount = ko.observable(consumerData.Amount).extend({ required: true, min: 0, number: true });
-    this.IsActive = ko.observable(consumerData.Amount > 0);
+    this.IsActive = ko.observable(consumerData.Amount !== 0);
 
     _this.IsActive.subscribe(function (newValue) {
         if (!newValue) {
