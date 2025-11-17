@@ -16,8 +16,19 @@
 
                 <div class="form" style="margin-top: 15px">
                     <div class="content">
+                        <div class="sum-block">
+                            <label style="min-width: 80px;">Описание:</label>
+                            <!-- ko if: $root.IsEdit() -->
+                            <span>
+                                <input type="text" class="form-control" data-bind="value: $root.Description, attr: {tabindex: window.App.GlobalId.Next()}">
+                            </span>
+                            <!-- /ko -->
+                            <!-- ko if: !$root.IsEdit() -->
+                            <span data-bind="text: ($root.Description() || '')"></span>
+                            <!-- /ko -->
+                        </div>
                         <div class="consumers-block">
-                            <label>Платил:</label>
+                            <label style="min-width: 80px;">Платил:</label>
                             <!-- ko if: $root.IsEdit() -->
                             <span>
                                 <select class="form-control" data-bind="options: $root.Session.Participants,
@@ -29,19 +40,8 @@
                             <!-- /ko -->
                         </div>  
                         <div class="sum-block">
-                            <label>Описание:</label>
-                            <!-- ko if: $root.IsEdit() -->
-                            <span>
-                                <input type="text" class="form-control" data-bind="value: $root.Description, attr: {tabindex: window.App.GlobalId.Next()}">
-                            </span>
-                            <!-- /ko -->
-                            <!-- ko if: !$root.IsEdit() -->
-                            <span data-bind="text: ($root.Description() || '')"></span>
-                            <!-- /ko -->
-                        </div>
-                        <div class="sum-block">
                             <div class="amount-block">
-                                <label>Сумма:</label>
+                                <label style="min-width: 80px;">Сумма:</label>
                                 <!-- ko if: $root.IsEdit() -->
                                 <div class="form-group">
                                     <input type="number" class="form-control" data-bind="money: $root.Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
@@ -62,7 +62,10 @@
                                     <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
                                 </span>
                                 <!-- /ko -->
-                                <span data-bind="text: ParticipantName + ': '" style="margin: 0px 0px 0px 10px;"></span>
+                                <!-- ko if: !$root.IsEdit() -->
+                                <label style="margin: 0px 0px 5px 10px;">✓</label>
+                                <!-- /ko -->
+                                <div data-bind="text: ParticipantName + ': '" style="margin: 0px 0px 0px 10px; min-width: 60px; display: inline-block;"></div>
                                 <b data-bind="text: Amount().formatMoney()"></b>
                             </span>
                             <!-- /ko -->
