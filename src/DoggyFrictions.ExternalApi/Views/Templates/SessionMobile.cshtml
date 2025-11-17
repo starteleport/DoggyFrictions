@@ -14,8 +14,8 @@
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </div>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести чек</a>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}" style="padding: 8px;"><span class="glyphicon glyphicon-plus"></span> Внести чек</a>
+            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}" style="padding: 8px;"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
 
             <!-- ko if: !Actions.IsLoading() -->
             <div data-bind="with: Actions">

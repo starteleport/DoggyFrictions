@@ -22,7 +22,7 @@
         }
         creditorBalanceRow.Balance += amount;
         return balances;
-    }, []);
+    }, []).toSorted(b => b.Balance);
 
     this.PayOff = function(debtModel) {
         var moveMoneyModel = {

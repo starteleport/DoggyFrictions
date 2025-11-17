@@ -261,9 +261,6 @@ table.table > tfoot td.actions-cell .btn {
   margin-right: 25px;
   display: inline-block;
 }
-.debt-balances-block .totals-block {
-  margin-top: 20px;
-}
 .debt-balances-block .totals-block > div {
   margin-left: 20px;
 }
@@ -335,8 +332,8 @@ table.table > tfoot td.actions-cell .btn {
 }
 .mobile .item-block {
   border-radius: 8px;
-  margin: 15px 5px 5px 5px;
-  box-shadow: 0px 1px 3px 0px rgba(0, 96, 99, 0.8);
+  margin: 15px 1px 5px 1px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 96, 99, 0.8);
 }
 .mobile .item-block .actions {
   float: right;
@@ -399,9 +396,6 @@ table.table > tfoot td.actions-cell .btn {
   margin-right: 25px;
   display: inline-block;
 }
-.mobile.action .totals-block {
-  margin-top: 20px;
-}
 .mobile.action .totals-block > div {
   margin-left: 20px;
 }
@@ -411,9 +405,6 @@ table.table > tfoot td.actions-cell .btn {
 .mobile.debts .balance-span {
   margin-right: 25px;
   display: inline-block;
-}
-.mobile.debts .totals-block {
-  margin-top: 20px;
 }
 .mobile.debts .totals-block > div {
   margin-left: 20px;
