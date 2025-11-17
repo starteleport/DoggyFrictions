@@ -4,29 +4,14 @@
             @await Html.PartialAsync("SessionHeader")
 
             <p>Собаки:</p>
-            <table class="table">
-                <tbody>
-                <!-- ko foreach: Participants-->
-                <tr>
-                    <td class="wide-cell">
-                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
-                    </td>
-                    <td class="actions-cell">
-                        <button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant, visible: $parent.Participants().length > 1">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- /ko -->
-                <tr>
-                    <td class="actions-cell">
-                        <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить Собаку</span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <!-- ko foreach: Participants-->
+            <div>
+                <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+            </div>
+            <!-- /ko -->
+            <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                <span><span class="glyphicon glyphicon-plus"></span> Добавить Собаку</span>
+            </button>
             <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
         </div>
     </div>

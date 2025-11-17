@@ -1,80 +1,56 @@
-﻿function PayerModel(payerData) {
-    var _this = this;
-    this.Id = payerData.Id || 0;
-    this.ParticipantId = ko.observable(payerData.ParticipantId);
-    this.Amount = ko.observable(payerData.Amount);
-    this.HasFocus = ko.observable(false);
-}
-
-function ActionModel(actionData, sessionModel, isEdit) {
+﻿function ActionModel(actionData, sessionModel, isEdit) {
     var _this = this;
     _this.Id = actionData.Id || 0;
     _this.Session = sessionModel;
-    _this.Date = ko.observable((actionData.Date || Date()).formatDate());
-    _this.Payers = ko.observableArray(_.map(actionData.Payers || [], function (payerData) {
-        return new PayerModel(payerData);
+    _this.PayerId = ko.observable(actionData.PayerId ?? _this.Session.Participants()[0].Id);
+
+    _this.Amount = ko.observable(actionData.Amount || 0);
+    _this.SplitAmount = function () {
+        var amount = Number(_this.Amount());
+        var activeConsumers = _.filter(_this.Consumers(), function (consumerModel) {
+            return consumerModel.IsActive();
+        });
+        var portion = Math.round((amount / activeConsumers.length) * 100) / 100;
+        var rest = amount;
+        _.forEach(activeConsumers, function (consumer, index) {
+            if (index < activeConsumers.length - 1) {
+                rest -= portion;
+                consumer.Amount(portion);
+            } else {
+                rest = Math.round(rest * 100) / 100;
+                consumer.Amount(rest);
+            }
+        });
+    }
+
+    _this.Consumers = ko.observableArray(_.map(_this.Session.Participants(), function (participant) {
+        var cd = _.find(actionData.Consumers || [], function (consumerData) {
+            return consumerData.ParticipantId == participant.Id;
+        });
+        var consumerModel = new ConsumerModel(cd || { ParticipantId: participant.Id, Amount: 0 }, _this);
+        consumerModel.ParticipantName = participant.Name();
+        return consumerModel;
     }));
 
-    // Always ensure we have exactly one consumption
-    var consumptionsData = actionData.Consumptions || [];
-    if (consumptionsData.length === 0) {
-        consumptionsData = [{ Amount: 0 }];
-    }
-    var consumption = new ConsumptionModel(consumptionsData[0], _this.Session);
-
     // For new actions, activate all consumers by default
-    if (_this.Id === 0 && (!actionData.Consumptions || actionData.Consumptions.length === 0)) {
-        _.forEach(consumption.Consumers(), function (consumer) {
+    if (_this.Id === 0 && !actionData.Amount) {
+        _.forEach(_this.Consumers(), function (consumer) {
             consumer.IsActive(true);
         });
     }
 
-    _this.Consumptions = ko.observableArray([consumption]);
-
     _this.Description = ko.observable(actionData.Description);
     _this.IsEdit = ko.observable(isEdit || false);
 
-    _this.Amount = ko.computed(function () {
-        return _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount());
-        }, 0);
+    _this.PayerName = ko.computed(function () {
+        return _this.Session.GetParticipant(_this.PayerId()).Name();
     });
-    _this.PayerNames = ko.computed(function () {
-        return _.reduceRight(_this.Payers(), function (current, next) {
-            var participantName = _this.Session.GetParticipant(next.ParticipantId()).Name();
-            return (current.length ? (current + ', ') : '') + participantName;
-        }, '');
-    });
-    this.AddPayer = function () {
-        _.each(_this.Payers(), function (c) { c.HasFocus(false); });
-        var payerModel = new PayerModel({ ParticipantId: _this.Session.Participants()[0].Id });
-        _this.Payers.push(payerModel);
-        payerModel.HasFocus(true);
-
-        // Calculate unpaid rest
-        var consumedAmount = _.reduce(_this.Consumptions(), function (current, next) {
-            return current + Number(next.Amount() || 0);
-        }, 0);
-        var paidAmount = _.reduce(_this.Payers(), function (current, next) {
-            return current + Number(next.Amount() || 0);
-        }, 0);
-        payerModel.Amount(consumedAmount - paidAmount);
-
-        window.App.Functions.ReapplyJQuerryStuff();
-    }
-    this.DeletePayer = function (payerModel) {
-        _this.Payers.remove(payerModel);
-    }
 
     this.ToggleConsumer = function (participant) {
         if (!_this.IsEdit()) {
             return;
         }
-        var consumption = _this.Consumptions()[0];
-        if (!consumption) {
-            return;
-        }
-        var consumer = _.find(consumption.Consumers() || [], function(consumer) {
+        var consumer = _.find(_this.Consumers() || [], function(consumer) {
             return consumer.ParticipantId == participant.Id;
         });
         if (consumer) {
@@ -84,16 +60,8 @@ function ActionModel(actionData, sessionModel, isEdit) {
 
     this.Save = function() {
         var operation = _this._createSaveOperation();
-        window.App.Functions.Process(operation);
-        $.when(operation).done(function(actionData) {
+        window.App.Functions.Process(operation, function(actionData) {
             window.App.Functions.Move('#/Session/' + _this.Session.Id)();
-        });
-    }
-    this.SaveAndNew = function() {
-        var operation = _this._createSaveOperation();
-        window.App.Functions.Process(operation);
-        $.when(operation).done(function (actionData) {
-            window.App.Functions.Move('#/Session/' + _this.Session.Id + '/Action/Create')();
         });
     }
     this._createSaveOperation = function() {
@@ -101,29 +69,15 @@ function ActionModel(actionData, sessionModel, isEdit) {
             Id: _this.Id,
             SessionId: _this.Session.Id,
             Description: _this.Description(),
-            Date: _this.Date().extractDate(),
-            Payers: _.map(_this.Payers(), function (payerModel) {
+            PayerId: _this.PayerId(),
+            Amount: _this.Amount(),
+            Consumers: _.map(_.filter(_this.Consumers(), function (consumerModel) {
+                return consumerModel.IsActive();
+            }), function (consumerModel) {
                 return {
-                    Id: payerModel.Id,
-                    ParticipantId: payerModel.ParticipantId(),
-                    Amount: payerModel.Amount()
-                }
-            }),
-            Consumptions: _.map(_this.Consumptions(), function (consumptonModel) {
-                return {
-                    Id: consumptonModel.Id,
-                    Amount: consumptonModel.Amount(),
-                    SplittedEqually: consumptonModel.IsAuto(),
-                    Consumers: _.map(_.filter(consumptonModel.Consumers(), function (consumerModel) {
-                        return consumerModel.IsActive();
-                    }), function (consumerModel) {
-                        return {
-                            Id: consumerModel.Id,
-                            ParticipantId: consumerModel.ParticipantId,
-                            Amount: consumerModel.Amount()
-                        };
-                    })
-                }
+                    ParticipantId: consumerModel.ParticipantId,
+                    Amount: consumerModel.Amount()
+                };
             })
         };
         var operation = (_this.Id == 0
@@ -141,10 +95,9 @@ function ActionModel(actionData, sessionModel, isEdit) {
             url: 'Api/Actions/' + _this.Session.Id + '/' + _this.Id,
             type: 'DELETE'
         }).promise();
-        window.App.Functions.Process(operation)
-            .done(function() {
-                window.App.Functions.Move('#/Session/' + _this.Session.Id)();
-            });
+        window.App.Functions.Process(operation, function() {
+            window.App.Functions.Move('#/Session/' + _this.Session.Id)();
+        });
     }
 
     var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новый чек') : 'Чек';
@@ -154,4 +107,6 @@ function ActionModel(actionData, sessionModel, isEdit) {
         navigation.AddHistory('Чек', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
     }
     this.Navigation = navigation;
+
+    _this.Amount.subscribe(_this.SplitAmount);
 }

@@ -31,16 +31,9 @@
             Amount: debtModel.Amount
         };
         var operation = $.post('Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel).promise();
-        window.App.Functions.Process(operation)
-            .done(function(actionModel) {
-                $.snackbar({
-                    content: "Успешно погашен долг между " + moveMoneyModel.From + " и " + moveMoneyModel.To
-                        + ". Чек <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
-                    htmlAllowed: true,
-                    timeout: 0
-                });
-                window.App.Functions.Move("#/Session/" + _this.Session.Id + "/Debts")();
-            });
+        window.App.Functions.Process(operation, function(actionModel) {
+            window.App.Functions.Move("#/Session/" + _this.Session.Id + "/Debts")();
+        });
     }
 }
 function DebtModel(debtData) {

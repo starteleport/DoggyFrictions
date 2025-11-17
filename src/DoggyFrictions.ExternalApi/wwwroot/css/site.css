@@ -286,14 +286,14 @@ table.table > tfoot td.actions-cell .btn {
 .debt-details-block tr:hover {
   background-color: #f5f5f5;
 }
+.modal-dialog {
+  max-width: 350px;
+}
 .modal-dialog .modal-content .modal-footer {
   padding-bottom: 13px;
 }
 .snackbar.warning {
   background-color: #f44336;
-}
-.mobile {
-  min-width: 400px;
 }
 .mobile .btn {
   margin: 3px;
@@ -376,7 +376,7 @@ table.table > tfoot td.actions-cell .btn {
   display: inline-block;
 }
 .mobile .item-block .content .amount-block {
-  display: inline-block;
+  display: block;
   margin-right: 35px;
 }
 .mobile .item-block .content .date-block {
@@ -402,7 +402,6 @@ table.table > tfoot td.actions-cell .btn {
 }
 .mobile.action .consumer-sum-edit-span {
   margin-right: 25px;
-  margin-bottom: 5px;
   display: block;
 }
 .mobile.action .consumer-sum-span {

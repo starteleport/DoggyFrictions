@@ -23,7 +23,7 @@ function SessionModel(data, isEdit) {
         this.Participants.push(new ParticipantModel({ Id: 0 }));
     }
 
-    this.Actions = new PagedGridModel('Api/Actions/' + data.Id, 25, function (actionData) {
+    this.Actions = new PagedGridModel('Api/Actions/' + data.Id, 50, function (actionData) {
         return new ActionModel(actionData, _this);
     });
 
@@ -57,6 +57,13 @@ function SessionModel(data, isEdit) {
     };
 
     this.Save = function () {
+        const validParticipants = _this.Participants().filter(p => p.Name());
+        if(!validParticipants.length){
+            console.error("At least one participant is required.");
+            return;
+        }
+
+        _this.Participants(validParticipants);
         var serialized = {
             Id: _this.Id,
             Name: _this.Name(),
@@ -70,10 +77,9 @@ function SessionModel(data, isEdit) {
         var operation = (_this.Id == 0
             ? $.post('Api/Sessions', serialized)
             : $.put('Api/Sessions/' + _this.Id, serialized)).promise();
-        window.App.Functions.Process(operation)
-            .done(function(sessionData) {
-                window.App.Functions.Move('#/Session/' + sessionData.Id)();
-            });
+        window.App.Functions.Process(operation, function(sessionData) {
+            window.App.Functions.Move('#/Session/' + sessionData.Id)();
+        });
     }
 
     this.Delete = function () {
@@ -85,10 +91,9 @@ function SessionModel(data, isEdit) {
             url: 'Api/Sessions/' + _this.Id,
             type: 'DELETE'
         }).promise();
-        window.App.Functions.Process(operation)
-            .done(function() {
-                window.App.Functions.Move('#/Session/Create')();
-            });
+        window.App.Functions.Process(operation, function() {
+            window.App.Functions.Move('#/Session/Create')();
+        });
     }
 
     var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Создать Тёрку') : 'Тёрка';

@@ -12,9 +12,10 @@
             DateTimeSave: 'YYYY/MM/DD'
         },
         Functions: {
-            Process: function (promise) {
+            Process: function (promise, then) {
                 $('#loading-screen').fadeIn(300);
                 return $.when(promise)
+                    .then((r) => { if(then) then(r); })
                     .done(function(result) {
                         $('#loading-screen').fadeOut(300);
                         return result;
