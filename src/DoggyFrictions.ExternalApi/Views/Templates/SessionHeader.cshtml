@@ -1,10 +1,10 @@
 ﻿<div class="page-head">
     @await Html.PartialAsync("NavigationBar")
-    <h2 class="col col-lg-12">
+    <div>
         <!-- ko if: $root.IsEdit() -->
-        <span class="input-group">
+        <div>
             <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсуждаем?">
-        </span>
+        </div>
         <!-- /ko -->
         <!-- ko if: !$root.IsEdit() -->
         <span data-bind="text: (Name() || '')"></span>
@@ -13,5 +13,5 @@
         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
                                     cdTitle: 'Удаление тёрки', cdMessage: 'Вы уверены, что ходите удалить тёрку \'' + Name() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
         <!-- /ko -->
-    </h2>
+    </div>
 </div>

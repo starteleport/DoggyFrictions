@@ -286,6 +286,19 @@ table.table > tfoot td.actions-cell .btn {
 .snackbar.warning {
   background-color: #f44336;
 }
+.page-head a.btn {
+  font-size: 22px;
+  padding: 5px 45px;
+  display: inline-block;
+  margin-top: 15px;
+}
+.page-head .page-name {
+  display: block;
+  margin-top: 15px;
+}
+.page-head .breadcrumb.breadcrumb-default {
+  padding-left: 0;
+}
 .mobile .btn {
   margin: 3px;
 }
@@ -296,19 +309,6 @@ table.table > tfoot td.actions-cell .btn {
   padding: 30px 20px;
   margin-right: 10px;
   margin-left: 10px;
-}
-.mobile .page-head a.btn {
-  font-size: 22px;
-  padding: 5px 45px;
-  display: inline-block;
-  margin-top: 15px;
-}
-.mobile .page-head .page-name {
-  display: block;
-  margin-top: 15px;
-}
-.mobile .page-head .breadcrumb.breadcrumb-default {
-  padding-left: 0;
 }
 .mobile .pages {
   padding: 10px 0 10px 0;
