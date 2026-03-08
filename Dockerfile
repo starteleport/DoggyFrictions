@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_CLI_UI_LANGUAGE=en-US \
     DOTNET_SVCUTIL_TELEMETRY_OPTOUT=1 \
@@ -14,7 +14,7 @@ RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
 EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS sdk
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS sdk
 
 FROM sdk AS nodejs
 RUN apk add --update npm
