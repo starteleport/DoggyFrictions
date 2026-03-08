@@ -47,7 +47,7 @@ public class MongoRepository : IRepository
     {
         var db = GetDatabase();
         SessionModel session;
-        if (model.Id.IsNullOrEmpty() || model.Id == "0")
+        if (string.IsNullOrEmpty(model.Id) || model.Id == "0")
         {
             session = model.ToModel();
             await GetSessions(db).InsertOneAsync(session);
@@ -110,7 +110,7 @@ public class MongoRepository : IRepository
     {
         var db = GetDatabase();
         ActionModel action;
-        if (model.Id.IsNullOrEmpty() || model.Id == "0")
+        if (string.IsNullOrEmpty(model.Id) || model.Id == "0")
         {
             var actionsCollection = GetActions(db);
             await CreateIndex(actionsCollection, nameof(ActionModel.SessionId));
