@@ -33,7 +33,7 @@ WORKDIR /build
 COPY ["src/DoggyFrictions.ExternalApi/DoggyFrictions.ExternalApi.csproj", "src/DoggyFrictions.ExternalApi/"]
 COPY ["tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.csproj", "tests/DoggyFrictions.ExternalApi.Tests/"]
 COPY ["Directory.Build.props", "."]
-COPY ["DoggyFrictions.sln", "."]
+COPY ["DoggyFrictions.slnx", "."]
 RUN dotnet restore
 
 FROM restore-npm AS gulp-prod
