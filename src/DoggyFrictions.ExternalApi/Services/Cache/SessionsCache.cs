@@ -1,11 +1,11 @@
-﻿using DoggyFrictions.ExternalApi.Services.Repository;
+using DoggyFrictions.ExternalApi.Services.Repository;
 using Session = DoggyFrictions.ExternalApi.Models.Session;
 
 namespace DoggyFrictions.ExternalApi.Services.Cache;
 
 public class SessionsCache : CacheBase<Session>
 {
-    private DateTime cacheUpdateTime = DateTime.MinValue;
+    private DateTime _cacheUpdateTime = DateTime.MinValue;
     private readonly IRepository _repository;
 
     public SessionsCache(IRepository repository)
@@ -15,15 +15,15 @@ public class SessionsCache : CacheBase<Session>
 
     protected override string GetKey(Session item) => item.Id;
 
-    protected override IEnumerable<Session> Fetch()
+    protected override async Task<IEnumerable<Session>> FetchAsync()
     {
-        cacheUpdateTime = DateTime.UtcNow;
-        return _repository.GetSessions().Result;
+        _cacheUpdateTime = DateTime.UtcNow;
+        return await _repository.GetSessions();
     }
 
     protected override async Task<bool> IsActual()
     {
         var repoUpdateTime = await _repository.GetLastSessionsUpdateTime();
-        return repoUpdateTime < cacheUpdateTime;
+        return repoUpdateTime < _cacheUpdateTime;
     }
 }

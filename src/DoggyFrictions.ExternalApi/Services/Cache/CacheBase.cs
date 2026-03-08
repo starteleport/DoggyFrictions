@@ -1,59 +1,46 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 
 namespace DoggyFrictions.ExternalApi.Services.Cache;
 
 public abstract class CacheBase<T> : ICacheService<T> where T : class
 {
-    private readonly object lockObject = new object();
-    private Task? reloadTask;
-    private ConcurrentDictionary<string, T>? items;
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private ConcurrentDictionary<string, T>? _items;
 
     public async Task<T?> GetItem(string id)
     {
         await UpdateCache();
-        T? value = default;
-        items?.TryGetValue(id, out value);
-        return value;
+        return _items is not null && _items.TryGetValue(id, out var item) ? item : default;
     }
 
     public async Task<IEnumerable<T>> GetItems()
     {
         await UpdateCache();
-        return items?.Values.ToList() ?? new List<T>();
+        return _items?.Values.ToList() ?? [];
     }
 
     private async Task UpdateCache()
     {
-        if (reloadTask != null)
-        {
-            await reloadTask;
+        if (_items != null && await IsActual())
             return;
-        }
-        if (items == null || !await IsActual())
+
+        await _semaphore.WaitAsync();
+        try
         {
-            lock (lockObject)
-            {
-                if (reloadTask == null)
-                {
-                    reloadTask =
-                        Task.Run(
-                                () =>
-                                {
-                                    items =
-                                        new ConcurrentDictionary<string, T>(
-                                            Fetch().Select(i => new KeyValuePair<string, T>(GetKey(i), i)));
-                                })
-                            .ContinueWith(t => reloadTask = null);
-                }
-            }
+            if (_items != null && await IsActual())
+                return;
+
+            var fetched = await FetchAsync();
+            _items = new ConcurrentDictionary<string, T>(
+                fetched.Select(i => new KeyValuePair<string, T>(GetKey(i), i)));
         }
-        if (reloadTask != null)
+        finally
         {
-            await reloadTask;
+            _semaphore.Release();
         }
     }
 
     protected abstract string GetKey(T item);
-    protected abstract IEnumerable<T> Fetch();
+    protected abstract Task<IEnumerable<T>> FetchAsync();
     protected abstract Task<bool> IsActual();
 }

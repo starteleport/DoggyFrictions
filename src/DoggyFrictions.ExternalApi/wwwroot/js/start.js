@@ -37,7 +37,6 @@
                 }
             },
             ReapplyJQuerryStuff: function () {
-                $.material.init();
                 _.forEach($.find('input.date-input'), function (input) {
                     $(input).datepicker({
                         format: window.App.Format.DateTime.toLowerCase(),

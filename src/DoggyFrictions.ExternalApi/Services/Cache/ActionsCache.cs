@@ -1,11 +1,11 @@
-﻿using DoggyFrictions.ExternalApi.Models;
+using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services.Repository;
 
 namespace DoggyFrictions.ExternalApi.Services.Cache;
 
 public class ActionsCache : CacheBase<ActionObject>
 {
-    private DateTime cacheUpdateTime = DateTime.MinValue;
+    private DateTime _cacheUpdateTime = DateTime.MinValue;
     private readonly IRepository _repository;
 
     public ActionsCache(IRepository repository)
@@ -15,15 +15,15 @@ public class ActionsCache : CacheBase<ActionObject>
 
     protected override string GetKey(ActionObject item) => item.Id;
 
-    protected override IEnumerable<ActionObject> Fetch()
+    protected override async Task<IEnumerable<ActionObject>> FetchAsync()
     {
-        cacheUpdateTime = DateTime.UtcNow;
-        return _repository.GetActions().Result;
+        _cacheUpdateTime = DateTime.UtcNow;
+        return await _repository.GetActions();
     }
 
     protected override async Task<bool> IsActual()
     {
         var repoUpdateTime = await _repository.GetLastActionsUpdateTime();
-        return repoUpdateTime < cacheUpdateTime;
+        return repoUpdateTime < _cacheUpdateTime;
     }
 }

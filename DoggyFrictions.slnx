@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/DoggyFrictions.ExternalApi/DoggyFrictions.ExternalApi.csproj" />
+  <Project Path="tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.csproj" />
+</Solution>

@@ -18,19 +18,19 @@
                     <td class="wide-cell">
                         <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
                     </td>
-                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="bi bi-trash"></span></button></td>
                 </tr>
                 <!-- /ko -->
                 <tr>
                     <td class="actions-cell">
                         <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
-                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                            <span><span class="bi bi-plus"></span> Добавить</span>
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
+            <button type="submit" class="btn btn-primary" data-bind="click: Save"><span class="bi bi-floppy"></span> Сохранить тёрку</button>
             <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
                 cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">
                 Отмена

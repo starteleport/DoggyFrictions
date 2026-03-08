@@ -7,7 +7,7 @@ internal static class MongoContractMapping
 {
     public static string GetOrCreateId(string id)
     {
-        return id.IsNullOrEmpty() || id == "0" ? Guid.NewGuid().ToString() : id;
+        return string.IsNullOrEmpty(id) || id == "0" ? Guid.NewGuid().ToString() : id;
     }
 
     public static Session FromModel(this SessionModel model)

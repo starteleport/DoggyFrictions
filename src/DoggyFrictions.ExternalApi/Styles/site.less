@@ -1,4 +1,35 @@
-﻿body {
+﻿:root {
+    --bs-primary: #009688;
+    --bs-primary-rgb: 0, 150, 136;
+    --bs-link-color: #009688;
+    --bs-link-color-rgb: 0, 150, 136;
+    --bs-link-hover-color: #00796b;
+    --bs-font-sans-serif: 'Roboto', sans-serif;
+}
+
+.btn-primary {
+    --bs-btn-bg: #009688;
+    --bs-btn-border-color: #009688;
+    --bs-btn-hover-bg: #00796b;
+    --bs-btn-hover-border-color: #00796b;
+    --bs-btn-active-bg: #00695c;
+    --bs-btn-active-border-color: #00695c;
+    --bs-btn-disabled-bg: #009688;
+    --bs-btn-disabled-border-color: #009688;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #009688;
+    --bs-btn-border-color: #009688;
+    --bs-btn-hover-bg: #009688;
+    --bs-btn-hover-border-color: #009688;
+}
+
+.navbar.bg-dark {
+    background-color: #009688 !important;
+}
+
+body {
 	padding-bottom: 20px;
 	padding-top: 50px;
 	.body-content {
@@ -42,18 +73,15 @@
 .navbar {
 	z-index: 999;
     min-height: initial;
-	.navbar-header {
-        float:none;
-        border-bottom: 1px solid darkslategray;
-		.navbar-brand {
-			padding: 5px;
-            height: auto;
-            margin-left: 10%;
-			img {
-				display: inline-block;
-				margin-right: 10px;
-				width: 28px;
-			}
+    border-bottom: 1px solid darkslategray;
+	.navbar-brand {
+		padding: 5px;
+        height: auto;
+        margin-left: 10%;
+		img {
+			display: inline-block;
+			margin-right: 10px;
+			width: 28px;
 		}
 	}
 }
@@ -163,7 +191,7 @@ table>tbody>tr>td.wide-cell {
     }
 }
 td.money-cell {
-	.input-group-addon {
+	.input-group-text {
 		margin: 0;
 		padding: 0 2px;
 	}

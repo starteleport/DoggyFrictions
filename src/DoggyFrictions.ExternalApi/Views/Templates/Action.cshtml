@@ -1,9 +1,9 @@
 ﻿<script type="text/html" id="action-template">
     <div class="action" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
-        <div class="form-horizontal">
+        <div class="">
             <div class="jumbotron">
                 <div>
-                    <div class="form-inline">
+                    <div>
                         @await Html.PartialAsync("ActionHeader")
                         <h4>Позиции:</h4>
                         <div>
@@ -71,7 +71,7 @@
                                         <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <span class="input-group-addon">
+                                                <span class="input-group-text">
                                                         <span class="checkbox">
                                                             <label><input type="checkbox" data-bind="checked: IsActive" tabindex="-1" /></label>
                                                         </span>
@@ -90,7 +90,7 @@
                                     </td>
                                     <!-- /ko -->
                                     <!-- ko if: $root.IsEdit() -->
-                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteConsumption"><span class="bi bi-trash"></span></button></td>
                                     <!-- /ko -->
                                 </tr>
                                 <!-- /ko -->
@@ -98,7 +98,7 @@
                                 <tr>
                                     <td class="actions-cell">
                                         <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
-                                            <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                            <span><span class="bi bi-plus"></span> Добавить</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -155,7 +155,7 @@
                                     <!-- /ko -->
                                 </td>
                                 <!-- ko if: $root.IsEdit() -->
-                                <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeletePayer"><span class="bi bi-trash"></span></button></td>
                                 <!-- /ko -->
                             </tr>
                             <!-- /ko -->
@@ -163,7 +163,7 @@
                             <tr>
                                 <td class="actions-cell">
                                     <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
-                                        <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
+                                        <span><span class="bi bi-plus"></span> Добавить</span>
                                     </button>
                                 </td>
                             </tr>
@@ -174,12 +174,12 @@
                     <div class="">
                         <!-- ko if: $root.IsEdit() -->
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-raised" data-bind="click: Save">
-                                <span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову
+                            <button type="button" class="btn btn-primary" data-bind="click: Save">
+                                <span class="bi bi-floppy"></span> Сохранить постанову
                             </button>
                             <!-- ko if: !$root.Id -->
-                            <button type="button" class="btn btn-primary btn-raised" data-bind="click: SaveAndNew">
-                                <span class="glyphicon glyphicon-floppy-save"></span> Сохранить и создать ещё
+                            <button type="button" class="btn btn-primary" data-bind="click: SaveAndNew">
+                                <span class="bi bi-floppy"></span> Сохранить и создать ещё
                             </button>
                             <!-- /ko -->
                             <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
