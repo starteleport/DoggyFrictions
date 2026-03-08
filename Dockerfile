@@ -12,7 +12,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     NUGET_CERT_REVOCATION_MODE=offline
 RUN apk add --no-cache icu-libs tzdata
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS sdk
 
