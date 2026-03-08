@@ -29,7 +29,7 @@ public class MongoRepository : IRepository
     {
         var db = GetDatabase();
         var sessions = await GetSessions(db)
-            .AsQueryable()
+            .Find(FilterDefinition<SessionModel>.Empty)
             .ToListAsync();
         return sessions.Select(session => session.FromModel());
     }
@@ -84,7 +84,7 @@ public class MongoRepository : IRepository
     public async Task<IEnumerable<ActionObject>> GetActions()
     {
         var db = GetDatabase();
-        var actions = await GetActions(db).AsQueryable().ToListAsync();
+        var actions = await GetActions(db).Find(FilterDefinition<ActionModel>.Empty).ToListAsync();
         return actions.Select(action => action.FromModel());
     }
 
@@ -167,15 +167,9 @@ public class MongoRepository : IRepository
         }
         if (!sessionIdIndexExists)
         {
-            var index = new BsonDocument { new BsonElement(fieldName, -1) };
-            await
-                collection.Indexes.CreateOneAsync(new BsonDocumentIndexKeysDefinition<T>(index),
-                    new CreateIndexOptions
-                    {
-                        Unique = false,
-                        Sparse = false,
-                        Background = false,
-                    });
+            var keys = new BsonDocument { new BsonElement(fieldName, -1) };
+            var indexModel = new CreateIndexModel<T>(new BsonDocumentIndexKeysDefinition<T>(keys));
+            await collection.Indexes.CreateOneAsync(indexModel);
         }
     }
 }
