@@ -1,16 +1,16 @@
 ﻿<script type="text/html" id="session-template">
-    <div class="session jumbotron" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
+    <div class="session jumbotron" data-testid="session-view" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div>
             @await Html.PartialAsync("SessionHeader")
 
             <h4>Собаки:</h4>
             <div data-bind="if: !Participants().length">Собак нет</div>
             <!-- ko if: Participants().length -->
-            <div data-bind="text: _.reduce(Participants(), function(memo, p) { return (memo.Name ? memo.Name() : memo) + ', ' + p.Name() })"></div>
+            <div data-testid="session-participants-summary" data-bind="text: _.reduce(Participants(), function(memo, p) { return (memo.Name ? memo.Name() : memo) + ', ' + p.Name() })"></div>
             <!-- /ko -->
 
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
-            <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
+            <a class="btn btn-primary" data-testid="create-action-button" data-bind="attr: {href: '#/Session/' + Id + '/Action/Create'}"><span class="glyphicon glyphicon-plus"></span> Внести постанову</a>
+            <a class="btn btn-primary" data-testid="session-debts-button" data-bind="attr: {href: '#/Session/' + Id + '/Debts'}"><span class="glyphicon glyphicon-transfer"></span>  Пояснить за долги</a>
 
             <div>
                 <h4 class="pull-left">Постановы:</h4>
@@ -29,7 +29,7 @@
                 <span data-bind="if: !Rows().length">Пока всё тихо</span>
                 <table class="table table-clickable" data-bind="if: Rows().length">
                     <thead>
-                        <tr>
+                        <tr data-testid="session-action-row">
                             <th class="small-cell">Дата</th>
                             <th class="really-wide-cell">Суть</th>
                             <th class="wide-cell">Спонсор(ы)</th>

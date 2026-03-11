@@ -1,37 +1,37 @@
 ﻿<script type="text/html" id="debts-template">
-    <div class="debts jumbotron is-preview">
+    <div class="debts jumbotron is-preview" data-testid="debts-view">
         <div>
             @await Html.PartialAsync("DebtsHeader")
             <h4>Балансы:</h4>
             <!-- ko if: Balances.length -->
-            <div class="debt-balances-block" data-bind="foreach: Balances">
-                <span class="balance-span" data-bind="if: Balance">
-                    <span data-bind="text: Name + ': '"></span>
-                    <span data-bind="text: Balance.formatMoney(), css:{'text-danger':Balance < 0, 'text-success':Balance > 0}"></span>
+            <div class="debt-balances-block" data-testid="balances-list" data-bind="foreach: Balances">
+                <span class="balance-span" data-testid="balance-row" data-bind="if: Balance">
+                    <span data-testid="balance-name" data-bind="text: Name + ': '"></span>
+                    <span data-testid="balance-amount" data-bind="text: Balance.formatMoney(), css:{'text-danger':Balance < 0, 'text-success':Balance > 0}"></span>
                 </span>
             </div>
             <!-- /ko -->
-            <span data-bind="if: !Balances.length">Всё ровно</span>
+            <span data-testid="balances-empty" data-bind="if: !Balances.length">Всё ровно</span>
             <h4>Долговая яма:</h4>
             <!-- ko if: Debts.length -->
             <table>
                 <tbody data-bind="foreach: Debts">
-                <tr class="debt-block">
-                    <td class="wide-cell" data-bind="text: Debtor"></td>
+                <tr class="debt-block" data-testid="debt-row">
+                    <td class="wide-cell" data-testid="debt-debtor" data-bind="text: Debtor"></td>
                     <td class="money-cell">
-                        <span class="" data-bind="text: Amount.formatMoney()"></span>
+                        <span class="" data-testid="debt-amount" data-bind="text: Amount.formatMoney()"></span>
                         <i class="glyphicon text-success glyphicon-arrow-right"></i>
                     </td>
-                    <td class="wide-cell text-right" data-bind="text: Creditor"></td>
+                    <td class="wide-cell text-right" data-testid="debt-creditor" data-bind="text: Creditor"></td>
                     <td class="actions-cell">
-                        <a class="btn btn-sm btn-primary" data-bind="ifConfirmed: $parent.PayOff,
+                        <a class="btn btn-sm btn-primary" data-testid="debt-payoff-button" data-bind="ifConfirmed: $parent.PayOff,
                            cdTitle: 'Погасить долг', cdMessage: 'Будет создана постанова для полного погашения долга между ' + Creditor + ' и ' + Debtor">Погасить</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <!-- /ko -->
-            <span data-bind="if: !Debts.length">Всё ровно</span>
+            <span data-testid="debts-empty" data-bind="if: !Debts.length">Всё ровно</span>
         </div>
     </div>
 </script>

@@ -3,6 +3,10 @@
   "name": "doggy-frictions",
   "private": true,
   "type": "module",
+  "scripts": {
+    "build": "gulp",
+    "build:prod": "gulp prod"
+  },
   "devDependencies": {
     "del": "7.0.0",
     "gulp": "4.0.2",

@@ -1,5 +1,5 @@
 ﻿<script type="text/html" id="session-edit-template">
-    <div class="session jumbotron" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
+    <div class="session jumbotron" data-testid="session-edit-view" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div>
             @await Html.PartialAsync("SessionHeader")
 
@@ -16,21 +16,21 @@
                 <!-- ko foreach: Participants-->
                 <tr>
                     <td class="wide-cell">
-                        <input type="text" class="form-control" data-bind="value: Name" placeholder="Погоняло есть?">
+                        <input type="text" class="form-control" data-testid="participant-name-input" data-bind="value: Name" placeholder="Погоняло есть?">
                     </td>
                     <td class="actions-cell"><button type="button" class="btn btn-primary" data-bind="click: $parent.DeleteParticipant"><span class="glyphicon glyphicon-trash"></span></button></td>
                 </tr>
                 <!-- /ko -->
                 <tr>
                     <td class="actions-cell">
-                        <button type="button" class="btn btn-primary" data-bind="click: AddParticipant">
+                        <button type="button" class="btn btn-primary" data-testid="add-participant-button" data-bind="click: AddParticipant">
                             <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary btn-raised" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
+            <button type="submit" class="btn btn-primary btn-raised" data-testid="save-session-button" data-bind="click: Save"><span class="glyphicon glyphicon-floppy-save"></span> Сохранить тёрку</button>
             <button type="button" class="btn btn-primary" data-bind="ifConfirmed: window.App.Functions.Move(Navigation.Back().Url),
                 cdTitle: 'Отмена изменений', cdMessage: 'Изменения не будут сохранены. Вы уверены, что хотите покинуть страницу?' ">
                 Отмена

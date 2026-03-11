@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo
+
+  external-api:
+    build:
+      context: .
+      target: final
+    environment:
+      - "ConnectionStrings__mongo=mongodb://mongo/"
+    depends_on:
+      - mongo
+
+  ui-tests:
+    image: mcr.microsoft.com/playwright:v1.58.2-jammy
+    working_dir: /workspace
+    depends_on:
+      - external-api
+    environment:
+      - "BASE_URL=http://external-api/api"
+      - "CI=true"
+    volumes:
+      - ".:/workspace"
+    command: >-
+      bash -lc "
+      cd tests/e2e
+      && node ./scripts/wait-for-url.mjs http://external-api/api/Sessions
+      && npm ci
+      && npx playwright test
+      "

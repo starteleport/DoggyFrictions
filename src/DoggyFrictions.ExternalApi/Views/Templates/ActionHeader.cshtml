@@ -7,17 +7,17 @@
             <!-- ko if: $root.IsEdit() -->
             <label>Название</label>
             <span class="input-group">
-                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
+                <input type="text" class="form-control" data-testid="action-description-input" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
             </span>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
-            <span data-bind="text: (Description() || '')"></span>
+            <span data-testid="action-title" data-bind="text: (Description() || '')"></span>
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
             <label>Дата</label>
             <span class="input-group">
-                <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
+                <input type="text" class="form-control date-input" data-testid="action-date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </span>
             <!-- /ko -->
