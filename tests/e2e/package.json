@@ -1,0 +1,15 @@
+{
+  "name": "doggyfrictions-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:compose": "docker compose -f ../../docker-compose.ui-tests.yml up --abort-on-container-exit --build --exit-code-from ui-tests --quiet-pull --no-log-prefix --no-color",
+    "install:browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "typescript": "5.8.2"
+  }
+}

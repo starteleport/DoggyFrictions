@@ -1,5 +1,5 @@
 ﻿<script type="text/html" id="action-template">
-    <div class="action" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
+    <div class="action" data-testid="action-view" data-bind="css: {'is-edit': $root.IsEdit(), 'is-preview': !$root.IsEdit()}">
         <div class="form-horizontal">
             <div class="jumbotron">
                 <div>
@@ -39,7 +39,7 @@
                                     <td class="wide-cell">
                                         <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
-                                            <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?"/>
+                                            <input type="text" class="form-control" data-testid="consumption-description-input" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next() + 10}, hasFocus: HasFocus" placeholder="Что делим?"/>
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
@@ -49,7 +49,7 @@
                                     <td class="money-cell">
                                         <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
-                                            <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
+                                            <input type="text" class="form-control" data-testid="consumption-amount-input" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Сумма">
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
@@ -59,7 +59,7 @@
                                     <td class="small-cell">
                                         <!-- ko if: $root.IsEdit() -->
                                         <div class="form-group">
-                                            <input type="text" class="form-control" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
+                                            <input type="text" class="form-control" data-testid="consumption-quantity-input" data-bind="value: Quantity, attr: {tabindex: window.App.GlobalId.Next() + 10}" placeholder="Кол-во">
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: !$root.IsEdit() -->
@@ -97,7 +97,7 @@
                                 <!-- ko if: $root.IsEdit() -->
                                 <tr>
                                     <td class="actions-cell">
-                                        <button type="button" class="btn btn-primary" data-bind="click: AddConsumption">
+                                        <button type="button" class="btn btn-primary" data-testid="add-consumption-button" data-bind="click: AddConsumption">
                                             <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
                                         </button>
                                     </td>
@@ -148,7 +148,7 @@
                                 </td>
                                 <td class="money-cell">
                                     <!-- ko if: $root.IsEdit() -->
-                                    <input type="text" class="form-control" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
+                                    <input type="text" class="form-control" data-testid="payer-amount-input" data-bind="money: Amount, attr: {tabindex: window.App.GlobalId.Next() + 1000}" placeholder="Сумма">
                                     <!-- /ko -->
                                     <!-- ko if: !$root.IsEdit() -->
                                     <span data-bind="text: Amount().formatMoney()"></span>
@@ -162,7 +162,7 @@
                             <!-- ko if: $root.IsEdit() -->
                             <tr>
                                 <td class="actions-cell">
-                                    <button type="button" class="btn btn-primary" data-bind="click: AddPayer">
+                                    <button type="button" class="btn btn-primary" data-testid="add-payer-button" data-bind="click: AddPayer">
                                         <span><span class="glyphicon glyphicon-plus"></span> Добавить</span>
                                     </button>
                                 </td>
@@ -174,7 +174,7 @@
                     <div class="">
                         <!-- ko if: $root.IsEdit() -->
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-raised" data-bind="click: Save">
+                            <button type="button" class="btn btn-primary btn-raised" data-testid="save-action-button" data-bind="click: Save">
                                 <span class="glyphicon glyphicon-floppy-save"></span> Сохранить постанову
                             </button>
                             <!-- ko if: !$root.Id -->

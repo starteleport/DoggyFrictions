@@ -1,0 +1,14 @@
+{
+  "name": "doggyfrictions-root",
+  "private": true,
+  "scripts": {
+    "web:deps": "npm --prefix src/DoggyFrictions.ExternalApi install",
+    "web:build": "npm --prefix src/DoggyFrictions.ExternalApi run build",
+    "web:build:prod": "npm --prefix src/DoggyFrictions.ExternalApi run build:prod",
+    "ui:deps": "npm --prefix tests/e2e ci",
+    "ui:test": "npm --prefix tests/e2e run test",
+    "ui:test:headed": "npm --prefix tests/e2e run test:headed",
+    "ui:test:compose": "npm --prefix tests/e2e run test:compose",
+    "ui:test:compose:down": "docker compose -f docker-compose.ui-tests.yml down -v"
+  }
+}

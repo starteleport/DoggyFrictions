@@ -45,3 +45,32 @@ jobs:
       - name: dotnet test
         id: tests
         run: docker compose -f docker-compose.tests.yml up --abort-on-container-exit --build --exit-code-from tests --quiet-pull --no-log-prefix --no-color
+
+  ui-e2e-tests:
+    name: UI E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+        with:
+          clean: false
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: run ui e2e tests
+        run: docker compose -f docker-compose.ui-tests.yml up --abort-on-container-exit --build --exit-code-from ui-tests --quiet-pull --no-log-prefix --no-color
+
+      - name: upload playwright artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            tests/e2e/test-results
+            tests/e2e/playwright-report
+          if-no-files-found: ignore
+
+      - name: docker compose down
+        if: always()
+        run: docker compose -f docker-compose.ui-tests.yml down -v

@@ -6,11 +6,11 @@
         <!-- ko if: $root.IsEdit() -->
         <span class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-            <input type="text" class="form-control" data-bind="value: Name" placeholder="Что обсуждаем?">
+            <input type="text" class="form-control" data-testid="session-name-input" data-bind="value: Name" placeholder="Что обсуждаем?">
         </span>
         <!-- /ko -->
         <!-- ko if: !$root.IsEdit() -->
-        <span data-bind="text: (Name() || '')"></span>
+            <span data-testid="session-title" data-bind="text: (Name() || '')"></span>
         <!-- /ko -->
         <!-- ko if: !$root.IsEdit() -->
         <a class="btn btn-primary" data-bind="attr: {href: '#/Session/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
