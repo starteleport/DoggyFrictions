@@ -1,11 +1,9 @@
 ﻿<div id="main">
-    <div class="jumbotron text-center">
-        Who let the dogs out?!
+    <!-- Shown until the app (ClientApp/) has started and replaced it. -->
+    <div id="loading-screen" class="modal d-block">
+        <div class="modal-backdrop show"></div>
+        <div class="text-center loading-screen-content">
+            <img src="@Url.Content("~/img/runningdog_transparent.gif")" alt="@T["common.loading"]">
+        </div>
     </div>
-</div>
-<div id="loading-screen" class="modal" style="display: none">
-    <div class="text-center loading-screen-content">
-        <img src='@Url.Content("~/img/runningdog_transparent.gif")' alt="@T["common.loading"]">
-    </div>
-    <div class="modal-backdrop"></div>
 </div>

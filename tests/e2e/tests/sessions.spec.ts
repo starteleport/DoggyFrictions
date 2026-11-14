@@ -37,6 +37,21 @@ test.describe('Sessions', () => {
     await expect(page.getByTestId('session-title')).toHaveText(session.Name);
   });
 
+  test('a session opens from anywhere in its row, and with the keyboard', async ({ app, api, page }) => {
+    const session = await api.createSession(['Ann', 'Bob']);
+    const row = page.getByTestId('session-row').filter({ hasText: session.Name });
+
+    await app.open('/Sessions');
+    await row.locator('td[data-label="Участники"]').click();
+    await expect(page.getByTestId('session-title')).toHaveText(session.Name);
+
+    await app.open('/Sessions');
+    await row.getByRole('link', { name: session.Name }).focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(new RegExp(`#/Session/${session.Id}$`));
+    await expect(page.getByTestId('session-title')).toHaveText(session.Name);
+  });
+
   test('editing renames the session and adds a participant without changing existing ones', async ({ app, api, page }) => {
     const session = await api.createSession(['Ann', 'Bob']);
     const renamed = uniqueName('Переименовано');

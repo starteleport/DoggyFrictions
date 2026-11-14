@@ -10,6 +10,21 @@ async function expectNoHorizontalOverflow(app: App) {
   expect(content, 'page is wider than the screen').toBeLessThanOrEqual(viewport);
 }
 
+/** Whatever a finger presses is at least 44px tall: links, buttons, fields, and the box around a tick box. */
+async function expectTouchTargets(app: App) {
+  const tooSmall = await app.page.evaluate(() => {
+    const targets = [...document.querySelectorAll<HTMLElement>(
+      '.body-content a, .body-content button, .body-content input, .body-content select')]
+      .filter(element => element.offsetWidth)
+      // A tick box is pressed through the label around it.
+      .map(element => element instanceof HTMLInputElement && element.type === 'checkbox' ? element.closest('label')! : element);
+    return targets
+      .filter(element => element.getBoundingClientRect().height < 44)
+      .map(element => `${element.dataset.testid ?? element.textContent?.trim() ?? element.tagName}: ${Math.round(element.getBoundingClientRect().height)}px`);
+  });
+  expect(tooSmall, 'touch targets lower than 44px').toEqual([]);
+}
+
 test.describe('Phone', () => {
   test('every page fits a phone screen and shows rows as cards', async ({ app, api, page }) => {
     const session = await api.createSession(['Ann', 'Bob', 'Константин']);
@@ -25,6 +40,7 @@ test.describe('Phone', () => {
     const participants = await row.locator('td[data-label="Участники"]').boundingBox();
     expect(participants!.y).toBeGreaterThan(name!.y);
     await expectNoHorizontalOverflow(app);
+    await expectTouchTargets(app);
 
     for (const route of [
       `/Session/${session.Id}`,
@@ -37,6 +53,7 @@ test.describe('Phone', () => {
       await app.open(route);
       await expect(page.locator('.jumbotron').first()).toBeVisible();
       await expectNoHorizontalOverflow(app);
+      await expectTouchTargets(app);
     }
   });
 
