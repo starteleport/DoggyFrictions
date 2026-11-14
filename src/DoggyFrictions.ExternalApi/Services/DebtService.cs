@@ -5,11 +5,11 @@ namespace DoggyFrictions.ExternalApi.Services;
 
 public class DebtService : IDebtService
 {
-    public IEnumerable<Debt> GetDebts(IEnumerable<DebtAction> actions)
+    public IEnumerable<Settlement> GetDebts(IEnumerable<DebtAction> actions)
     {
         if (actions?.Any() != true)
         {
-            return Enumerable.Empty<Debt>();
+            return Enumerable.Empty<Settlement>();
         }
 
         var balancePerPerson = new Dictionary<string, decimal>();
@@ -44,7 +44,7 @@ public class DebtService : IDebtService
         }
 
         // Now we try to resolve the debt in minimal number of transactions. One simple way to do it is for small debtors to pay to the highest creditors first.
-        var aggregatedDebts = new List<Debt>();
+        var aggregatedDebts = new List<Settlement>();
         var creditors = balancePerPerson.Where(b => b.Value > 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = c.Value }).OrderByDescending(c => c.Balance).ToList();
         var debitors = balancePerPerson.Where(b => b.Value < 0).Select(c => new PersonAndBalance { ParticipantId = c.Key, Balance = -c.Value }).OrderBy(c => c.Balance).ToList();
         foreach (var debitor in debitors)
@@ -61,11 +61,7 @@ public class DebtService : IDebtService
                 }
 
                 var appliedAmount = Math.Min(debitor.Balance, creditor.Balance);
-                aggregatedDebts.Add(new Debt {
-                    Creditor = creditor.ParticipantId,
-                    Debtor = debitor.ParticipantId,
-                    Amount = appliedAmount,
-                });
+                aggregatedDebts.Add(new Settlement(debitor.ParticipantId, creditor.ParticipantId, appliedAmount));
 
                 creditor.Balance -= appliedAmount;
                 debitor.Balance -= appliedAmount;

@@ -4,7 +4,7 @@ using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services;
 using NUnit.Framework;
 
-namespace DoggyFrictions.ExternalApis.Tests.Services;
+namespace DoggyFrictions.ExternalApi.Tests.Services;
 
 [TestFixture]
 public class DebtServiceTests
@@ -34,8 +34,8 @@ public class DebtServiceTests
         var actual = sut.GetDebts(new[] {action});
 
         Assert.That(actual.Count(), Is.EqualTo(1));
-        Assert.That(actual.Single().Creditor, Is.EqualTo(sponsor.Participant));
-        Assert.That(actual.Single().Debtor, Is.EqualTo(consumer.Participant));
+        Assert.That(actual.Single().CreditorId, Is.EqualTo(sponsor.Participant));
+        Assert.That(actual.Single().DebtorId, Is.EqualTo(consumer.Participant));
         Assert.That(actual.Single().Amount, Is.EqualTo(total));
     }
 
@@ -60,8 +60,8 @@ public class DebtServiceTests
         var actual = sut.GetDebts(new[] {action});
 
         Assert.That(actual.Count(), Is.EqualTo(1));
-        Assert.That(actual.Single().Creditor, Is.EqualTo(sponsorBought.Participant));
-        Assert.That(actual.Single().Debtor, Is.EqualTo(friendConsumed.Participant));
+        Assert.That(actual.Single().CreditorId, Is.EqualTo(sponsorBought.Participant));
+        Assert.That(actual.Single().DebtorId, Is.EqualTo(friendConsumed.Participant));
         Assert.That(actual.Single().Amount, Is.EqualTo(friendAmount));
     }
 
@@ -83,15 +83,15 @@ public class DebtServiceTests
 
         Assert.That(actual.Count(), Is.EqualTo(2));
         Assert.That(actual,
-            Has.Some.Matches<Debt>(
+            Has.Some.Matches<Settlement>(
                 d =>
-                    d.Amount == sponsor1Amount && d.Creditor == sponsor1.Participant &&
-                    d.Debtor == consumer.Participant));
+                    d.Amount == sponsor1Amount && d.CreditorId == sponsor1.Participant &&
+                    d.DebtorId == consumer.Participant));
         Assert.That(actual,
-            Has.Some.Matches<Debt>(
+            Has.Some.Matches<Settlement>(
                 d =>
-                    d.Amount == total - sponsor1Amount && d.Creditor == sponsor2.Participant &&
-                    d.Debtor == consumer.Participant));
+                    d.Amount == total - sponsor1Amount && d.CreditorId == sponsor2.Participant &&
+                    d.DebtorId == consumer.Participant));
     }
 
     [Test]
@@ -108,8 +108,8 @@ public class DebtServiceTests
         var actual = sut.GetDebts(new[] {action});
 
         Assert.That(actual.Count(), Is.EqualTo(1));
-        Assert.That(actual.Single().Creditor, Is.EqualTo(sponsor.Participant));
-        Assert.That(actual.Single().Debtor, Is.EqualTo(consumer.Participant));
+        Assert.That(actual.Single().CreditorId, Is.EqualTo(sponsor.Participant));
+        Assert.That(actual.Single().DebtorId, Is.EqualTo(consumer.Participant));
         Assert.That(actual.Single().Amount, Is.EqualTo(total));
     }
 

@@ -1,5 +1,6 @@
 using System.Globalization;
 using DoggyFrictions.ExternalApi.Domain;
+using DoggyFrictions.ExternalApi.Localization;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using Microsoft.AspNetCore.Localization;
@@ -10,11 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(options =>
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services.AddSingleton<IRepository, MongoRepository>(_ =>
     new(new MongoClient(configuration.GetConnectionString("mongo"))));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(TextCatalog.Load(Path.Combine(builder.Environment.ContentRootPath, "Localization")));
+builder.Services.AddScoped<ITexts, RequestTexts>();
 builder.Services.AddSingleton<IMoneyMoverService, MoneyMoverService>();
 builder.Services.AddSingleton<IDebtService, DebtService>();
 builder.Services.AddSingleton<SessionActionsProvider>();

@@ -1,24 +1,24 @@
-﻿<div class="page-head">
+﻿<div class="page-head page-head-split">
     <div class="col-lg-3">
         @await Html.PartialAsync("NavigationBar")
     </div>
     <h2 class="col col-lg-9">
         <span class="page-name">
             <!-- ko if: $root.IsEdit() -->
-            <label>Название</label>
+            <label>@T["common.name"]</label>
             <span class="input-group">
-                <input type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Поясни суть">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+                <input data-testid="action-description-input" type="text" class="form-control" data-bind="value: Description, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="@T["action.namePlaceholder"]">
+                <span class="input-group-text"><span class="bi bi-tag"></span></span>
             </span>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
-            <span data-bind="text: (Description() || '')"></span>
+            <span data-testid="action-title" data-bind="text: (Description() || '')"></span>
             <!-- /ko -->
             <!-- ko if: $root.IsEdit() -->
-            <label>Дата</label>
+            <label>@T["common.date"]</label>
             <span class="input-group">
-                <input type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="Укажи дату">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <input data-testid="action-date-input" type="text" class="form-control date-input" data-bind="value: Date, attr: {tabindex: window.App.GlobalId.Next()}" placeholder="@T["action.datePlaceholder"]">
+                <span class="input-group-text"><span class="bi bi-calendar"></span></span>
             </span>
             <!-- /ko -->
             <!-- ko if: !$root.IsEdit() -->
@@ -26,8 +26,8 @@
             <!-- /ko -->
         </span>
         <!-- ko if: !$root.IsEdit() -->
-        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary" data-bind="ifConfirmed: Delete,
-                                    cdTitle: 'Удаление постановы', cdMessage: 'Вы уверены, что ходите удалить постанову \'' + Description() + '\'?'"><span class="glyphicon glyphicon-trash"></span></a>
+        <a class="btn btn-primary" data-bind="attr: {href: '#/Session/' + Session.Id + '/Action/Edit/' + Id}"><span class="bi bi-pencil"></span></a><a data-testid="delete-action-button" class="btn btn-primary" data-bind="ifConfirmed: Delete,
+                                    cdTitle: T('action.deleteTitle'), cdMessage: T('action.deleteMessage', Description())"><span class="bi bi-trash"></span></a>
         <!-- /ko -->
     </h2>
 </div>

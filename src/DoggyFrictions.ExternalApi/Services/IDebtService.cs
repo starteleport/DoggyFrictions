@@ -1,8 +1,11 @@
-﻿using DoggyFrictions.ExternalApi.Models;
+﻿using DoggyFrictions.ExternalApi.Domain;
 
 namespace DoggyFrictions.ExternalApi.Services;
 
 public interface IDebtService
 {
-    IEnumerable<Debt> GetDebts(IEnumerable<Domain.DebtAction> actions);
+    /// <summary>
+    /// Settles the actions into debts. Participants are identified by <see cref="Participation.Participant"/>.
+    /// </summary>
+    IEnumerable<Settlement> GetDebts(IEnumerable<DebtAction> actions);
 }

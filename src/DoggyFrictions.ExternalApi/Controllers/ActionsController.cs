@@ -1,4 +1,5 @@
-﻿using DoggyFrictions.ExternalApi.Models;
+﻿using DoggyFrictions.ExternalApi.Localization;
+using DoggyFrictions.ExternalApi.Models;
 using DoggyFrictions.ExternalApi.Services;
 using DoggyFrictions.ExternalApi.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -11,73 +12,99 @@ public class ActionsController : Controller
 {
     private readonly IRepository _repository;
     private readonly IMoneyMoverService _moneyMover;
+    private readonly ITexts _texts;
 
-    public ActionsController(IRepository repository, IMoneyMoverService moneyMover)
+    public ActionsController(IRepository repository, IMoneyMoverService moneyMover, ITexts texts)
     {
         _repository = repository;
         _moneyMover = moneyMover;
+        _texts = texts;
     }
 
     // GET: api/Actions/5
     [HttpGet("/Actions/{sessionId}")]
-    public async Task<PagedCollection<ActionObject>> Get(string sessionId, [FromQuery] ActionsFilter? filter = null)
+    public async Task<IActionResult> Get(string sessionId, [FromQuery] ActionsFilter filter)
     {
-        var actions = await _repository.GetSessionActions(sessionId);
-        var page = filter?.Page ?? 1;
-        var pageSize = filter?.PageSize ?? 10;
-
-        return new PagedCollection<ActionObject>
+        if (await _repository.GetSession(sessionId) == null)
         {
-            TotalPages = (actions.Count() / pageSize) + 1,
-            Page = page,
-            Rows = actions.OrderByDescending(a => a.Date).Skip((page - 1) * pageSize).Take(pageSize)
-        };
+            return NotFound();
+        }
+
+        var actions = (await _repository.GetSessionActions(sessionId)).OrderByDescending(a => a.Date).ToList();
+        return Ok(PagedCollection<ActionObject>.Create(actions, filter.Page, filter.PageSize));
     }
 
     // GET: api/Actions/5/5
     [HttpGet("/Actions/{sessionId}/{id}")]
-    public async Task<ActionObject> Get(string sessionId, string id)
+    public async Task<IActionResult> Get(string sessionId, string id)
     {
-        return await _repository.GetAction(sessionId, id);
+        return this.OkOrNotFound(await _repository.GetAction(sessionId, id));
     }
 
     // POST: api/Actions/5
     [HttpPost("/Actions/{sessionId}")]
-    public async Task<IActionResult> Post(string sessionId, [FromForm] ActionObject actionObject)
+    public async Task<IActionResult> Post(string sessionId, [FromBody] ActionObject actionObject)
     {
-        if (actionObject.Id != "0")
+        if (actionObject.Id != "0" || actionObject.SessionId != sessionId)
         {
             return BadRequest();
         }
 
-        return Ok(await _repository.UpdateAction(sessionId, actionObject));
+        return await Save(sessionId, actionObject);
     }
 
     // PUT: api/Actions/5/5
     [HttpPut("/Actions/{sessionId}/{id}")]
-    public async Task<IActionResult> Put(string sessionId, string id, [FromForm] ActionObject actionObject)
+    public async Task<IActionResult> Put(string sessionId, string id, [FromBody] ActionObject actionObject)
     {
-        if (actionObject.Id == "0")
+        if (actionObject.Id != id || EntityId.IsNew(id) || actionObject.SessionId != sessionId)
         {
             return BadRequest();
         }
 
-        return Ok(await _repository.UpdateAction(sessionId, actionObject));
+        return await Save(sessionId, actionObject);
     }
 
     [HttpPost("/Actions/{sessionId}/MoveMoney")]
-    public async Task<IActionResult> Post(string sessionId, [FromForm] MoveMoneyTransaction moveMoneyTransaction)
+    public async Task<IActionResult> Post(string sessionId, [FromBody] MoveMoneyTransaction moveMoneyTransaction)
     {
-        var sessionModel = await _repository.GetSession(sessionId);
-        var actionModel = _moneyMover.CreateMoveMoneyTransaction(sessionModel, moveMoneyTransaction);
+        var session = await _repository.GetSession(sessionId);
+        if (session == null)
+        {
+            return NotFound();
+        }
 
-        return Ok(await _repository.UpdateAction(sessionId, actionModel));
+        var from = session.Participants.FirstOrDefault(p => p.Id == moveMoneyTransaction.FromId);
+        var to = session.Participants.FirstOrDefault(p => p.Id == moveMoneyTransaction.ToId);
+        if (from == null || to == null || from.Id == to.Id)
+        {
+            return this.Invalid(nameof(MoveMoneyTransaction), _texts["validation.transfer.sides"]);
+        }
+
+        var action = _moneyMover.CreateMoveMoneyTransaction(session, from, to, moveMoneyTransaction);
+        return Ok(await _repository.UpdateAction(sessionId, action));
     }
 
     // DELETE: api/Actions/5/5
     [HttpDelete("/Actions/{sessionId}/{id}")]
-    public async Task<ActionObject> Delete(string sessionId, string id)
+    public async Task<IActionResult> Delete(string sessionId, string id)
     {
-        return await _repository.DeleteAction(sessionId, id);
+        return this.OkOrNotFound(await _repository.DeleteAction(sessionId, id));
+    }
+
+    private async Task<IActionResult> Save(string sessionId, ActionObject actionObject)
+    {
+        var session = await _repository.GetSession(sessionId);
+        if (session == null)
+        {
+            return NotFound();
+        }
+
+        if (!session.HasParticipants(actionObject.ParticipantIds()))
+        {
+            return this.Invalid(nameof(ActionObject.Payers), _texts["validation.action.notParticipants"]);
+        }
+
+        return this.OkOrNotFound(await _repository.UpdateAction(sessionId, actionObject));
     }
 }

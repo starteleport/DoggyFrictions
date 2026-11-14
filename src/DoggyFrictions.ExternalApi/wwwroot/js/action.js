@@ -112,40 +112,42 @@ function ActionModel(actionData, sessionModel, isEdit) {
         });
     }
     this._createSaveOperation = function() {
+        // A blank or unparsable field becomes 0, which the server rejects with a readable message.
+        var number = function (value) {
+            return Number(String(value).replace(',', '.')) || 0;
+        };
         var serialized = {
-            Id: _this.Id,
+            // Ids are strings on the server; an unsaved entity carries the number 0 here.
+            Id: String(_this.Id),
             SessionId: _this.Session.Id,
             Description: _this.Description(),
             Date: _this.Date().extractDate(),
             Payers: _.map(_this.Payers(), function (payerModel) {
                 return {
-                    Id: payerModel.Id,
                     ParticipantId: payerModel.ParticipantId(),
-                    Amount: payerModel.Amount()
+                    Amount: number(payerModel.Amount())
                 }
             }),
             Consumptions: _.map(_this.Consumptions(), function (consumptonModel) {
                 return {
-                    Id: consumptonModel.Id,
-                    Amount: consumptonModel.Amount(),
-                    Quantity: consumptonModel.Quantity(),
+                    Amount: number(consumptonModel.Amount()),
+                    Quantity: number(consumptonModel.Quantity()),
                     SplittedEqually: consumptonModel.IsAuto(),
                     Description: consumptonModel.Description(),
                     Consumers: _.map(_.filter(consumptonModel.Consumers(), function (consumerModel) {
                         return consumerModel.IsActive();
                     }), function (consumerModel) {
                         return {
-                            Id: consumerModel.Id,
                             ParticipantId: consumerModel.ParticipantId,
-                            Amount: consumerModel.Amount()
+                            Amount: number(consumerModel.Amount())
                         };
                     })
                 }
             })
         };
         var operation = (_this.Id == 0
-            ? $.post('Api/Actions/' + _this.Session.Id, serialized)
-            : $.put('Api/Actions/' + _this.Session.Id + '/' + _this.Id, serialized)).promise();
+            ? window.App.Functions.Send('POST', 'Api/Actions/' + _this.Session.Id, serialized)
+            : window.App.Functions.Send('PUT', 'Api/Actions/' + _this.Session.Id + '/' + _this.Id, serialized)).promise();
         return operation;
     }
 
@@ -164,12 +166,12 @@ function ActionModel(actionData, sessionModel, isEdit) {
             });
     }
 
-    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая постанова') : 'Постанова';
+    var currentPlace = _this.IsEdit() ? (_this.Id ? T('common.edit') : T('action.new')) : T('action.title');
     var navigation = new NavigationModel(currentPlace);
-    navigation.AddHistory('Тёрки', '#/Sessions');
-    navigation.AddHistory('Тёрка', '#/Session/' + _this.Session.Id);
+    navigation.AddHistory(T('sessions.title'), '#/Sessions');
+    navigation.AddHistory(T('session.title'), '#/Session/' + _this.Session.Id);
     if (_this.IsEdit() && _this.Id) {
-        navigation.AddHistory('Пастанова', '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
+        navigation.AddHistory(T('action.breadcrumb'), '#/Session/' + _this.Session.Id + '/Action/' + _this.Id);
     }
     this.Navigation = navigation;
 }

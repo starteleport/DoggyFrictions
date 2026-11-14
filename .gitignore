@@ -78,3 +78,4 @@ _ReSharper*/
 **/wwwroot/js/min/
 **/wwwroot/css/min/
 /artifacts/**/*
+**/wwwroot/css/site.css

@@ -5,10 +5,7 @@ namespace DoggyFrictions.ExternalApi.Services.Repository;
 
 internal static class MongoContractMapping
 {
-    public static string GetOrCreateId(string id)
-    {
-        return id.IsNullOrEmpty() || id == "0" ? Guid.NewGuid().ToString() : id;
-    }
+    public static string GetOrCreateId(string? id) => EntityId.IsNew(id) ? Guid.NewGuid().ToString() : id!;
 
     public static Session FromModel(this SessionModel model)
     {
@@ -16,17 +13,18 @@ internal static class MongoContractMapping
         {
             Id = model.Id,
             Name = model.Name,
-            Participants = model.Participants.Select(FromModel)
+            Participants = model.Participants.Select(FromModel).ToList()
         };
     }
 
+    // Collections are materialised: a lazy Select would generate new ids on every enumeration.
     public static SessionModel ToModel(this Session model)
     {
         return new SessionModel
         {
             Id = GetOrCreateId(model.Id),
             Name = model.Name,
-            Participants = model.Participants.Select(ToModel)
+            Participants = model.Participants.Select(ToModel).ToList()
         };
     }
 
@@ -56,8 +54,8 @@ internal static class MongoContractMapping
             SessionId = model.SessionId,
             Description = model.Description,
             Date = model.Date,
-            Payers = model.Payers.Select(FromModel),
-            Consumptions = model.Consumptions.Select(FromModel)
+            Payers = model.Payers.Select(FromModel).ToList(),
+            Consumptions = model.Consumptions.Select(FromModel).ToList()
         };
     }
 
@@ -69,8 +67,8 @@ internal static class MongoContractMapping
             SessionId = model.SessionId,
             Description = model.Description,
             Date = model.Date,
-            Payers = model.Payers.Select(ToModel),
-            Consumptions = model.Consumptions.Select(ToModel)
+            Payers = model.Payers.Select(ToModel).ToList(),
+            Consumptions = model.Consumptions.Select(ToModel).ToList()
         };
     }
 
@@ -100,7 +98,7 @@ internal static class MongoContractMapping
             Description = model.Description,
             Quantity = model.Quantity,
             SplittedEqually = model.SplittedEqually,
-            Consumers = model.Consumers.Select(ToModel)
+            Consumers = model.Consumers.Select(ToModel).ToList()
         };
     }
 
@@ -112,7 +110,7 @@ internal static class MongoContractMapping
             Description = model.Description,
             Quantity = model.Quantity,
             SplittedEqually = model.SplittedEqually,
-            Consumers = model.Consumers.Select(FromModel)
+            Consumers = model.Consumers.Select(FromModel).ToList()
         };
     }
 
