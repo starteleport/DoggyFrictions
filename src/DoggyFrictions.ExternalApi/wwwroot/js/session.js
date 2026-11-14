@@ -24,7 +24,7 @@ function SessionModel(data, isEdit) {
     _this.ParticipantNames = ko.computed(function () {
         return _.reduceRight(_this.Participants(), function (current, next) {
             return (current.length ? (current + ', ') : '') + next.Name();
-        }, '') || 'Собак нет';
+        }, '') || T('session.noParticipants');
     });
 
     this.IsEdit = ko.observable(isEdit | false);
@@ -40,7 +40,7 @@ function SessionModel(data, isEdit) {
     };
     this.DeleteParticipant = function (participantModel) {
         if (participantModel.Id != 0) {
-            alert('Невозможно удалить собаку, которая уже есть в системе.');
+            alert(T('session.cannotDeleteParticipant'));
         } else {
             _this.Participants.remove(participantModel);
         }
@@ -48,18 +48,19 @@ function SessionModel(data, isEdit) {
 
     this.Save = function () {
         var serialized = {
-            Id: _this.Id,
+            // Ids are strings on the server; an unsaved entity carries the number 0 here.
+            Id: String(_this.Id),
             Name: _this.Name(),
             Participants: _.map(_this.Participants(), function (participantModel) {
                 return {
-                    Id: participantModel.Id,
+                    Id: String(participantModel.Id),
                     Name: participantModel.Name()
                 }
             })
         };
         var operation = (_this.Id == 0
-            ? $.post('Api/Sessions', serialized)
-            : $.put('Api/Sessions/' + _this.Id, serialized)).promise();
+            ? window.App.Functions.Send('POST', 'Api/Sessions', serialized)
+            : window.App.Functions.Send('PUT', 'Api/Sessions/' + _this.Id, serialized)).promise();
         window.App.Functions.Process(operation)
             .done(function(sessionData) {
                 window.App.Functions.Move('#/Session/' + sessionData.Id)();
@@ -81,11 +82,11 @@ function SessionModel(data, isEdit) {
             });
     }
 
-    var currentPlace = _this.IsEdit() ? (_this.Id ? 'Правка' : 'Новая тёрка') : 'Тёрка';
+    var currentPlace = _this.IsEdit() ? (_this.Id ? T('common.edit') : T('session.new')) : T('session.title');
     var navigation = new NavigationModel(currentPlace);
-    navigation.AddHistory('Тёрки', '#/Sessions');
+    navigation.AddHistory(T('sessions.title'), '#/Sessions');
     if (_this.IsEdit() && _this.Id) {
-        navigation.AddHistory('Тёркa', '#/Session/' + _this.Id);
+        navigation.AddHistory(T('session.title'), '#/Session/' + _this.Id);
     }
     this.Navigation = navigation;
 }

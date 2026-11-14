@@ -1,6 +1,6 @@
 ﻿<!-- ko if: TotalPages() > 1 -->
 <div class="pages">
-    Страница:
+    @T["common.page"]
     <span class="pages-wrap">
         <!-- ko if: Page() >= 3 -->
         <a data-bind="click: function() { LoadPage(1); }, clickBubble: false">1</a>

@@ -36,6 +36,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
+      - name: dotnet tool restore
+        run: dotnet tool restore
+
       - uses: dotnet/nbgv@master
         id: nbgv
         with:

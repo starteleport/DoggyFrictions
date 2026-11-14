@@ -4,41 +4,33 @@ namespace DoggyFrictions.ExternalApi.Domain;
 
 public class SessionActionsProvider
 {
-    public IEnumerable<DebtAction> GetSessionActions(
-        Session session,
-        IEnumerable<ActionObject> actions)
+    /// <summary>
+    /// Maps stored actions to the debt domain. Participants are identified by id, not by name:
+    /// names are not unique within a session.
+    /// </summary>
+    public IEnumerable<DebtAction> GetSessionActions(IEnumerable<ActionObject> actions)
     {
-        var participantIdNames = session.Participants.ToDictionary(p => p.Id, p => p.Name);
         return actions.Select(
             a =>
                 new DebtAction
                 {
                     Date = a.Date,
-                    Description = a.Description,
-                    Goods = a.Consumptions.Select(c => MapConsumption(c, participantIdNames)),
-                    Sponsors = a.Payers.Select(p => MapPayer(p, participantIdNames))
+                    Description = a.Description ?? string.Empty,
+                    Goods = a.Consumptions.Select(MapConsumption).ToList(),
+                    Sponsors = a.Payers.Select(p => MapParticipation(p.ParticipantId, p.Amount)).ToList()
                 });
     }
 
-    private static Participation MapConsumer(Consumer consumer, Dictionary<string, string> participants)
+    private static Participation MapParticipation(string participantId, decimal amount)
     {
         return new Participation
         {
-            Amount = consumer.Amount,
-            Participant = participants[consumer.ParticipantId]
+            Amount = amount,
+            Participant = participantId
         };
     }
 
-    private static Participation MapPayer(Payer payer, Dictionary<string, string> participants)
-    {
-        return new Participation
-        {
-            Amount = payer.Amount,
-            Participant = participants[payer.ParticipantId]
-        };
-    }
-
-    private Good MapConsumption(Consumption consumption, Dictionary<string, string> participants)
+    private static Good MapConsumption(Consumption consumption)
     {
         return new Good
         {
@@ -46,7 +38,7 @@ public class SessionActionsProvider
             PricePerUnit = consumption.Amount,
             Quantity = consumption.Quantity,
             SplittedEqually = consumption.SplittedEqually,
-            Consumers = consumption.Consumers.Select(c => MapConsumer(c, participants))
+            Consumers = consumption.Consumers.Select(c => MapParticipation(c.ParticipantId, c.Amount)).ToList()
         };
     }
 }

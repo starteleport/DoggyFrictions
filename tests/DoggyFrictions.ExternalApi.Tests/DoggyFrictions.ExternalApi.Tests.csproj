@@ -1,14 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="autofixture" Version="4.17.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageReference Include="NUnit" Version="3.13.3" />
-    <PackageReference Include="nunit3testadapter" Version="4.3.1" />
+    <PackageReference Include="autofixture" Version="4.18.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageReference Include="NUnit" Version="4.5.1" />
+    <PackageReference Include="nunit3testadapter" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DoggyFrictions.ExternalApi\DoggyFrictions.ExternalApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The text catalog, so tests can load it the way the app does. -->
+    <Content Include="..\..\src\DoggyFrictions.ExternalApi\Localization\*.json" Link="Localization\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

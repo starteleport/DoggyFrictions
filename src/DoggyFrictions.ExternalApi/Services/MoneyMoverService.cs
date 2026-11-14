@@ -4,38 +4,18 @@ namespace DoggyFrictions.ExternalApi.Services;
 
 public class MoneyMoverService : IMoneyMoverService
 {
-    public ActionObject CreateMoveMoneyTransaction(Session session, MoveMoneyTransaction moveMoneyTransaction)
+    public ActionObject CreateMoveMoneyTransaction(
+        Session session, Participant from, Participant to, MoveMoneyTransaction moveMoneyTransaction)
     {
-        var fromParticipant = session.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.From);
-        var toParticipant = session.Participants.FirstOrDefault(p => p.Name == moveMoneyTransaction.To);
+        // An action must have a description, so a blank reason falls back to the default one.
+        var description = string.IsNullOrWhiteSpace(moveMoneyTransaction.Reason)
+            ? $"{from.Name} -> {to.Name}"
+            : moveMoneyTransaction.Reason;
 
-        if (fromParticipant == null || toParticipant == null)
-        {
-            throw new ArgumentException("Either fromParticipant or toParticipant not exist", nameof(session));
-        }
-
-        var description = moveMoneyTransaction.Reason ?? $"{fromParticipant.Name} -> {toParticipant.Name}";
-
-        var actionModel = BuildActionModel(
-            session.Id,
-            moveMoneyTransaction,
-            description,
-            fromParticipant,
-            toParticipant);
-
-        return actionModel;
-    }
-
-    private static ActionObject BuildActionModel(
-        string sessionId,
-        MoveMoneyTransaction moveMoneyTransaction,
-        string description,
-        Participant fromParticipant,
-        Participant toParticipant)
-    {
         return new ActionObject
         {
-            SessionId = sessionId,
+            Id = "0",
+            SessionId = session.Id,
             Date = moveMoneyTransaction.Date ?? DateTime.UtcNow,
             Description = description,
             Payers = new[]
@@ -43,7 +23,7 @@ public class MoneyMoverService : IMoneyMoverService
                 new Payer
                 {
                     Amount = moveMoneyTransaction.Amount,
-                    ParticipantId = fromParticipant.Id
+                    ParticipantId = from.Id
                 }
             },
             Consumptions = new[]
@@ -59,7 +39,7 @@ public class MoneyMoverService : IMoneyMoverService
                         new Consumer
                         {
                             Amount = moveMoneyTransaction.Amount,
-                            ParticipantId = toParticipant.Id
+                            ParticipantId = to.Id
                         }
                     }
                 }

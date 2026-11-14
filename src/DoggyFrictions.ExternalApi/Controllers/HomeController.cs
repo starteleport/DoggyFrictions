@@ -6,6 +6,8 @@ namespace DoggyFrictions.ExternalApi.Controllers;
 
 public class HomeController : Controller
 {
+    // Rendered in the language of the request, so HTTP caches must not reuse it across languages.
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Index()
     {
         return View();

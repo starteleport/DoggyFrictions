@@ -6,9 +6,9 @@ Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
 
 import gulp from 'gulp';
 import less from 'gulp-less';
-import uglify from 'gulp-uglify';
+import terser from 'gulp-terser';
 import concat from 'gulp-concat';
-import cssmin from 'gulp-cssmin';
+import cleanCss from 'gulp-clean-css';
 import { deleteSync } from 'del';
 
 const { src, dest, series } = gulp;
@@ -24,14 +24,17 @@ const paths = {
 };
 
 function copy_vendor(cb) {
-  src(paths.packages + "bootstrap/dist/js/bootstrap.min.js")
+  src(paths.packages + "bootstrap/dist/js/bootstrap.bundle.min.js")
     .pipe(dest(paths.vendorJsOut + "/bootstrap/dist/js"));
-  src(paths.packages + "bootstrap/dist/css/*.min.css")
+  src(paths.packages + "bootstrap/dist/css/bootstrap.min.css")
     .pipe(dest(paths.vendorJsOut + "/bootstrap/dist/css"));
-  src(paths.packages + "bootstrap/dist/css/*.min.css.map")
+  src(paths.packages + "bootstrap/dist/css/bootstrap.min.css.map")
     .pipe(dest(paths.vendorJsOut + "/bootstrap/dist/css"));
-  src(paths.packages + "bootstrap/dist/fonts/*")
-    .pipe(dest(paths.vendorJsOut + "/bootstrap/dist/fonts"));
+
+  src(paths.packages + "bootstrap-icons/font/bootstrap-icons.min.css")
+    .pipe(dest(paths.vendorJsOut + "/bootstrap-icons/font"));
+  src(paths.packages + "bootstrap-icons/font/fonts/*")
+    .pipe(dest(paths.vendorJsOut + "/bootstrap-icons/font/fonts"));
 
   src(paths.packages + "bootstrap-datepicker/dist/js/*.min.js")
     .pipe(dest(paths.vendorJsOut + "/bootstrap-datepicker/dist/js"));
@@ -49,18 +52,8 @@ function copy_vendor(cb) {
     .pipe(dest(paths.vendorJsOut + "/jquery-dateformat/dist"));
 
   src(paths.packages + "jquery-sticky/jquery.sticky.js")
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(dest(paths.vendorJsOut + "/jquery-sticky/jquery-sticky.min.js"));
-
-  src(paths.packages + "bootstrap-material-design/dist/js/*.min.js")
-    .pipe(dest(paths.vendorJsOut + "/bootstrap-material-design/dist/js"));
-  src(paths.packages + "bootstrap-material-design/dist/js/*.js.map")
-    .pipe(dest(paths.vendorJsOut + "/bootstrap-material-design/dist/js"));
-
-  src(paths.packages + "bootstrap-material-design/dist/css/*.min.css")
-    .pipe(dest(paths.vendorJsOut + "/bootstrap-material-design/dist/css"));
-  src(paths.packages + "bootstrap-material-design/dist/css/*.min.css.map")
-    .pipe(dest(paths.vendorJsOut + "/bootstrap-material-design/dist/css"));
 
   // Not used afaik, consider removing
   src(paths.packages + "jquery-validation-unobtrusive/dist/*.js")
@@ -75,7 +68,7 @@ function copy_vendor(cb) {
     .pipe(dest(paths.vendorJsOut + "/knockout.validation/dist"));
 
   src(paths.packages + "npm-modernizr/modernizr.js")
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(dest(paths.vendorJsOut + "/npm-modernizr/modernizr.min.js"));
 
   src(paths.packages + "moment/min/moment.min.js")
@@ -84,9 +77,6 @@ function copy_vendor(cb) {
     .pipe(dest(paths.vendorJsOut + "/moment/min"));
   src(paths.packages + "moment/dist/locale/*.js")
     .pipe(dest(paths.vendorJsOut + "/moment/dist/locale"));
-
-  src(paths.packages + "respond.js/dest/*.min.js")
-    .pipe(dest(paths.vendorJsOut + "/respond.js/dest"));
 
   src(paths.packages + "sammy/lib/min/sammy-latest.min.js")
     .pipe(dest(paths.vendorJsOut + "/sammy/lib/min"));
@@ -118,14 +108,14 @@ function compile_less(cb) {
 function min_app_js(cb) {
   return gulp.src([paths.appJsOut + "*"], { base: "." })
     .pipe(concat(paths.appJsOutMin + "site.min.js"))
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(gulp.dest("."));
 }
 
 function min_css(cb) {
   return gulp.src([paths.stylesOut + "*"], { base: "." })
     .pipe(concat(paths.stylesOutMin + "site.min.css"))
-    .pipe(cssmin())
+    .pipe(cleanCss())
     .pipe(gulp.dest("."));
 }
 

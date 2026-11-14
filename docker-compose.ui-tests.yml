@@ -1,0 +1,38 @@
+# Runs the Playwright regression suite against a freshly built app, all inside Docker:
+#   docker compose -f docker-compose.ui-tests.yml up --build --abort-on-container-exit --exit-code-from ui-tests
+services:
+  mongo:
+    image: mongo
+
+  external-api:
+    build:
+      context: .
+      target: final
+    environment:
+      - "ConnectionStrings__mongo=mongodb://mongo/"
+    depends_on:
+      - mongo
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8080/api/Sessions"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+  ui-tests:
+    # Keep the tag in sync with @playwright/test in tests/e2e/package.json.
+    image: mcr.microsoft.com/playwright:v1.65.1-noble
+    working_dir: /e2e
+    depends_on:
+      external-api:
+        condition: service_healthy
+    # Share the app's network namespace so the tests reach it as localhost: service workers
+    # (the PWA tests) only run in a secure context, which plain http is on localhost alone.
+    network_mode: "service:external-api"
+    environment:
+      - "E2E_BASE_URL=http://localhost:8080"
+      - "CI=true"
+    volumes:
+      - "./tests/e2e:/e2e"
+      # Keep the container's node_modules out of the host checkout.
+      - "/e2e/node_modules"
+    command: bash -c "npm ci && npx playwright test"

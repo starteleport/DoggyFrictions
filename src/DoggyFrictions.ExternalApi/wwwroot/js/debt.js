@@ -4,38 +4,30 @@
     this.Debts = _.map(debtsData || [], function (debtData) {
         return new DebtModel(debtData);
     });
-    this.Balances = _.reduce(this.Debts, function(balances, next) {
-        var amount = next.Amount;
-        var debtorName = next.Debtor;
-        var debtorBalanceRow = _.find(balances, function (balanceRow) { return balanceRow.Name === debtorName; });
-        if (!debtorBalanceRow) {
-            debtorBalanceRow = { Name: debtorName, Balance: 0 };
-            balances.push(debtorBalanceRow);
-        }
-        debtorBalanceRow.Balance -= amount;
-
-        var creditorName = next.Creditor;
-        var creditorBalanceRow = _.find(balances, function (balanceRow) { return balanceRow.Name === creditorName; });
-        if (!creditorBalanceRow) {
-            creditorBalanceRow = { Name: creditorName, Balance: 0 };
-            balances.push(creditorBalanceRow);
-        }
-        creditorBalanceRow.Balance += amount;
-        return balances;
-    }, []);
+    // Keyed by participant id: names are not unique within a session.
+    var balances = {};
+    var balanceOf = function (id, name) {
+        return balances[id] || (balances[id] = { Name: name, Balance: 0 });
+    };
+    _.forEach(this.Debts, function (debt) {
+        balanceOf(debt.DebtorId, debt.Debtor).Balance -= debt.Amount;
+        balanceOf(debt.CreditorId, debt.Creditor).Balance += debt.Amount;
+    });
+    this.Balances = _.values(balances);
 
     this.PayOff = function(debtModel) {
         var moveMoneyModel = {
-            From: debtModel.Debtor,
-            To: debtModel.Creditor,
+            FromId: debtModel.DebtorId,
+            ToId: debtModel.CreditorId,
             Amount: debtModel.Amount
         };
-        var operation = $.post('Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel).promise();
+        var operation = window.App.Functions.Send('POST', 'Api/Actions/' + _this.Session.Id + '/MoveMoney', moveMoneyModel).promise();
         window.App.Functions.Process(operation)
             .done(function(actionModel) {
                 $.snackbar({
-                    content: "Успешно погашен долг между " + moveMoneyModel.From + " и " + moveMoneyModel.To
-                        + ". Постанова <a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>здесь</a>.",
+                    // Rendered as HTML because of the link, so user-entered names must be escaped.
+                    content: T('debts.paidOff', _.escape(debtModel.Debtor), _.escape(debtModel.Creditor),
+                        "<a href='#/Session/" + _this.Session.Id + "/Action/" + actionModel.Id + "'>" + T('debts.paidOffLink') + "</a>"),
                     htmlAllowed: true,
                     timeout: 0
                 });
@@ -48,4 +40,6 @@ function DebtModel(debtData) {
     this.Amount = debtData.Amount;
     this.Creditor = debtData.Creditor;
     this.Debtor = debtData.Debtor;
+    this.CreditorId = debtData.CreditorId;
+    this.DebtorId = debtData.DebtorId;
 }
