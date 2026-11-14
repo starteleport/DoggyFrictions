@@ -10,7 +10,7 @@ test.describe('PWA', () => {
     expect(response.headers()['content-type']).toContain('application/manifest+json');
     const manifest = await response.json();
 
-    expect(manifest).toMatchObject({ name: 'Doggy Frictions', start_url: '/', display: 'standalone', theme_color: '#009688' });
+    expect(manifest).toMatchObject({ name: 'Doggy Frictions', start_url: '/', display: 'standalone', theme_color: '#00796b' });
     await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', manifest.theme_color);
     // Chrome asks for a 192px and a 512px icon; Android masks the maskable one into its own shape.
     expect(manifest.icons.map((icon: any) => `${icon.sizes} ${icon.purpose}`))
@@ -37,7 +37,7 @@ test.describe('PWA', () => {
 
     // The page, its scripts and styles come from the cache...
     await expect(page.locator('.navbar-brand')).toBeVisible();
-    await expect(page.locator('.navbar')).toHaveCSS('background-color', 'rgb(0, 150, 136)');
+    await expect(page.locator('.navbar')).toHaveCSS('background-color', 'rgb(0, 121, 107)');
     // ...while data is never cached, so the list cannot load and the app says why.
     await expect(app.errorToast()).toContainText('Нет соединения с сервером.');
     await expect(page.getByTestId('session-row')).toHaveCount(0);
@@ -58,7 +58,7 @@ test.describe('PWA', () => {
     await page.waitForLoadState('networkidle');
 
     const cached: string[] = await page.evaluate(async () => {
-      const keys = await (await caches.open('doggy-frictions-v1')).keys();
+      const keys = await (await caches.open('doggy-frictions-v2')).keys();
       return keys.map(request => new URL(request.url).pathname);
     });
 
@@ -76,17 +76,21 @@ test.describe('PWA', () => {
     await app.open('/Sessions');
     await app.waitForOfflineShell();
 
-    // What a previous deployment would have left behind: templates that no longer match the scripts.
+    // What a previous deployment would have left behind: a start page and a script that are no longer current.
     const replaced = await page.evaluate(async () => {
-      const cache = await caches.open('doggy-frictions-v1');
-      const templates = (await cache.keys()).find(request => new URL(request.url).pathname === '/Templates/Get');
-      if (!templates) return false;
-      await cache.put(templates, new Response(
-        '<script type="text/html" id="sessions-template"><div data-testid="sessions-view">STALE</div></script>',
+      const cache = await caches.open('doggy-frictions-v2');
+      const keys = await cache.keys();
+      const script = keys.find(request => new URL(request.url).pathname === '/dist/app.js');
+      if (!keys.some(request => new URL(request.url).pathname === '/') || !script) return false;
+      await cache.put('/', new Response(
+        '<div id="main"><div data-testid="sessions-view">STALE</div></div>',
         { headers: { 'Content-Type': 'text/html' } }));
+      await cache.put(script, new Response(
+        'document.body.innerHTML = "<div data-testid=sessions-view>STALE</div>";',
+        { headers: { 'Content-Type': 'text/javascript' } }));
       return true;
     });
-    expect(replaced, 'templates were expected in the cache').toBe(true);
+    expect(replaced, 'the page and its script were expected in the cache').toBe(true);
 
     await page.reload();
     await app.loaded();

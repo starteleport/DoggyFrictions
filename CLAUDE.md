@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-DoggyFrictions is a full-stack expense/debt management system built with ASP.NET Core 10.0, MongoDB, and a jQuery/Bootstrap frontend.
+DoggyFrictions is a full-stack expense/debt management system built with ASP.NET Core 10.0, MongoDB, and a Vue 3 + TypeScript frontend (Vite, Bootstrap 5).
 
 ## Commands
 
@@ -15,9 +15,10 @@ DoggyFrictions is a full-stack expense/debt management system built with ASP.NET
 dotnet restore
 dotnet build -c Release
 
-# Frontend build (run inside src/DoggyFrictions.ExternalApi/)
-npm install && gulp        # Development build
-npm install && gulp prod   # Production build (minification)
+# Frontend build (run inside src/DoggyFrictions.ExternalApi/), output in wwwroot/dist
+npm ci && npm run build    # Type check (vue-tsc) + Vite build
+npm run watch              # Rebuild on change
+npm test                   # Frontend unit tests (Vitest)
 ```
 
 ### Run Locally
@@ -55,7 +56,8 @@ nbgv get-version   # Inspect current semantic version
 
 ```
 src/DoggyFrictions.ExternalApi/
-├── Controllers/        REST API + MVC controllers (Actions, Debts, Sessions, Templates, Home)
+├── ClientApp/          Vue 3 front end: pages/, components/, models/ (form logic), styles/site.less
+├── Controllers/        REST API + MVC controllers (Actions, Debts, Sessions, Home)
 ├── Domain/             Core domain entities (DebtAction, Good, Participation, SessionActionsProvider)
 ├── Models/             DTOs and view models (Session, Debt, Consumer, etc.)
 ├── Localization/       Interface texts per language (ru/en/dog JSON) and ITexts
@@ -64,9 +66,8 @@ src/DoggyFrictions.ExternalApi/
 │   ├── MoneyMoverService.cs    Money transfer processing
 │   └── Repository/             MongoDB data access layer
 ├── Views/              Razor MVC views
-├── Styles/             LESS stylesheets compiled via Gulp
 ├── Program.cs          App startup, DI registration, MongoDB connection
-└── gulpfile.js         Frontend asset pipeline (LESS → CSS, vendor copying, minification)
+└── vite.config.ts      Frontend build (ClientApp/main.ts → wwwroot/dist/app.js, app.css)
 
 tests/DoggyFrictions.ExternalApi.Tests/
 └── Services/           NUnit unit tests with AutoFixture
@@ -74,7 +75,7 @@ tests/DoggyFrictions.ExternalApi.Tests/
 tests/e2e/              Playwright regression tests (sessions, actions, debts, HTTP API, phone viewport)
 ```
 
-**Key dependencies:** MongoDB.Driver, NUnit + AutoFixture (tests), Gulp 4 (frontend), Nerdbank.GitVersioning (versioning).
+**Key dependencies:** MongoDB.Driver, NUnit + AutoFixture (tests), Vue 3 + vue-router, Vite, Vitest (frontend), Nerdbank.GitVersioning (versioning).
 
 ## Branching & Versioning
 

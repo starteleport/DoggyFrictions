@@ -3,31 +3,28 @@
   "name": "doggy-frictions",
   "private": true,
   "type": "module",
-  "devDependencies": {
-    "del": "7.0.0",
-    "gulp": "4.0.2",
-    "gulp-less": "5.0.0",
-    "gulp-clean-css": "4.3.0",
-    "gulp-terser": "2.1.0",
-    "gulp-concat": "2.6.1",
-    "merge-stream": "2.0.0"
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build",
+    "watch": "vite build --watch --mode development",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
-    "jquery": "3.7.1",
-    "jquery-dateformat": "1.0.4",
-    "jquery-sticky": "1.0.4",
-    "jquery-validation": "1.19.5",
-    "jquery-validation-unobtrusive": "3.2.10",
-    "bootstrap": "5.3.3",
-    "bootstrap-icons": "1.11.3",
-    "bootstrap-datepicker": "1.9.0",
-    "knockout": "3.5.3",
-    "knockout.validation": "2.0.4",
-    "moment": "2.29.4",
-    "moment-with-locales-es6": "1.0.1",
-    "npm-modernizr": "2.8.3",
-    "sammy": "0.7.6",
-    "snackbarjs": "1.1.0",
-    "underscore": "1.13.6"
+    "@fontsource/roboto": "5.3.0",
+    "@popperjs/core": "2.11.8",
+    "bootstrap": "5.3.8",
+    "bootstrap-icons": "1.13.2",
+    "vue": "3.5.44",
+    "vue-router": "5.4.0"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "5.2.11",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vue/tsconfig": "0.9.1",
+    "less": "4.9.1",
+    "typescript": "6.0.3",
+    "vite": "8.3.5",
+    "vitest": "5.0.5",
+    "vue-tsc": "3.3.14"
   }
 }

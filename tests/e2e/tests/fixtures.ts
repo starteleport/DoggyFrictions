@@ -133,7 +133,7 @@ export class App {
     await expect(this.page.locator('#loading-screen')).toBeHidden();
   }
 
-  /** Knockout bindings react to `change`, which `fill` alone does not raise. */
+  /** Amount fields take what was typed on `change`, which `fill` alone does not raise. */
   async type(input: Locator, value: string) {
     await input.fill(value);
     await input.dispatchEvent('change');
@@ -159,8 +159,8 @@ export class App {
     await this.page.evaluate(async () => { await navigator.serviceWorker.ready; });
     await expect.poll(() => this.page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
     await expect.poll(() => this.page.evaluate(async () => {
-      const paths = (await (await caches.open('doggy-frictions-v1')).keys()).map(request => new URL(request.url).pathname);
-      return paths.includes('/') && paths.includes('/Templates/Get') && paths.some(path => path.startsWith('/js/'));
+      const paths = (await (await caches.open('doggy-frictions-v2')).keys()).map(request => new URL(request.url).pathname);
+      return ['/', '/dist/app.js', '/dist/app.css'].every(path => paths.includes(path));
     })).toBe(true);
   }
 
@@ -178,7 +178,7 @@ export class App {
 
 /**
  * The action form (`#/Session/:id/Action/Create` and `.../Edit/:id`).
- * Desktop and mobile templates share the same data-testid hooks, so it drives both.
+ * The page is responsive (rows become cards on a phone) with the same data-testid hooks, so it drives both.
  */
 export class ActionForm {
   readonly root: Locator;
@@ -193,10 +193,10 @@ export class ActionForm {
   /** Totals: overall amount first, then one per participant. */
   total() { return this.root.getByTestId('consumptions-total'); }
 
-  /** Desktop only: table rows, also present in the read-only view. */
+  /** Item rows, also present in the read-only view. */
   consumptionRow(index: number) { return this.root.getByTestId('consumption-row').nth(index); }
   payerRow(index: number) { return this.root.getByTestId('payer-row').nth(index); }
-  /** Desktop only: per-participant shares of an item while editing. */
+  /** Per-participant shares of an item while editing. */
   shares(index: number) { return this.consumptionRow(index).getByTestId('consumer-share'); }
 
   async setDescription(value: string) {

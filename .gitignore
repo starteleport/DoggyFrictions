@@ -74,8 +74,10 @@ _ReSharper*/
 .DS_Store
 
 # Repository-specific
+/artifacts/**/*
+# Front end built by Vite
+**/wwwroot/dist/
+# Output of the former gulp build, still lying around in older checkouts
 **/wwwroot/lib/
 **/wwwroot/js/min/
-**/wwwroot/css/min/
-/artifacts/**/*
-**/wwwroot/css/site.css
+**/wwwroot/css/

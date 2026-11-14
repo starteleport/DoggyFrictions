@@ -3,7 +3,18 @@ Accounting system for dogs
 
 # Building
 
-Execute the following inside `DoggyFrictions.ExternalApi` directory: `npm install && gulp`.
+The front end is a Vue 3 app in TypeScript (`src/DoggyFrictions.ExternalApi/ClientApp`), built by Vite into
+`wwwroot/dist`, which the Razor layout includes. Bootstrap, the icons and the Roboto font are bundled with it.
+Inside `src/DoggyFrictions.ExternalApi`:
+
+```bash
+npm ci
+npm run build     # type check (vue-tsc) and build once
+npm run watch     # rebuild on every change while the app runs (dotnet run)
+npm test          # unit tests of the front end (Vitest)
+```
+
+The Docker image does all of this itself.
 
 # What it does
 
@@ -21,7 +32,7 @@ DoggyFrictions splits shared expenses within a group and tells who owes whom.
 
 # Tests
 
-Unit tests: `dotnet test`.
+Unit tests: `dotnet test` for the server, `npm test` in `src/DoggyFrictions.ExternalApi` for the front end.
 
 End-to-end regression tests (Playwright) run against the app started above:
 
@@ -39,17 +50,17 @@ Set `E2E_BASE_URL` to test an app running elsewhere.
 `npm run test:compose` (or `docker compose -f docker-compose.ui-tests.yml up --build --abort-on-container-exit --exit-code-from ui-tests`
 from the repository root) builds the app and runs the whole suite inside Docker; this is what the `E2E` CI workflow does.
 
-Tests locate elements by `data-testid` attributes in the Razor templates.
+Tests locate elements by `data-testid` attributes in the Vue components.
 
-The pages are responsive: one template per page, and below 768px every row of a `table-cards` table is
-laid out as a card with its cells labelled by `data-label` (see the media query in `Styles/site.less`).
+The pages are responsive: one component per page, and below 768px every row of a `table-cards` table is
+laid out as a card with its cells labelled by `data-label` (see the media query in `ClientApp/styles/site.less`).
 
 # Installable app (PWA)
 
 The site can be installed to a phone's home screen or as a desktop app: it has a web app manifest
 (`wwwroot/manifest.webmanifest`), icons and a service worker (`wwwroot/sw.js`).
 
-- The service worker caches only the application shell (page, scripts, styles, templates, CDN libraries),
+- The service worker caches only the application shell (the page and the bundle in `/dist/`),
   so the installed app starts without a connection. Data is never cached: offline, the app says the
   server is unreachable instead of showing stale debts.
 - Browsers offer installation and run service workers only over **HTTPS** (or on `localhost`).
@@ -61,7 +72,8 @@ The interface comes in three wordings, picked in the **Settings** menu of the he
 plain English, and "Собачий" — the original playful one ("тёрки", "постановы", "собаки").
 
 - Texts live in `Localization/<code>.json` (`ru`, `en`, `dog`), one flat `key: text` file per language.
-  Razor templates use `@T["key"]`, scripts `T('key')`, server-side validation `ITexts`.
+  The page embeds the texts of the chosen language; Vue components use `t('key')`, Razor views `@T["key"]`,
+  server-side validation `ITexts`.
 - The choice is stored in the `lang` cookie. Without one the app follows the browser's `Accept-Language`
   (Russian or English, English otherwise); the playful wording is only ever chosen explicitly.
 - To add a text, add its key to all three files. Unit tests fail if the files disagree on keys or

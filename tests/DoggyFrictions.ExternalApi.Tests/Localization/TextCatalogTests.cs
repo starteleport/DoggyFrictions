@@ -9,9 +9,10 @@ public class TextCatalogTests
 {
     private const string Key = @"([a-z]+(?:\.[A-Za-z]+)+)";
 
-    // How the sources refer to a text: T["a.b"], texts["a.b"], _texts["a.b"], T('a.b') and Format("a.b", …).
+    // How the sources refer to a text: T["a.b"], texts["a.b"], _texts["a.b"] and Format("a.b", …) on the server,
+    // t('a.b') in the front end.
     private static readonly Regex KeyUsage = new(
-        @"(?:(?:\bT|[tT]exts)\[""|\bT\('|Format\(\s*"")" + Key, RegexOptions.Compiled);
+        @"(?:(?:\bT|[tT]exts)\[""|\bt\('|Format\(\s*"")" + Key, RegexOptions.Compiled);
 
     private static readonly Regex Placeholder = new(@"\{\d+\}", RegexOptions.Compiled);
 
@@ -74,17 +75,18 @@ public class TextCatalogTests
             Assert.That(dog["action.breadcrumb"], Is.EqualTo("Пастанова"));
             Assert.That(dog["sessions.deleteMessage"], Does.Contain("ходите удалить"));
             Assert.That(dog["action.deleteMessage"], Does.Contain("ходите удалить"));
-            Assert.That(dog["session.participantsTitle"], Is.EqualTo("Собаки:"));
+            Assert.That(dog["session.participantsTitle"], Is.EqualTo("Собаки"));
         });
     }
 
     private static HashSet<string> UsedKeys()
     {
-        var minified = Path.DirectorySeparatorChar + "min" + Path.DirectorySeparatorChar;
-        var files = Directory.EnumerateFiles(SourceRoot, "*.cshtml", SearchOption.AllDirectories)
-            .Concat(Directory.EnumerateFiles(Path.Combine(SourceRoot, "wwwroot", "js"), "*.js"))
+        var clientApp = Path.Combine(SourceRoot, "ClientApp");
+        var files = Directory.EnumerateFiles(Path.Combine(SourceRoot, "Views"), "*.cshtml", SearchOption.AllDirectories)
             .Concat(Directory.EnumerateFiles(SourceRoot, "*.cs", SearchOption.AllDirectories))
-            .Where(file => !file.Contains(minified));
+            .Concat(Directory.EnumerateFiles(clientApp, "*.ts", SearchOption.AllDirectories))
+            .Concat(Directory.EnumerateFiles(clientApp, "*.vue", SearchOption.AllDirectories))
+            .Where(file => !file.EndsWith(".test.ts"));
 
         return files
             .SelectMany(file => KeyUsage.Matches(File.ReadAllText(file)).Select(match => match.Groups[1].Value))

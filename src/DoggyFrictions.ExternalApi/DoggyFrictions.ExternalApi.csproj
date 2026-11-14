@@ -4,4 +4,9 @@
       <PackageReference Include="MongoDB.Driver" Version="3.14.0" />
     </ItemGroup>
 
+    <!-- The front end's tooling (ClientApp/, built by Vite into wwwroot/dist) is not part of the published app. -->
+    <ItemGroup>
+      <Content Remove="package.json;package-lock.json;tsconfig.json" />
+    </ItemGroup>
+
 </Project>

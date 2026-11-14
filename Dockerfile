@@ -1,5 +1,7 @@
 ﻿# .NET version of the build and runtime images; keep in sync with <TargetFramework> in Directory.Build.props.
 ARG DOTNET_VERSION=10.0
+# Node.js that builds the front end (Vite needs 20.19+ or 22.12+).
+ARG NODE_VERSION=24
 
 FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-alpine AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
@@ -19,17 +21,14 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-alpine AS sdk
 
-FROM sdk AS nodejs
-RUN apk add --update npm
-
-FROM nodejs as restore-npm
-WORKDIR /build
-
-COPY ["src/DoggyFrictions.ExternalApi/package.json", "src/DoggyFrictions.ExternalApi/"]
-COPY ["src/DoggyFrictions.ExternalApi/package-lock.json", "src/DoggyFrictions.ExternalApi/"]
-
+# The front end (ClientApp/): unit tests, type check and the Vite build into wwwroot/dist.
+FROM node:${NODE_VERSION}-alpine AS frontend
 WORKDIR /build/src/DoggyFrictions.ExternalApi
-RUN NODE_ENV=development npm install
+COPY ["src/DoggyFrictions.ExternalApi/package.json", "src/DoggyFrictions.ExternalApi/package-lock.json", "./"]
+RUN npm ci
+COPY ["src/DoggyFrictions.ExternalApi/vite.config.ts", "src/DoggyFrictions.ExternalApi/tsconfig.json", "./"]
+COPY ["src/DoggyFrictions.ExternalApi/ClientApp", "ClientApp"]
+RUN npm test && npm run build
 
 FROM sdk AS restore-dotnet
 WORKDIR /build
@@ -38,13 +37,6 @@ COPY ["tests/DoggyFrictions.ExternalApi.Tests/DoggyFrictions.ExternalApi.Tests.c
 COPY ["Directory.Build.props", "."]
 COPY ["DoggyFrictions.slnx", "."]
 RUN dotnet restore
-
-FROM restore-npm AS gulp-prod
-WORKDIR /build/src/DoggyFrictions.ExternalApi
-COPY ["src/DoggyFrictions.ExternalApi/gulpfile.js", "."]
-COPY ["src/DoggyFrictions.ExternalApi/wwwroot", "wwwroot"]
-COPY ["src/DoggyFrictions.ExternalApi/Styles", "Styles"]
-RUN ./node_modules/gulp-cli/bin/gulp.js prod
 
 FROM restore-dotnet AS copy-all
 WORKDIR /build
@@ -55,8 +47,8 @@ WORKDIR /build
 RUN dotnet build -c Release --no-restore
 
 FROM build AS publish
-WORKDIr /build/src/DoggyFrictions.ExternalApi
-COPY --from=gulp-prod /build/src/DoggyFrictions.ExternalApi/wwwroot wwwroot
+WORKDIR /build/src/DoggyFrictions.ExternalApi
+COPY --from=frontend /build/src/DoggyFrictions.ExternalApi/wwwroot/dist wwwroot/dist
 RUN dotnet publish "DoggyFrictions.ExternalApi.csproj" --no-build -c Release -o /app/publish
 
 FROM base AS final

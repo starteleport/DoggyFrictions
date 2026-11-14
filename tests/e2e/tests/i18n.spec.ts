@@ -11,14 +11,14 @@ async function chooseLanguage(app: App, code: 'ru' | 'en' | 'dog') {
   await app.loaded();
 }
 
-const heading = (page: Page) => page.locator('[data-testid="sessions-view"] h4');
+const heading = (page: Page) => page.locator('[data-testid="sessions-view"] h2');
 
 test.describe('Languages', () => {
   test.describe('without a choice the app follows the browser', () => {
     test('Russian browser: plain Russian', async ({ app, page }) => {
       await app.open('/Sessions');
 
-      await expect(heading(page)).toHaveText('Группы:');
+      await expect(heading(page)).toHaveText('Группы');
       await expect(page.getByTestId('create-session-button')).toContainText('Создать группу');
       await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
     });
@@ -29,7 +29,7 @@ test.describe('Languages', () => {
       test('plain English', async ({ app, page }) => {
         await app.open('/Sessions');
 
-        await expect(heading(page)).toHaveText('Groups:');
+        await expect(heading(page)).toHaveText('Groups');
         await expect(page.getByTestId('create-session-button')).toContainText('New group');
         await expect(page.locator('html')).toHaveAttribute('lang', 'en');
       });
@@ -41,7 +41,7 @@ test.describe('Languages', () => {
       test('English', async ({ app, page }) => {
         await app.open('/Sessions');
 
-        await expect(heading(page)).toHaveText('Groups:');
+        await expect(heading(page)).toHaveText('Groups');
       });
     });
   });
@@ -49,7 +49,7 @@ test.describe('Languages', () => {
   test('the settings menu switches the language and the choice sticks', async ({ app, api, page }) => {
     const session = await api.createSession(['Ann', 'Bob']);
     await app.open('/Sessions');
-    await expect(heading(page)).toHaveText('Группы:');
+    await expect(heading(page)).toHaveText('Группы');
 
     // The menu lists every language under its own name and marks the current one.
     await page.getByTestId('settings-button').click();
@@ -58,7 +58,7 @@ test.describe('Languages', () => {
     await page.keyboard.press('Escape');
 
     await chooseLanguage(app, 'dog');
-    await expect(heading(page)).toHaveText('Тёрки:');
+    await expect(heading(page)).toHaveText('Тёрки');
     await expect(page.getByTestId('create-session-button')).toContainText('Начать тёрку');
     await page.getByTestId('settings-button').click();
     await expect(page.getByTestId('language-dog')).toHaveClass(/active/);
@@ -67,14 +67,14 @@ test.describe('Languages', () => {
     // It survives a reload and applies to every page.
     await page.reload();
     await app.loaded();
-    await expect(heading(page)).toHaveText('Тёрки:');
+    await expect(heading(page)).toHaveText('Тёрки');
     await app.open(`/Session/${session.Id}`);
-    await expect(page.getByTestId('session-view')).toContainText('Собаки:');
+    await expect(page.getByTestId('session-view')).toContainText('Собаки');
     await expect(page.getByTestId('create-action-button')).toContainText('Внести постанову');
     await expect(page.getByTestId('actions-empty')).toHaveText('Пока всё тихо');
 
     await chooseLanguage(app, 'en');
-    await expect(page.getByTestId('session-view')).toContainText('Members:');
+    await expect(page.getByTestId('session-view')).toContainText('Members');
     await expect(page.getByTestId('create-action-button')).toContainText('Add expense');
     await expect(page.getByTestId('actions-empty')).toHaveText('No expenses yet');
   });
@@ -85,7 +85,7 @@ test.describe('Languages', () => {
       const action = await api.createAction(session, { description: 'Пицца', payer: 'Ann', amount: 10, consumers: ['Ann', 'Bob'] });
       await app.open('/Sessions');
       await chooseLanguage(app, code);
-      await expect(heading(page)).toHaveText(`${sample}:`);
+      await expect(heading(page)).toHaveText(sample);
 
       for (const route of [
         '/Sessions',
@@ -158,14 +158,14 @@ test.describe('Languages', () => {
   });
 
   test('switching the language is not held back by the offline cache', async ({ app, page }) => {
-    // Let the service worker take over and cache the templates in Russian.
+    // Let the service worker take over and cache the page with its Russian texts.
     await app.open('/Sessions');
-    await expect(heading(page)).toHaveText('Группы:');
+    await expect(heading(page)).toHaveText('Группы');
     await app.waitForOfflineShell();
 
     await chooseLanguage(app, 'en');
 
-    await expect(heading(page)).toHaveText('Groups:');
+    await expect(heading(page)).toHaveText('Groups');
     await expect(page.getByTestId('create-session-button')).toContainText('New group');
   });
 });
